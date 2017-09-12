@@ -1,0 +1,7 @@
+<h1>Iniciativas de <%= ong.name %></h1>
+
+<ul>
+  <% initiatives.forEach((initiative) => { %>
+    <li><a href="<%= buildInitiativePath(initiative) %>"><%= initiative.title %></a></li>
+  <% }) %>
+</ul>
