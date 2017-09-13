@@ -1,24 +1,20 @@
-module.exports = {
-  up(queryInterface, Sequelize) {
-    /*
-      Add altering commands here.
-      Return a promise to correctly handle asynchronicity.
+const faker = require('faker');
 
-      Example:
-      return queryInterface.bulkInsert('Person', [{
-        name: 'John Doe',
-        isBetaMember: false
-      }], {});
-    */
+module.exports = {
+  up(queryInterface) {
+    const usersData = [];
+    for (let i = 0; i < 20; i += 1) {
+      usersData.push({
+        name: faker.company.companyName(),
+        password: faker.lorem.words(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+    }
+    return queryInterface.bulkInsert('Users', usersData);
   },
 
-  down(queryInterface, Sequelize) {
-    /*
-      Add reverting commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkDelete('Person', null, {});
-    */
+  down(queryInterface) {
+    return queryInterface.bulkDelete('Users', null, {});
   },
 };
