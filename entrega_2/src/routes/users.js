@@ -20,4 +20,18 @@ router.post('createUser', '/', async (ctx) => {
   ctx.redirect(ctx.router.url('users'));
 })
 
+router.get('editUser', '/:id/edit', async (ctx) => {
+  const user = await ctx.orm.User.findById(ctx.params.id);
+  await ctx.render('users/edit', {
+    user, 
+    updateUserPath: ctx.router.url('updateUser', user.id),
+  })
+})
+
+router.patch('updateUser', '/:id', async (ctx) => {
+  const user = await ctx.orm.User.findById(ctx.params.id);
+  await user.update(ctx.request.body);
+  ctx.redirect(ctx.router.url('users'));
+})
+
 module.exports = router;
