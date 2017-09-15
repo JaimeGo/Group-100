@@ -1,15 +1,4 @@
 <h1>Registrarse</h1>
-<div>
-  <% if (locals.errors) { %>
-    <div class="errors">
-      Necesitas arreglar los siguiente errores:
-      <ul>
-        <% errors.forEach(error => { %>
-          <li><%= error.message %></li>
-        <% }); %>
-      </ul>
-    </div>
-  <% } %>
   <form action="<%= createUserPath %>" method="post">
     <div>
       <label for="name">Nombre de usuario</label>

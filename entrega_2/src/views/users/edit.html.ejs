@@ -1,15 +1,4 @@
 <h1>Cambiar contraseña</h1>
-<div>
-  <% if (locals.errors) { %>
-    <div class="errors">
-      Necesitas arreglar los siguiente errores:
-      <ul>
-        <% errors.forEach(error => { %>
-          <li><%= error.message %></li>
-        <% }); %>
-      </ul>
-    </div>
-  <% } %>
   <form action="<%= updateUserPath %>" method="post">
     <input type="hidden" name="_method" value="patch" />
     <div>

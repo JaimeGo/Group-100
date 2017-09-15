@@ -34,9 +34,21 @@ router.patch('updateUser', '/:id', async (ctx) => {
   ctx.redirect(ctx.router.url('users'));
 })
 
+
 router.get('user', '/:id', async (ctx) => {
   const user = await ctx.orm.User.findById(ctx.params.id);
-  await ctx.render('users/show', {user});
-});
+  await ctx.render('users/show', {
+    user,
+    deleteUserPath: ctx.router.url('deleteUser', user.id),
+  });
+})
+
+router.delete('deleteUser', '/:id', async (ctx) => {
+  await ctx.orm.User.destroy({
+    where: { id: ctx.params.id },
+    limit: 1,
+  });
+  ctx.redirect(ctx.router.url('users'));  
+})
 
 module.exports = router;
