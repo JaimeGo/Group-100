@@ -4,7 +4,7 @@ module.exports = function defineUser(sequelize, DataTypes) {
     password: DataTypes.STRING,
   });
   User.associate = function associate(models) {
-    // associations can be defined here
+  	User.hasMany(models.Question);
   };
   return User;
 };
