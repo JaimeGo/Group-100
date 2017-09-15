@@ -1,0 +1,8 @@
+<h1>Preguntas de <%= user.name %></h1>
+
+<ul>
+  <% questions.forEach((question) => { %>
+    <li><h3><%=question.title%></h3></li>
+    <li><%=question.body%></li>
+  <% }) %>
+</ul>

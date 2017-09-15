@@ -4,12 +4,12 @@ const questionsRouter = require('./questions');
 const router = new KoaRouter();
 
 router.get('users', '/', async (ctx) => {
-  const users = await ctx.orm.User.findAll();
+  const users = await ctx.orm.user.findAll();
   await ctx.render('users/index', {users});
 })
 
 router.get('newUser', '/new', async (ctx) => {
-  const user = await ctx.orm.User.build();
+  const user = await ctx.orm.user.build();
   await ctx.render('users/new', {
     user,
     createUserPath: ctx.router.url('createUser'),
@@ -17,12 +17,12 @@ router.get('newUser', '/new', async (ctx) => {
 })
 
 router.post('createUser', '/', async (ctx) => {
-  const user = await ctx.orm.User.create(ctx.request.body);
+  const user = await ctx.orm.user.create(ctx.request.body);
   ctx.redirect(ctx.router.url('users'));
 })
 
 router.get('editUser', '/:id/edit', async (ctx) => {
-  const user = await ctx.orm.User.findById(ctx.params.id);
+  const user = await ctx.orm.user.findById(ctx.params.id);
   await ctx.render('users/edit', {
     user, 
     updateUserPath: ctx.router.url('updateUser', user.id),
@@ -30,35 +30,36 @@ router.get('editUser', '/:id/edit', async (ctx) => {
 })
 
 router.patch('updateUser', '/:id', async (ctx) => {
-  const user = await ctx.orm.User.findById(ctx.params.id);
+  const user = await ctx.orm.user.findById(ctx.params.id);
   await user.update(ctx.request.body);
   ctx.redirect(ctx.router.url('users'));
 })
 
 
 router.get('user', '/:id', async (ctx) => {
-  const user = await ctx.orm.User.findById(ctx.params.id);
+  const user = await ctx.orm.user.findById(ctx.params.id);
   await ctx.render('users/show', {
     user,
     deleteUserPath: ctx.router.url('deleteUser', user.id),
   });
 })
 
-router.use(
-  '/:userId/questions',
-  async (ctx, next) => {
-    ctx.state.user = await ctx.orm.User.findById(ctx.params.userId);
-    await next();
-  },
-  questionsRouter.routes(),
-);
-
 router.delete('deleteUser', '/:id', async (ctx) => {
-  await ctx.orm.User.destroy({
+  await ctx.orm.user.destroy({
     where: { id: ctx.params.id },
     limit: 1,
   });
   ctx.redirect(ctx.router.url('users'));  
 })
+
+router.use(
+  '/:userId/questions',
+  async (ctx, next) => {
+    ctx.state.user = await ctx.orm.user.findById(ctx.params.userId);
+    await next();
+  },
+  questionsRouter.routes(),
+);
+
 
 module.exports = router;

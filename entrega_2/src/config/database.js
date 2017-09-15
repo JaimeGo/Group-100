@@ -8,7 +8,8 @@ const config = {
   },
   development: {
     extend: 'default',
-    database: '2513template_dev',
+    database: 'grupo100_dev'
+    // database: '2513template_dev',
     // database: 'wican_dev',
   },
   test: {

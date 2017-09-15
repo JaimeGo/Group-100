@@ -1,12 +1,12 @@
-module.exports = function defineQuestion(sequelize, DataTypes) {
-  const Question = sequelize.define('Question', {
+module.exports = function definequestion(sequelize, DataTypes) {
+  const question = sequelize.define('question', {
     title: DataTypes.STRING,
     body: DataTypes.TEXT,
     userId: DataTypes.INTEGER,
   });
-  Question.associate = function associate(models) {
+  question.associate = function associate(models) {
     // associations can be defined here
-    Question.belongsTo(models.User);
+    question.belongsTo(models.user);
   };
-  return Question;
+  return question;
 };

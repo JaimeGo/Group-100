@@ -2,7 +2,7 @@ const faker = require('faker');
 
 module.exports = {
   async up(queryInterface) {
-    const userIds = (await queryInterface.select(null, 'Users', { attributes: ['id'] }))
+    const userIds = (await queryInterface.select(null, 'users', { attributes: ['id'] }))
       .map(user => user.id);
     const questionsBulkInsertPromises = userIds.map((userId) => {
       const quantity = faker.random.number({ min: 1, max: 3 });
@@ -16,12 +16,12 @@ module.exports = {
           updatedAt: new Date(),
         });
       }
-      return queryInterface.bulkInsert('Questions', questionsData);
+      return queryInterface.bulkInsert('questions', questionsData);
     });
     return Promise.all(questionsBulkInsertPromises);
   },
 
   down(queryInterface) {
-    return queryInterface.bulkDelete('Questions', null, {});
+    return queryInterface.bulkDelete('questions', null, {});
   },
 };
