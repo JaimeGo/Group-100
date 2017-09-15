@@ -1,4 +1,5 @@
 const KoaRouter = require('koa-router');
+const questionsRouter = require('./questions');
 
 const router = new KoaRouter();
 
@@ -42,6 +43,15 @@ router.get('user', '/:id', async (ctx) => {
     deleteUserPath: ctx.router.url('deleteUser', user.id),
   });
 })
+
+router.use(
+  '/:userId/questions',
+  async (ctx, next) => {
+    ctx.state.user = await ctx.orm.User.findById(ctx.params.userId);
+    await next();
+  },
+  questionsRouter.routes(),
+);
 
 router.delete('deleteUser', '/:id', async (ctx) => {
   await ctx.orm.User.destroy({
