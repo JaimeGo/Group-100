@@ -34,4 +34,9 @@ router.patch('updateUser', '/:id', async (ctx) => {
   ctx.redirect(ctx.router.url('users'));
 })
 
+router.get('user', '/:id', async (ctx) => {
+  const user = await ctx.orm.User.findById(ctx.params.id);
+  await ctx.render('users/show', {user});
+});
+
 module.exports = router;
