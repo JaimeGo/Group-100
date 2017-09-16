@@ -5,6 +5,8 @@ module.exports = function defineUser(sequelize, DataTypes) {
   });
   User.associate = function associate(models) {
   	User.hasMany(models.Question);
+  	User.hasMany(models.Answer);
+  	User.hasMany(models.Comment);
   };
   return User;
 };
