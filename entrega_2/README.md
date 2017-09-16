@@ -1,1 +1,1 @@
-Ver aplicación en Heroku en: www.fundamentals_iic2513.heroku.com
+Ver aplicación en Heroku en: www.fundamentals-iic2513.heroku.com
