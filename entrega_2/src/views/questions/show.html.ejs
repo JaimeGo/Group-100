@@ -1,0 +1,10 @@
+<h1><%= user.name %></h1>
+<h1><%= question.title %></h1>
+<p><%= question.body %><p>
+  <form action="<%= deleteQuestionPath %>" method="post">
+    <input type="hidden" name="_method" value="delete" />
+    <div>
+      <input type="submit" name="delete" value="borrar la pregunta" />
+    </div>
+  </form>
+

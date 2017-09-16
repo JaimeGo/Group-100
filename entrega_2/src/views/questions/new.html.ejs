@@ -1,0 +1,14 @@
+<h1>Nueva pregunta</h1>
+  <form action="<%= createQuestionPath %>" method="post">
+    <div>
+      <label for="name">Asunto</label>
+      <input type="text" name="title" value="<%= question.title %>" /></input>
+    </div>
+    <div>
+      <textarea type="text" name="password"/><%= question.body %></textarea>
+    </div>
+    <div>
+      <input type="submit" name="create" value="Postear" />
+    </div>
+  </form>
+</div>

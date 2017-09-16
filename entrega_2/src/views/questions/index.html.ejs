@@ -2,7 +2,7 @@
 
 <ul>
   <% questions.forEach((question) => { %>
-    <li><h3><%=question.title%></h3></li>
+    <li><h3><a href="<%=questionPathBuilder(question)%>"><%=question.title%></a></h3></li>
     <p><%=question.body%></p>
   <% }) %>
 </ul>
