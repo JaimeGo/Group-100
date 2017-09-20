@@ -5,7 +5,11 @@ const router = new KoaRouter();
 
 router.get('users', '/', async (ctx) => {
   const users = await ctx.orm.user.findAll();
-  await ctx.render('users/index', {users});
+  await ctx.render('users/index', {
+    users,
+    userPathBuilder: (user) => ctx.router.url('user', user.id), 
+    newUserPath: ctx.router.url('newUser')
+     });
 })
 
 router.get('newUser', '/new', async (ctx) => {
@@ -41,6 +45,8 @@ router.get('user', '/:id', async (ctx) => {
   await ctx.render('users/show', {
     user,
     deleteUserPath: ctx.router.url('deleteUser', user.id),
+    editUserPath: ctx.router.url('editUser', user.id),
+    usersPath: ctx.router.url('users'),
   });
 })
 
