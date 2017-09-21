@@ -9,17 +9,28 @@
       </ul>
     </div>
   <% } %>
-  <form action="<%= updateUserPath %>" method="post">
-    <input type="hidden" name="_method" value="patch" />
+  <form action="<%= submitUserPath %>" method="post">
+    <% if (!user.isNewRecord) { %>
+      <input type="hidden" name="_method" value="patch" />
+      <div> Usuario: <%= user.name %> </div>
+    <% } else { %>
+      <div>
+        <label for="name">Nombre de usuario</label>
+        <input type="text" name="name" value="<%= user.name %>" /></input>
+      </div>
+    <% } %>
     <div>
-      Usuario: <%= user.name %>
-    </div>
-    <div>
-      <label for="password">Nueva contraseña</label>
+      <label for="password">Contraseña</label>
       <input type="text" name="password" value="<%= user.password %>"></input>
     </div>
-    <div>
-      <input type="submit" name="update" value="Cambiar contraseña" />
-    </div>
+    <% if (!user.isNewRecord) { %>
+      <div>
+        <input type="submit" name="update" value="cambiar contraseña" />
+      </div>
+    <% } else { %>
+      <div>
+        <input type="submit" name="create" value="registrarse" />
+      </div>
+    <% } %>
   </form>
 </div>

@@ -16,7 +16,7 @@ router.get('newUser', '/new', async (ctx) => {
   const user = await ctx.orm.user.build();
   await ctx.render('users/new', {
     user,
-    createUserPath: ctx.router.url('createUser'),
+    submitUserPath: ctx.router.url('createUser'),
   });
 })
 
@@ -28,7 +28,7 @@ router.post('createUser', '/', async (ctx) => {
   } catch (validationError) {
     await ctx.render('users/new', {
       user: await ctx.orm.user.build(ctx.request.body),
-      createUserPath: ctx.router.url('createUser'), 
+      submitUserPath: ctx.router.url('createUser'), 
       errors: validationError.errors   
     })
   }
@@ -39,7 +39,7 @@ router.get('editUser', '/:id/edit', async (ctx) => {
   const user = await ctx.orm.user.findById(ctx.params.id);
   await ctx.render('users/edit', {
     user, 
-    updateUserPath: ctx.router.url('updateUser', user.id),
+    submitUserPath: ctx.router.url('updateUser', user.id),
   })
 })
 
@@ -51,7 +51,7 @@ router.patch('updateUser', '/:id', async (ctx) => {
   } catch (validationError) {
     await ctx.render('users/edit', {
       user, 
-      updateUserPath: ctx.router.url('updateUser', user.id),
+      submitUserPath: ctx.router.url('updateUser', user.id),
       errors: validationError.errors   
     })    
   }
