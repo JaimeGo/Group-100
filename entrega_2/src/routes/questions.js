@@ -10,7 +10,8 @@ router.get('questions', '/', async (ctx) => {
   	questions,
   	questionPathBuilder: question => 
   		ctx.router.url('question', {userId: question.userId,
-  			id: question.id})
+  			id: question.id}),
+  	userPath: ctx.router.url('user', {id: user.id}),
   });
 })
 
@@ -24,6 +25,13 @@ router.get('newQuestion', '/new', async (ctx) => {
 		{userId: user.id})
 	});
 })
+
+// router.get('newQuestion', '/new', async (ctx) => {
+// 	const {user} = ctx.state;
+// 	const question = await ctx.orm.user.build();
+// 	await ctx.render('questions/example', {
+// 	});
+// })
 
 router.post('createQuestion', '/', async (ctx) => {
 	const {user} = ctx.state;
@@ -73,5 +81,6 @@ router.get('question', '/:id', async (ctx) => {
   			id: question.id})
 	})
 })
+
 
 module.exports = router;

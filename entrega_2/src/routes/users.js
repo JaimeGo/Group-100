@@ -47,6 +47,7 @@ router.get('user', '/:id', async (ctx) => {
     deleteUserPath: ctx.router.url('deleteUser', user.id),
     editUserPath: ctx.router.url('editUser', user.id),
     usersPath: ctx.router.url('users'),
+    questionsPath: ctx.router.url('questions', user.id)
   });
 })
 
@@ -66,6 +67,16 @@ router.use(
   },
   questionsRouter.routes(),
 );
+
+// router.use(
+//   '/:userId/questions',
+//   // async (ctx, next) => {
+//   //   ctx.state.user = await ctx.orm.user.findById(ctx.params.userId);
+//   //   await next();
+//   //   ctx.state.user = await ctx.orm.user.findById(ctx.params.userId);
+//   // },
+//   questionsRouter.routes(),
+// );
 
 
 module.exports = router;
