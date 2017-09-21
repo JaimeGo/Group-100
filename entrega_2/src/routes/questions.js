@@ -78,7 +78,12 @@ router.get('question', '/:id', async (ctx) => {
 		question,
 		deleteQuestionPath: ctx.router.url('deleteQuestion', 
 			{userId: question.userId,
-  			id: question.id})
+  			id: question.id}),
+		editQuestionPath: ctx.router.url('editQuestion',
+			{userId: question.userId,
+				id: question.id}),
+		questionsPath: ctx.router.url('questions',
+			{userId: question.userId})
 	})
 })
 

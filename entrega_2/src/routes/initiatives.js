@@ -35,16 +35,21 @@ router.get('ongInitiativesEdit', '/:id/edit', async (ctx) => {
 
 router.post('ongInitiativesCreate', '/', async (ctx) => {
   const { ong } = ctx.state;
+  // const initiative = await ong.createInitiative(ctx.request.body);
+  // ctx.redirect(ctx.router.url('ongInitiative', { ongId: initiative.ongId, id: initiative.id })); 
+  // console.log(validationError.errors)
+  // console.log("hello")
   try {
     const initiative = await ong.createInitiative(ctx.request.body);
     ctx.redirect(ctx.router.url('ongInitiative', { ongId: initiative.ongId, id: initiative.id }));
   } catch (validationError) {
-    await ctx.render('initiatives/new', {
-      ong,
-      initiative: ctx.orm.initiative.build(ctx.request.body),
-      errors: validationError.errors,
-      createInitiativePath: ctx.router.url('ongInitiativesCreate', ong.id),
-    });
+    ctx.redirect(ctx.router.url('ongs'))
+  //   await ctx.render('initiatives/new', {
+  //     ong,
+  //     initiative: ctx.orm.initiative.build(ctx.request.body),
+  //     errors: validationError.errors,
+  //     createInitiativePath: ctx.router.url('ongInitiativesCreate', ong.id),
+  //   });
   }
 });
 

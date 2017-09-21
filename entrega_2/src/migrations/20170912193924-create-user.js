@@ -8,9 +8,11 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       name: {
+        allowNull: false, // added
         type: Sequelize.STRING,
       },
       password: {
+        validate: {len: [6,100]}, // added
         type: Sequelize.STRING,
       },
       createdAt: {

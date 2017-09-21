@@ -8,13 +8,20 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       title: {
+        allowNull: false, // added
         type: Sequelize.STRING,
       },
       body: {
+        allowNull: false, // added
         type: Sequelize.TEXT,
       },
       userId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: 'users',
+          key: 'id',
+        }, // added
+        onDelete: 'cascade', // added
       },
       createdAt: {
         allowNull: false,
