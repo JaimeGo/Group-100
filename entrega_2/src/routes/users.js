@@ -30,10 +30,10 @@ router.post('createUser', '/', async (ctx) => {
     await ctx.render('users/new', {
       user: await ctx.orm.user.build(ctx.request.body),
       submitUserPath: ctx.router.url('createUser'), 
-      errors: validationError.errors   
+      errors: validationError.errors,
+      usersPath: ctx.router.url('users')   
     })
   }
-
 })
 
 router.get('editUser', '/:id/edit', async (ctx) => {
@@ -54,7 +54,8 @@ router.patch('updateUser', '/:id', async (ctx) => {
     await ctx.render('users/edit', {
       user, 
       submitUserPath: ctx.router.url('updateUser', user.id),
-      errors: validationError.errors   
+      errors: validationError.errors,
+      usersPath: ctx.router.url('users'),   
     })    
   }
   // const user = await ctx.orm.user.findById(ctx.params.id);

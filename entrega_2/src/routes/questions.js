@@ -12,6 +12,7 @@ router.get('questions', '/', async (ctx) => {
   		ctx.router.url('question', {userId: question.userId,
   			id: question.id}),
   	userPath: ctx.router.url('user', {id: user.id}),
+  	newQuestionPath: ctx.router.url('newQuestion', {userId: user.id})
   });
 })
 
@@ -21,17 +22,10 @@ router.get('newQuestion', '/new', async (ctx) => {
 	await ctx.render('questions/new', {
 		user, 
 		question,
-		createQuestionPath: ctx.router.url('createQuestion',
+		submitQuestionPath: ctx.router.url('createQuestion',
 		{userId: user.id})
 	});
 })
-
-// router.get('newQuestion', '/new', async (ctx) => {
-// 	const {user} = ctx.state;
-// 	const question = await ctx.orm.user.build();
-// 	await ctx.render('questions/example', {
-// 	});
-// })
 
 router.post('createQuestion', '/', async (ctx) => {
 	const {user} = ctx.state;
@@ -45,7 +39,7 @@ router.get('editQuestion', '/:id/edit', async (ctx) => {
 	await ctx.render('questions/edit', {
 		user, 
 		question,
-		updateQuestionPath: ctx.router.url('updateQuestion',
+		submitQuestionPath: ctx.router.url('updateQuestion',
 			{userId: question.userId,
   			id: question.id})
 	});
@@ -86,6 +80,5 @@ router.get('question', '/:id', async (ctx) => {
 			{userId: question.userId})
 	})
 })
-
 
 module.exports = router;

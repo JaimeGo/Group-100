@@ -1,14 +1,2 @@
 <h1>Editar pregunta</h1>
-  <form action="<%= updateQuestionPath %>" method="post">
-    <input type="hidden" name="_method" value="patch" />
-    <div>
-      <p><%= question.title %></p>
-    </div>
-    <div>
-      <textarea type="text" name="password"><%= question.body %></textarea>
-    </div>
-    <div>
-      <input type="submit" name="update" value="Modificar" />
-    </div>
-  </form>
-</div>
+<%- include('_form') %>
