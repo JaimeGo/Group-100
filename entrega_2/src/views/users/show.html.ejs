@@ -6,12 +6,13 @@
     </div>
   </form>
   <br>
-  <form action="<%= usersPath %>" method="get">
+<!--   <form action="<%= usersPath %>" method="get">
     <div>
       <input type="submit" name="back" value="See all users" />
     </div>
-  </form>
- <br>
+  </form> -->
+ <%- include('__back') %>
+ <br> 
   <form action="<%= editUserPath %>" method="get">
     <div>
       <input type="submit" name="edit" value="Edit user" />

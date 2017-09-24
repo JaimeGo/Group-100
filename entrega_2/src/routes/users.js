@@ -17,6 +17,7 @@ router.get('newUser', '/new', async (ctx) => {
   await ctx.render('users/new', {
     user,
     submitUserPath: ctx.router.url('createUser'),
+    usersPath: ctx.router.url('users')
   });
 })
 
@@ -40,6 +41,7 @@ router.get('editUser', '/:id/edit', async (ctx) => {
   await ctx.render('users/edit', {
     user, 
     submitUserPath: ctx.router.url('updateUser', user.id),
+    usersPath: ctx.router.url('users'),
   })
 })
 
