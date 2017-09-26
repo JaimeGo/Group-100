@@ -29,8 +29,18 @@ router.get('newQuestion', '/new', async (ctx) => {
 
 router.post('createQuestion', '/', async (ctx) => {
 	const {user} = ctx.state;
-	const question = await user.createQuestion(ctx.request.body);
-	ctx.redirect(ctx.router.url('questions', {userId: user.id}));
+	try {
+		const question = await user.createQuestion(ctx.request.body);
+		ctx.redirect(ctx.router.url('questions', {userId: user.id}));
+	} catch (validationError) {
+		await ctx.render('questions/new', {
+			user,
+			errors: validationError.errors,
+			question: ctx.orm.user.build(ctx.request.body),
+			submitQuestionPath: ctx.router.url('createQuestion',
+				{userId: user.id})
+		})
+	}
 })
 
 router.get('editQuestion', '/:id/edit', async (ctx) => {
@@ -48,8 +58,19 @@ router.get('editQuestion', '/:id/edit', async (ctx) => {
 router.patch('updateQuestion', '/:id', async (ctx) => {
 	const {user} = ctx.state;
 	const question = await ctx.orm.question.findById(ctx.params.id);
-    await question.update(ctx.request.body);
-	ctx.redirect(ctx.router.url('questions', {userId: user.id}));
+	try {
+	    await question.update(ctx.request.body);
+		ctx.redirect(ctx.router.url('questions', {userId: user.id}));
+	} catch (validationError) {
+		await ctx.render('questions/edit', {
+			user,
+			question,
+			submitQuestionPath: ctx.router.url('updateQuestion',
+				{userId: question.userId,
+	  			id: question.id}),
+	  		errors: validationError.errors			
+		})
+	}
 })
 
 router.delete('deleteQuestion', '/:id', async (ctx) => {
