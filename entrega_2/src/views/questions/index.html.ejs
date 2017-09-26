@@ -3,23 +3,22 @@
 <ul>
   <% questions.forEach((question) => { %>
     <li><h3><a href="<%=questionPathBuilder(question)%>"><%=question.title%></a></h3></li>
-    <p><%=question.body%></p>
   <% }) %>
   <% if (questions.length == 0) { %>
   	<h3>No tienes ninguna pregunta abierta.</h3>
   <% } %>
 </ul>
 
-<form action="<%= userPath %>" method="get">
+<form action="<%= newQuestionPath %>" method="get">
   <div>
-    <input type="submit" name="show" value="Back To User" />
+    <input type="submit" name="new" value="Create A Question" />
   </div>
 </form>
 
 <br>
 
-<form action="<%= newQuestionPath %>" method="get">
+<form action="<%= userPath %>" method="get">
   <div>
-    <input type="submit" name="new" value="Create A Question" />
+    <input type="submit" name="show" value="Back To User" />
   </div>
 </form>
