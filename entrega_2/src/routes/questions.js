@@ -12,8 +12,32 @@ router.get('questions', '/', async (ctx) => {
   		ctx.router.url('question', {userId: question.userId,
   			id: question.id}),
   	userPath: ctx.router.url('user', {id: user.id}),
-  	newQuestionPath: ctx.router.url('newQuestion', {userId: user.id})
+  	newQuestionPath: ctx.router.url('newQuestion', {userId: user.id}),
+  	// added for sorting
+  	order: "Default",
+  	sortedQuestionsPathBuilder: sorting => 
+  		ctx.router.url('sortedQuestions', 
+  			{userId: user.id, sortBy: sorting})
   });
+})
+
+router.get('sortedQuestions', '/sort/:sortBy', async(ctx) => {
+  const {user} = ctx.state;
+  const questions = await user.getQuestions();
+  await ctx.render('questions/index', {
+  	user, 
+  	questions,
+  	questionPathBuilder: question => 
+  		ctx.router.url('question', {userId: question.userId,
+  			id: question.id}),
+  	userPath: ctx.router.url('user', {id: user.id}),
+  	newQuestionPath: ctx.router.url('newQuestion', {userId: user.id}),
+  	// added for sorting
+  	order: ctx.params.sortBy,
+  	sortedQuestionsPathBuilder: sorting => 
+  		ctx.router.url('sortedQuestions', 
+  			{userId: user.id, sortBy: sorting})
+  	});
 })
 
 router.get('newQuestion', '/new', async (ctx) => {

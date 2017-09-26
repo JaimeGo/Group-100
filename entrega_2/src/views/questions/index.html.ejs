@@ -1,5 +1,7 @@
 <h1>Preguntas de <%= user.name %></h1>
 
+<h2> String de modo: <%= order %> </h2>
+
 <ul>
   <% questions.forEach((question) => { %>
     <li><h3><a href="<%=questionPathBuilder(question)%>"><%=question.title%></a></h3></li>
