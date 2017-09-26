@@ -4,6 +4,9 @@
   <% users.forEach((user) => { %>
     <li>Nombre con link: <a href="<%=userPathBuilder(user)%>"> <%= user.name %> </a> - Contraseña: <%= user.password %> </li> 
   <% }) %>
+  <% if (users.length == 0) { %>
+  	<h3>Aún no se han creado usuarios. ¡Se tú el primero!</h3>
+  <% } %>
 </ul>
 
 <form action="<%= newUserPath %>" method="get">

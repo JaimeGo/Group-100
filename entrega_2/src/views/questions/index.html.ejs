@@ -5,6 +5,9 @@
     <li><h3><a href="<%=questionPathBuilder(question)%>"><%=question.title%></a></h3></li>
     <p><%=question.body%></p>
   <% }) %>
+  <% if (questions.length == 0) { %>
+  	<h3>No tienes ninguna pregunta abierta.</h3>
+  <% } %>
 </ul>
 
 <form action="<%= userPath %>" method="get">
