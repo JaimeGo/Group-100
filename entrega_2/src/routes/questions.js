@@ -63,7 +63,9 @@ router.post('createQuestion', '/', async (ctx) => {
 			errors: validationError.errors,
 			question: ctx.orm.user.build(ctx.request.body),
 			submitQuestionPath: ctx.router.url('createQuestion',
-				{userId: user.id})
+				{userId: user.id}),
+			questionsPath: ctx.router.url('questions', 
+				{userId: user.id})	
 		})
 	}
 })
@@ -91,9 +93,10 @@ router.patch('updateQuestion', '/:id', async (ctx) => {
 			user,
 			question,
 			submitQuestionPath: ctx.router.url('updateQuestion',
-				{userId: question.userId,
-	  			id: question.id}),
-	  		errors: validationError.errors			
+				{userId: question.userId, id: question.id}),
+	  		errors: validationError.errors,
+			questionsPath: ctx.router.url('questions', 
+				{userId: user.id})			
 		})
 	}
 })
