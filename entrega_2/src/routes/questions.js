@@ -23,7 +23,8 @@ router.get('newQuestion', '/new', async (ctx) => {
 		user, 
 		question,
 		submitQuestionPath: ctx.router.url('createQuestion',
-		{userId: user.id})
+		{userId: user.id}),
+		questionsPath: ctx.router.url('questions', {userId: user.id})
 	});
 })
 
@@ -50,8 +51,8 @@ router.get('editQuestion', '/:id/edit', async (ctx) => {
 		user, 
 		question,
 		submitQuestionPath: ctx.router.url('updateQuestion',
-			{userId: question.userId,
-  			id: question.id})
+			{userId: question.userId, id: question.id}),
+		questionsPath: ctx.router.url('questions', {userId: user.id})
 	});
 })
 
