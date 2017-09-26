@@ -9,17 +9,19 @@
         <input type="text" name="name" value="<%= user.name %>" /></input>
       </div>
     <% } %>
+    <br>
     <div>
       <label for="password">Contraseña</label>
       <input type="text" name="password" value="<%= user.password %>"></input>
     </div>
+    <br>
     <% if (!user.isNewRecord) { %>
       <div>
-        <input type="submit" name="update" value="cambiar contraseña" />
+        <input type="submit" name="update" value="Change Password" />
       </div>
     <% } else { %>
       <div>
-        <input type="submit" name="create" value="registrarse" />
+        <input type="submit" name="create" value="Log In" />
       </div>
     <% } %>
   </form>
