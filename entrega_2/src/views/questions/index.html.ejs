@@ -1,10 +1,23 @@
-<h1>Preguntas de <%= user.name %></h1>
-
-<h2> String de modo: <%= order %> </h2>
+<h1>Preguntas de <%= user.name %> ordenadas por <%= order %></h1>
 
 <ul>
+
+  <% if (order == 'Nombre') {%>
+  <% questions.sort(function(a,b){ %>
+  	  <% return -(b.title).localeCompare(a.title)})} %>
+
+  <% if (order == 'Fecha de creación') {%>
+  <% questions.sort(function(a,b){ %>
+  	  <% return -((b.updatedAt) - (a.updatedAt))})} %>
+
   <% questions.forEach((question) => { %>
     <li><h3><a href="<%=questionPathBuilder(question)%>"><%=question.title%></a></h3></li>
+    <% const qua = question.updatedAt %>
+    <% var minutes = qua.getMinutes().toString() %>
+    <% if (minutes.length == 1) {minutes = "0" + minutes} %>
+	<h4>Escrito a las <%= qua.getHours() %>:<%= minutes %> horas el día <%= qua.getDate() %>/<%= qua.getMonth() %>/<%= qua.getYear() + 1900 %> </h4>
+
+	<br>
   <% }) %>
   <% if (questions.length == 0) { %>
   	<h3>No tienes ninguna pregunta abierta.</h3>
@@ -24,3 +37,20 @@
     <input type="submit" name="show" value="Back To User" />
   </div>
 </form>
+
+<br>
+
+<form action="<%= sortedQuestionsPathBuilder('Nombre') %>" method="get">
+  <div>
+    <input type="submit" name="sort" value="Order By Name" />
+  </div>
+</form>
+
+<br>
+
+<form action="<%= sortedQuestionsPathBuilder('Fecha de creación') %>" method="get">
+  <div>
+    <input type="submit" name="sort" value="Order By Time Of Updating" />
+  </div>
+</form>
+

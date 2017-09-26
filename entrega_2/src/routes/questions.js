@@ -14,7 +14,7 @@ router.get('questions', '/', async (ctx) => {
   	userPath: ctx.router.url('user', {id: user.id}),
   	newQuestionPath: ctx.router.url('newQuestion', {userId: user.id}),
   	// added for sorting
-  	order: "Default",
+  	order: "Nombre",
   	sortedQuestionsPathBuilder: sorting => 
   		ctx.router.url('sortedQuestions', 
   			{userId: user.id, sortBy: sorting})
