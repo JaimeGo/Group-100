@@ -1,15 +1,2 @@
 <h1>Cambiar contraseña</h1>
-  <form action="<%= updateUserPath %>" method="post">
-    <input type="hidden" name="_method" value="patch" />
-    <div>
-      Usuario: <%= user.name %>
-    </div>
-    <div>
-      <label for="password">Nueva contraseña</label>
-      <input type="text" name="password"></input>
-    </div>
-    <div>
-      <input type="submit" name="update" value="Cambiar contraseña" />
-    </div>
-  </form>
-</div>
+<%- include("_form") %>

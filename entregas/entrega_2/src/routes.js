@@ -13,7 +13,6 @@ const router = new KoaRouter();
 router.use('/', index.routes());
 router.use('/hello', hello.routes());
 router.use('/users', users.routes());
-
 router.use('/questions', questions.routes());
 router.use('/answers', answers.routes());
 router.use('/comments', comments.routes());

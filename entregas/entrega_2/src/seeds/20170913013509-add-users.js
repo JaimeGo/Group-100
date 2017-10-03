@@ -11,10 +11,10 @@ module.exports = {
         updatedAt: new Date(),
       });
     }
-    return queryInterface.bulkInsert('Users', usersData);
+    return queryInterface.bulkInsert('users', usersData);
   },
 
   down(queryInterface) {
-    return queryInterface.bulkDelete('Users', null, {});
+    return queryInterface.bulkDelete('users', null, {});
   },
 };

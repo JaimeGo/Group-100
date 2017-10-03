@@ -1,13 +1,24 @@
-module.exports = function defineQuestion(sequelize, DataTypes) {
-  const Question = sequelize.define('Question', {
-    title: DataTypes.STRING,
-    body: DataTypes.TEXT,
+module.exports = function definequestion(sequelize, DataTypes) {
+  const question = sequelize.define('question', {
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    }, // changed
+    body: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    }, // changed
     userId: DataTypes.INTEGER,
   });
-  Question.associate = function associate(models) {
+  question.associate = function associate(models) {
     // associations can be defined here
-    Question.belongsTo(models.User);
-    Question.hasMany(models.Answer);
+    question.belongsTo(models.user);
   };
-  return Question;
+  return question;
 };

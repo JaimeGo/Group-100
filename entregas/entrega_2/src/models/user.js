@@ -1,12 +1,22 @@
 module.exports = function defineUser(sequelize, DataTypes) {
-  const User = sequelize.define('User', {
-    name: DataTypes.STRING,
-    password: DataTypes.STRING,
+  const User = sequelize.define('user', {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      }
+    }, //changed
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [6,100],
+      }
+    }, //changed
   });
   User.associate = function associate(models) {
-  	User.hasMany(models.Question);
-  	User.hasMany(models.Answer);
-  	User.hasMany(models.Comment);
+  	User.hasMany(models.question);
   };
   return User;
 };

@@ -1,6 +1,6 @@
 module.exports = {
   up(queryInterface, Sequelize) {
-    return queryInterface.createTable('Questions', {
+    return queryInterface.createTable('questions', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -8,13 +8,20 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       title: {
+        allowNull: false, // added
         type: Sequelize.STRING,
       },
       body: {
+        allowNull: false, // added
         type: Sequelize.TEXT,
       },
       userId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: 'users',
+          key: 'id',
+        }, // added
+        onDelete: 'cascade', // added
       },
       createdAt: {
         allowNull: false,
@@ -27,6 +34,6 @@ module.exports = {
     });
   },
   down(queryInterface, Sequelize) {
-    return queryInterface.dropTable('Questions');
+    return queryInterface.dropTable('questions');
   },
 };

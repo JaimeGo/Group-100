@@ -8,7 +8,7 @@ const config = {
   },
   development: {
     extend: 'default',
-    database: 'iic2513template_dev',
+    database: 'grupo100_dev'
   },
   test: {
     extend: 'default',
