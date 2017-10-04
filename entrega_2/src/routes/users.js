@@ -72,7 +72,8 @@ router.get('user', '/:id', async (ctx) => {
       deleteUserPath: ctx.router.url('deleteUser', user.id),
       editUserPath: ctx.router.url('editUser', user.id),
       usersPath: ctx.router.url('users'),
-      questionsPath: ctx.router.url('questions', user.id)
+      questionsPath: ctx.router.url('questions', 
+      {userId: user.id, sort: 'default'})
     })
   }catch (TypeError){
     const users = await ctx.orm.user.findAll();

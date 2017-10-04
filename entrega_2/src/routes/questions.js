@@ -2,7 +2,7 @@ const KoaRouter = require('koa-router');
 
 const router = new KoaRouter();
 
-router.get('questions', '/', async (ctx) => {
+router.get('questions', '/:sort', async (ctx) => {
   const {user} = ctx.state;
   const questions = await user.getQuestions();
   await ctx.render('questions/index', {
@@ -48,7 +48,8 @@ router.get('newQuestion', '/new', async (ctx) => {
 		question,
 		submitQuestionPath: ctx.router.url('createQuestion',
 		{userId: user.id}),
-		questionsPath: ctx.router.url('questions', {userId: user.id})
+		questionsPath: ctx.router.url('questions', 
+			{userId: user.id, sort: 'default'})
 	});
 })
 
@@ -56,7 +57,8 @@ router.post('createQuestion', '/', async (ctx) => {
 	const {user} = ctx.state;
 	try {
 		const question = await user.createQuestion(ctx.request.body);
-		ctx.redirect(ctx.router.url('questions', {userId: user.id}));
+		ctx.redirect(ctx.router.url('questions', 
+			{userId: user.id, sort: 'default'}));
 	} catch (validationError) {
 		await ctx.render('questions/new', {
 			user,
@@ -78,7 +80,8 @@ router.get('editQuestion', '/:id/edit', async (ctx) => {
 		question,
 		submitQuestionPath: ctx.router.url('updateQuestion',
 			{userId: question.userId, id: question.id}),
-		questionsPath: ctx.router.url('questions', {userId: user.id})
+		questionsPath: ctx.router.url('questions', 
+			{userId: user.id, sort: 'default'})
 	});
 })
 
@@ -87,7 +90,8 @@ router.patch('updateQuestion', '/:id', async (ctx) => {
 	const question = await ctx.orm.question.findById(ctx.params.id);
 	try {
 	    await question.update(ctx.request.body);
-		ctx.redirect(ctx.router.url('questions', {userId: user.id}));
+		ctx.redirect(ctx.router.url('questions', 
+			{userId: user.id, sort: 'default'}));
 	} catch (validationError) {
 		await ctx.render('questions/edit', {
 			user,
@@ -107,7 +111,8 @@ router.delete('deleteQuestion', '/:id', async (ctx) => {
   await ctx.orm.question.destroy({
     where: { id: ctx.params.id },
   });
-  ctx.redirect(ctx.router.url('questions', {userId: user.id})); 
+  ctx.redirect(ctx.router.url('questions', 
+			{userId: user.id, sort: 'default'})); 
 })
 
 router.get('question', '/:id', async (ctx) => {
@@ -123,8 +128,8 @@ router.get('question', '/:id', async (ctx) => {
 			{userId: question.userId, id: question.id}),
 		editQuestionPath: ctx.router.url('editQuestion',
 			{userId: question.userId, id: question.id}),
-		questionsPath: ctx.router.url('questions',
-			{userId: question.userId})
+		questionsPath: ctx.router.url('questions', 
+			{userId: user.id, sort: 'default'})
 	})
 })
 
