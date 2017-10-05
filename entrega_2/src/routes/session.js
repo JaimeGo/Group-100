@@ -2,31 +2,31 @@ const KoaRouter = require('koa-router');
 
 const router = new KoaRouter();
 
-router.get('sessionNew', '/new', async ctx =>
+router.get('newSession', '/new', async ctx =>
   ctx.render('session/new', {
-    createSessionPath: ctx.router.url('sessionCreate'),
+    createSessionPath: ctx.router.url('createSession'),
     notice: ctx.flashMessage.notice,
   }),
 );
 
-router.put('sessionCreate', '/', async (ctx) => {
-  const { email, password } = ctx.request.body;
-  const user = await ctx.orm.user.find({ where: { email } });
+router.put('createSession', '/', async (ctx) => {
+  const {name, password} = ctx.request.body;
+  const user = await ctx.orm.user.find({where: {name}});
   const isPasswordCorrect = await user.checkPassword(password);
-  if (isPasswordCorrect) {
+  if (isPasswordCorrect){
     ctx.session.userId = user.id;
-    return ctx.redirect(ctx.router.url('sessionNew'));
+    return ctx.redirect(ctx.router.url('newSession'));
   }
   return ctx.render('session/new', {
-    email,
-    createSessionPath: ctx.router.url('sessionCreate'),
-    error: 'e-mail o contraseña incorrectos',
-  });
+    user,
+    createSessionPath: ctx.router.url('createSession'),
+    error: 'usuario o contraseña incorrectos'
+  })
 });
 
-router.delete('sessionDestroy', '/', (ctx) => {
+router.delete('destroySession', '/', (ctx) => {
   ctx.session = null;
-  ctx.redirect(ctx.router.url('sessionNew'));
-});
+  ctx.redirect(ctx.router.url('newSession'));
+})
 
 module.exports = router;
