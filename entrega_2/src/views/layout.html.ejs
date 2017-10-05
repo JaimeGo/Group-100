@@ -11,6 +11,17 @@
   		<nav>
   		  <a href="<%= usersPath %>">Usuarios</a>
   		</nav>
+  		<div id="user-bar">
+  			<% if (currentUser) {%>
+	  		  <form action="<%= destroySessionPath %>" method="post">
+	            <input type="hidden" name="_method" value="delete" />
+	            <input type="submit" value="Salir" />
+	          </form>
+	        <% } else {%> 
+	          <span class="name">Hola Invitado</span>
+	          <a href="<%= newSessionPath %>">Inicia Sesión</a>	      
+	       	<% } %>
+  		</div>
   	</header>
 	  <% if (locals.errors) { %>
 	    <div class="errors">
