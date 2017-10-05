@@ -12,7 +12,8 @@ router.use(async (ctx, next) => {
 	Object.assign(ctx.state, {
 		currentUser: ctx.session.userId && await ctx.orm.user.findById(ctx.session.userId),
 		newSessionPath: ctx.router.url('newSession'),
-		destroySessionPath: ctx.router.url('destroySession')
+		destroySessionPath: ctx.router.url('destroySession'),
+		usersPath: ctx.router.url('users')
 	});
 	return next();
 })
