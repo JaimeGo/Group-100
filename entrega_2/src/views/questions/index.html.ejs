@@ -15,7 +15,7 @@
     <% const qua = question.updatedAt %>
     <% var minutes = qua.getMinutes().toString() %>
     <% if (minutes.length == 1) {minutes = "0" + minutes} %>
-	<h4>Escrito a las <%= qua.getHours() %>:<%= minutes %> horas el día <%= qua.getDate() %>/<%= qua.getMonth() %>/<%= qua.getYear() + 1900 %> </h4>
+	<h4>Escrito a las <%= qua.getHours() %>:<%= minutes %> horas el día <%= qua.getDate() %>/<%= qua.getMonth() + 1 %>/<%= qua.getYear() + 1900 %> </h4>
 
 	<br>
   <% }) %>

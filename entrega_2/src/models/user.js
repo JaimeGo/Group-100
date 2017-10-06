@@ -13,7 +13,12 @@ module.exports = function defineUser(sequelize, DataTypes) {
       validate: {
         len: [6,100],
       }
-    }, //changed
+    }, //ADDED
+    admin: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    }
+
   });
   User.associate = function associate(models) {
   	User.hasMany(models.question);
