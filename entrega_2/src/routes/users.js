@@ -102,14 +102,14 @@ router.delete('deleteUser', '/:id', async (ctx) => {
   ctx.redirect(ctx.router.url('users'));  
 })
 
-router.use(
-  '/:userId/questions',
-  async (ctx, next) => {
-    ctx.state.user = await ctx.orm.user.findById(ctx.params.userId);
-    await next();
-  },
-  questionsRouter.routes(),
-);
+// router.use(
+//   '/:userId/questions',
+//   async (ctx, next) => {
+//     ctx.state.user = await ctx.orm.user.findById(ctx.params.userId);
+//     await next();
+//   },
+//   questionsRouter.routes(),
+// );
 
 // router.use(
 //   '/:userId/questions',

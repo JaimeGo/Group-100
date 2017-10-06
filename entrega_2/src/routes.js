@@ -6,6 +6,8 @@ const ongs = require('./routes/ongs');
 const users = require('./routes/users');
 const session = require('./routes/session')
 
+const questions = require('./routes/questions')
+
 const router = new KoaRouter();
 
 router.use(async (ctx, next) => {
@@ -23,6 +25,8 @@ router.use('/hello', hello.routes());
 router.use('/ongs', ongs.routes());
 router.use('/users', users.routes());
 router.use('/session', session.routes());
+
+router.use('/questions', questions.routes());
 
 
 module.exports = router;
