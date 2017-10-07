@@ -15,7 +15,9 @@ router.use(async (ctx, next) => {
 		currentUser: ctx.session.userId && await ctx.orm.user.findById(ctx.session.userId),
 		newSessionPath: ctx.router.url('newSession'),
 		destroySessionPath: ctx.router.url('destroySession'),
-		usersPath: ctx.router.url('users')
+		usersPath: ctx.router.url('users'),
+		allQuestionsPath: ctx.router.url('allQuestions'),
+		newQuestionPath: ctx.router.url('newQuestion')
 	});
 	return next();
 })

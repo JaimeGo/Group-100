@@ -7,12 +7,124 @@ router.get('allQuestions', '/', async (ctx) => {
 	await ctx.render('questions/indexAll', {
 	  	questions,
 	  	questionPathBuilder: question => 
-	  		ctx.router.url('question', {userId: question.userId,
-	  			id: question.id}),
-	  	// added for sorting
+	  		ctx.router.url('question', {id: question.id}),
 	  	order: "Nombre"
 	});	
 })
+
+router.get('sortedAllQuestions', '/sort/:sortBy', async (ctx) => {
+	const questions = await ctx.orm.question.findAll();
+	await ctx.render('questions/indexAll', {
+	  	questions,
+	  	questionPathBuilder: question => 
+	  		ctx.router.url('question', {id: question.id}),
+	  	order: ctx.params.sortBy
+	});	
+})
+
+router.get('newQuestion', '/new', async (ctx) => {
+	if (!ctx.state.currentUser) {
+		ctx.redirect(ctx.router.url('allQuestions'));		
+	} else {
+		const question = await ctx.orm.user.build();
+		await ctx.render('questions/new', {
+		// user: ctx.state.currentUser, 
+		question,
+		submitQuestionPath: ctx.router.url('createQuestion')
+		})
+	}
+})
+
+router.post('createQuestion', '/', async (ctx) => {
+	try {
+		const question = await ctx.state.currentUser.createQuestion(ctx.request.body);
+		ctx.redirect(ctx.router.url('allQuestions'));
+	} catch (validationError) {
+		await ctx.render('questions/new', {
+			// user: ctx.state.currentUser,
+			errors: validationError.errors,
+			question: ctx.orm.user.build(ctx.request.body),
+			submitQuestionPath: ctx.router.url('createQuestion')
+		})
+	}
+})
+
+router.get('editQuestion', '/:id/edit', async (ctx) => {
+	const question = await ctx.orm.question.findById(ctx.params.id);
+	const author = await ctx.orm.user.findById(question.userId);
+	if (!ctx.state.currentUser) {
+		ctx.redirect(ctx.router.url('allQuestions'));
+	} else {
+		if (ctx.state.currentUser.admin || ctx.state.currentUser == author) {
+			await ctx.render('questions/edit', {
+				// user: ctx.state.currentUser, 
+				question,
+				submitQuestionPath: ctx.router.url('updateQuestion',
+					{id: question.id})
+			});
+		} else {
+			ctx.redirect(ctx.router.url('allQuestions'));
+		}
+	}
+})
+
+router.patch('updateQuestion', '/:id', async (ctx) => {
+	const question = await ctx.orm.question.findById(ctx.params.id);
+	try {
+	    await question.update(ctx.request.body);
+		ctx.redirect(ctx.router.url('allQuestions'));
+	} catch (validationError) {
+		await ctx.render('questions/edit', {
+			// user: ctx.state.currentUser,
+			question,
+			submitQuestionPath: ctx.router.url('updateQuestion',
+				{id: question.id}),
+	  		errors: validationError.errors		
+		})
+	}
+})
+
+router.delete('deleteQuestion', '/:id', async (ctx) => {
+  const question = await ctx.orm.question.findById(ctx.params.id);
+  const author = await ctx.orm.user.findById(question.userId);
+  if (!ctx.state.currentUser) {
+  	ctx.redirect(ctx.router.url('allQuestions')); 
+  } else {
+  	if (ctx.state.currentUser.admin || ctx.state.currentUser == author) {
+	  	await ctx.orm.question.destroy({
+	    where: { id: ctx.params.id },
+	    });
+	    ctx.redirect(ctx.router.url('allQuestions')); 
+  	} else {
+  		ctx.redirect(ctx.router.url('allQuestions')); 
+  	}
+  }
+})
+
+router.get('question', '/:id', async (ctx) => {
+	const question = await ctx.orm.question.findById(ctx.params.id)
+	const author = await ctx.orm.user.findById(question.userId);
+	let currentUserAdmin = false;
+	if (ctx.state.currentUser && ctx.state.currentUser.admin){
+		const currentUserAdmin = true;
+	}
+	await ctx.render('questions/show', {
+		author,
+		currentUserAdmin, 
+		currentUser: ctx.state.currentUser,
+		question,
+		deleteQuestionPath: ctx.router.url('deleteQuestion', 
+			{id: question.id}),
+		editQuestionPath: ctx.router.url('editQuestion',
+			{id: question.id})
+	})
+})
+
+
+
+
+
+
 
 // router.get('questions', '/:sort', async (ctx) => {
 //  //  const {user} = ctx.state;
