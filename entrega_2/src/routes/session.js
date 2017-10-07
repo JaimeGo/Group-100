@@ -16,7 +16,7 @@ router.put('createSession', '/', async (ctx) => {
   const isPasswordCorrect = (password == user.password);
   if (isPasswordCorrect){
     ctx.session.userId = user.id;
-    return ctx.redirect(ctx.router.url('users'));
+    return ctx.redirect(ctx.router.url('allQuestions'));
   }
   return ctx.render('session/new', {
     user,
@@ -27,7 +27,7 @@ router.put('createSession', '/', async (ctx) => {
 
 router.delete('destroySession', '/', (ctx) => {
   ctx.session = null;
-  ctx.redirect(ctx.router.url('newSession'));
+  ctx.redirect(ctx.router.url('allQuestions'));
 })
 
 module.exports = router;

@@ -38,7 +38,8 @@ router.get('newQuestion', '/new', async (ctx) => {
 router.post('createQuestion', '/', async (ctx) => {
 	try {
 		const question = await ctx.state.currentUser.createQuestion(ctx.request.body);
-		ctx.redirect(ctx.router.url('allQuestions'));
+		ctx.redirect(ctx.router.url('question'),
+			{id: question.id});
 	} catch (validationError) {
 		await ctx.render('questions/new', {
 			// user: ctx.state.currentUser,
@@ -55,7 +56,7 @@ router.get('editQuestion', '/:id/edit', async (ctx) => {
 	if (!ctx.state.currentUser) {
 		ctx.redirect(ctx.router.url('allQuestions'));
 	} else {
-		if (ctx.state.currentUser.admin || ctx.state.currentUser == author) {
+		if (ctx.state.currentUser.admin || ctx.state.currentUser.id == author.id) {
 			await ctx.render('questions/edit', {
 				// user: ctx.state.currentUser, 
 				question,
@@ -72,7 +73,7 @@ router.patch('updateQuestion', '/:id', async (ctx) => {
 	const question = await ctx.orm.question.findById(ctx.params.id);
 	try {
 	    await question.update(ctx.request.body);
-		ctx.redirect(ctx.router.url('allQuestions'));
+		ctx.redirect(ctx.router.url('question', {id: question.id}));
 	} catch (validationError) {
 		await ctx.render('questions/edit', {
 			// user: ctx.state.currentUser,
@@ -90,7 +91,7 @@ router.delete('deleteQuestion', '/:id', async (ctx) => {
   if (!ctx.state.currentUser) {
   	ctx.redirect(ctx.router.url('allQuestions')); 
   } else {
-  	if (ctx.state.currentUser.admin || ctx.state.currentUser == author) {
+  	if (ctx.state.currentUser.admin || ctx.state.currentUser.id == author.id) {
 	  	await ctx.orm.question.destroy({
 	    where: { id: ctx.params.id },
 	    });
