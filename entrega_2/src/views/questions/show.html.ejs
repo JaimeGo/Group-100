@@ -1,8 +1,8 @@
 <h1><%= question.title %></h1>
 <%- include('_info') %>
 <p><%= question.body %><p>
-<% if (currentUser === undefined) { %>
-  <% if (author == currentUser || currentUserAdmin){ %>
+<% if (true) { %>
+  <% if (currentUserAuthor || currentUserAdmin){ %>
     <form action="<%= deleteQuestionPath %>" method="post">
       <input type="hidden" name="_method" value="delete" />
       <div>

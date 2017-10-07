@@ -106,12 +106,17 @@ router.get('question', '/:id', async (ctx) => {
 	const author = await ctx.orm.user.findById(question.userId);
 	let currentUserAdmin = false;
 	if (ctx.state.currentUser && ctx.state.currentUser.admin){
-		const currentUserAdmin = true;
+		currentUserAdmin = true;
+	}
+	let currentUserAuthor = false;
+	if (ctx.state.currentUser && ctx.state.currentUser.id == author.id){
+		currentUserAuthor = true;
 	}
 	await ctx.render('questions/show', {
 		author,
 		currentUserAdmin, 
-		currentUser: ctx.state.currentUser,
+		currentUserAuthor,
+		// currentUser: ctx.state.currentUser,
 		question,
 		deleteQuestionPath: ctx.router.url('deleteQuestion', 
 			{id: question.id}),
