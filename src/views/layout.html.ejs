@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <title>wican</title>
+  </head>
+
+  <body>
+  	<header>
+  		<nav>
+  		  <a href="<%= usersPath %>">Usuarios</a>
+  		</nav>
+  		<nav>
+  		  <a href="<%= allQuestionsPath %>">Preguntas</a>
+  		</nav>
+  		<div id="user-bar">
+  			<% if (currentUser) {%>
+ 	          <span class="name">Hola <%= currentUser.name %></span>
+	  		  <form action="<%= destroySessionPath %>" method="post">
+	            <input type="hidden" name="_method" value="delete" />
+	            <input type="submit" value="Salir" />
+	          </form>
+	  		<nav>
+  		       <a href="<%= newQuestionPath %>">Crea una nueva pregunta</a>
+  			</nav>
+	        <% } else {%> 
+	          <span class="name">Hola Invitado</span>
+	          <a href="<%= newSessionPath %>">Inicia Sesión</a>	      
+	       	<% } %>
+  		</div>
+  	</header>
+	  <% if (locals.errors) { %>
+	    <div class="errors">
+	      Necesitas arreglar los siguiente errores:
+	      <ul>
+	        <% errors.forEach(error => { %>
+	          <li><%= error.message %></li>
+	        <% }); %>
+	      </ul>
+	    </div>
+	  <% } %>
+    <%- body %>
+  </body>
+
+</html>

@@ -1,0 +1,21 @@
+<h1><%= user.name %></h1>
+  <form action="<%= deleteUserPath %>" method="post">
+    <input type="hidden" name="_method" value="delete" />
+    <div>
+      <input type="submit" name="delete" value="Delete User" />
+    </div>
+  </form>
+ <br> 
+  <form action="<%= editUserPath %>" method="get">
+    <div>
+      <input type="submit" name="edit" value="Edit User" />
+    </div>
+  </form>
+ <br>
+  <form action="<%= questionsPath %>" method="get">
+    <div>
+      <input type="submit" name="show" value="View Questions" />
+    </div>
+  </form>
+ <br>
+ <%- include('__back') %>
