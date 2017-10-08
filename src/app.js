@@ -10,7 +10,7 @@ const routes = require('./routes');
 const orm = require('./models');
 
 // ADDED E3
-// const koaStatic = require('koa-static');
+const koaStatic = require('koa-static');
 // const mailer = require('./mailers');
 
 // App constructor
@@ -40,21 +40,21 @@ app.use((ctx, next) => {
 // log requests
 app.use(koaLogger());
 
-// // webpack middleware for dev mode only
-// if (developmentMode) {
-//   /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
-//   app.use(require('koa-webpack')({ // eslint-disable-line global-require
-//     dev: {
-//       index: 'index.html',
-//       stats: {
-//         colors: true,
-//       },
-//     },
-//     hot: false,
-//   }));
-// }
+// webpack middleware for dev mode only
+if (developmentMode) {
+  /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
+  app.use(require('koa-webpack')({ // eslint-disable-line global-require
+    dev: {
+      index: 'index.html',
+      stats: {
+        colors: true,
+      },
+    },
+    hot: false,
+  }));
+}
 
-// app.use(koaStatic(path.join(__dirname, '..', 'build'), {}));
+app.use(koaStatic(path.join(__dirname, '..', 'build'), {}));
 
 // expose a session hash to store information across requests from same client
 app.use(session({
