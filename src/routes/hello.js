@@ -1,5 +1,7 @@
 const KoaRouter = require('koa-router');
 
+// const fileStorage = require('../services/file-storage');
+
 const router = new KoaRouter();
 
 router.get('hello', '/', async (ctx) => {
@@ -12,6 +14,14 @@ router.get('hello', '/', async (ctx) => {
 router.post('hello', '/', (ctx) => {
   console.log(ctx.request.body);
   ctx.flashMessage.notice = 'Form successfully processed';
+
+  // E3
+  // const uploads = ctx.request.body.files.uploads
+  // if (Array.isArray(uploads)){
+
+  // }
+  //
+
   ctx.redirect(router.url('hello'));
 });
 
