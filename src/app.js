@@ -10,8 +10,8 @@ const routes = require('./routes');
 const orm = require('./models');
 
 // ADDED E3
-const koaStatic = require('koa-static');
-const mailer = require('./mailers');
+// const koaStatic = require('koa-static');
+// const mailer = require('./mailers');
 
 // App constructor
 const app = new Koa();
