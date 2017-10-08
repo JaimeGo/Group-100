@@ -8,7 +8,7 @@
     </div>
   <% } %>
 <div>
-  <form action="<%= createSessionPath %>" method="post">
+  <form id="new_session" action="<%= createSessionPath %>" method="post">
   	<input type="hidden" name="_method" value="put" />
     <div>
       <label for="name">Usuario</label>
@@ -21,7 +21,7 @@
     </div>
     <br>
     <div>
-      <input type="submit" name="sign-in" value="Iniciar sesión" />
+      <input id="new_session_button" type="submit" name="sign-in" value="Iniciar sesión" />
     </div>
     <br>
   </form>

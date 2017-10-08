@@ -4,30 +4,36 @@
   <head>
     <meta charset="utf-8">
     <title>wican</title>
+    <% if (env !== 'development') { %>
+      <link rel="stylesheet" href="/assets/styles.css">
+    <% } %>
   </head>
 
   <body>
   	<header>
+      <div id="logo">
+        <img src="/assets/logo.png" alt="Logo" />
+      </div>
   		<nav>
   		  <a href="<%= usersPath %>">Usuarios</a>
-  		</nav>
-  		<nav>
   		  <a href="<%= allQuestionsPath %>">Preguntas</a>
   		</nav>
   		<div id="user-bar">
   			<% if (currentUser) {%>
- 	          <span class="name">Hola <%= currentUser.name %></span>
+ 	        <span class="name">Hola <%= currentUser.name %></span>
 	  		  <form action="<%= destroySessionPath %>" method="post">
 	            <input type="hidden" name="_method" value="delete" />
 	            <input type="submit" value="Salir" />
-	          </form>
-	  		<nav>
-  		       <a href="<%= newQuestionPath %>">Crea una nueva pregunta</a>
-  			</nav>
-	        <% } else {%> 
-	          <span class="name">Hola Invitado</span>
-	          <a href="<%= newSessionPath %>">Inicia Sesión</a>	      
-	       	<% } %>
+	        </form>
+<!--           <a href="<%= destroySessionPath %>">Salir</a> -->
+          <a href="<%= newQuestionPath %>">Crea una nueva pregunta</a>
+<!-- 	  		  <nav>
+
+  			  </nav> -->
+	      <% } else {%> 
+	        <span class="name">Hola Invitado</span>
+	        <a href="<%= newSessionPath %>">Inicia Sesión</a>	      
+	      <% } %>
   		</div>
   	</header>
 	  <% if (locals.errors) { %>
@@ -41,6 +47,7 @@
 	    </div>
 	  <% } %>
     <%- body %>
+    <script src="/assets/app.js"></script>
   </body>
 
 </html>
