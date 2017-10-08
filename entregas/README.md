@@ -1,1 +1,0 @@
-Este es el repositorio de Alfonso Valdés Vásquez y Jaime González Ortega
