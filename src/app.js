@@ -31,6 +31,11 @@ app.context.orm = orm;
 /**
  * Middlewares
  */
+ // expose running mode in ctx.state
+app.use((ctx, next) => {
+  ctx.state.env = ctx.app.env;
+  return next();
+});
 
 // log requests
 app.use(koaLogger());
