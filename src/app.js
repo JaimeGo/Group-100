@@ -9,6 +9,10 @@ const override = require('koa-override-method');
 const routes = require('./routes');
 const orm = require('./models');
 
+// ADDED E3
+const koaStatic = require('koa-static');
+const mailer = require('./mailers');
+
 // App constructor
 const app = new Koa();
 
@@ -30,6 +34,22 @@ app.context.orm = orm;
 
 // log requests
 app.use(koaLogger());
+
+// // webpack middleware for dev mode only
+// if (developmentMode) {
+//   /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
+//   app.use(require('koa-webpack')({ // eslint-disable-line global-require
+//     dev: {
+//       index: 'index.html',
+//       stats: {
+//         colors: true,
+//       },
+//     },
+//     hot: false,
+//   }));
+// }
+
+// app.use(koaStatic(path.join(__dirname, '..', 'build'), {}));
 
 // expose a session hash to store information across requests from same client
 app.use(session({
@@ -56,6 +76,8 @@ render(app, {
   viewExt: 'html.ejs',
   cache: !developmentMode,
 });
+
+// mailer(app);
 
 // Routing middleware
 app.use(routes.routes());
