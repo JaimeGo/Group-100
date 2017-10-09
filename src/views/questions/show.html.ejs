@@ -1,0 +1,19 @@
+<h1><%= question.title %></h1>
+<%- include('_info') %>
+<p><%= question.body %><p>
+<% if (true) { %>
+  <% if (currentUserAuthor || currentUserAdmin){ %>
+    <form action="<%= deleteQuestionPath %>" method="post">
+      <input type="hidden" name="_method" value="delete" />
+      <div>
+        <input type="submit" name="delete" value="Delete Question" />
+      </div>
+    </form>
+    <br>
+    <form action="<%= editQuestionPath %>" method="get">
+      <div>
+        <input type="submit" name="edit" value="Edit Question" />
+      </div>
+    </form>
+  <% } %>
+<% } %>

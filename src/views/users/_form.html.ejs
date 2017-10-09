@@ -1,0 +1,28 @@
+<div>
+  <form id="submit_user" action="<%= submitUserPath %>" method="post">
+    <% if (!user.isNewRecord) { %>
+      <input type="hidden" name="_method" value="patch" />
+<!--       <div> Usuario: <%= user.name %> </div> -->
+    <% } else { %>
+      <div>
+        <label for="name">Nombre de usuario</label>
+        <input type="text" name="name" value="<%= user.name %>" /></input>
+      </div>
+    <% } %>
+    <br>
+    <div>
+      <label for="password">Contraseña</label>
+      <input type="text" name="password" value="<%= user.password %>"></input>
+    </div>
+    <br>
+    <% if (!user.isNewRecord) { %>
+      <div>
+        <input type="submit" name="update" value="Change Password" />
+      </div>
+    <% } else { %>
+      <div>
+        <input type="submit" name="create" value="Log In" />
+      </div>
+    <% } %>
+  </form>
+</div>
