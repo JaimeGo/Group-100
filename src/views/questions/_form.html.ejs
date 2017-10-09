@@ -1,5 +1,5 @@
 <div>
-  <form action="<%= submitQuestionPath %>" method="post">
+  <form id="submit_question" action="<%= submitQuestionPath %>" method="post">
     <% if (!question.isNewRecord) { %>
       <input type="hidden" name="_method" value="patch" />
     <% } %>
