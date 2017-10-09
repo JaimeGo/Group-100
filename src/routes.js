@@ -17,7 +17,8 @@ router.use(async (ctx, next) => {
 		destroySessionPath: ctx.router.url('destroySession'),
 		usersPath: ctx.router.url('users'),
 		allQuestionsPath: ctx.router.url('allQuestions'),
-		newQuestionPath: ctx.router.url('newQuestion')
+		newQuestionPath: ctx.router.url('newQuestion'),
+    	userPathHelper: user_id => ctx.router.url('user', user_id)
 	});
 	return next();
 })

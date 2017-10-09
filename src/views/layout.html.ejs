@@ -15,7 +15,9 @@
         <img src="/assets/logo.png" alt="Logo" />
       </div>
   		<nav>
-  		  <a href="<%= usersPath %>">Usuarios</a>
+        <% if (currentUser) {%>
+  		    <a href="<%= userPathHelper(currentUser.id) %>">Mi perfil</a>
+        <% } %>
   		  <a href="<%= allQuestionsPath %>">Preguntas</a>
   		</nav>
   		<div id="user-bar">
