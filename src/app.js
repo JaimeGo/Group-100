@@ -3,15 +3,13 @@ const Koa = require('koa');
 const koaBody = require('koa-body');
 const koaLogger = require('koa-logger');
 const koaFlashMessage = require('koa-flash-message').default;
+const koaStatic = require('koa-static');
 const render = require('koa-ejs');
 const session = require('koa-session');
 const override = require('koa-override-method');
+const mailer = require('./mailers');
 const routes = require('./routes');
 const orm = require('./models');
-
-// ADDED E3
-const koaStatic = require('koa-static');
-// const mailer = require('./mailers');
 
 // App constructor
 const app = new Koa();
@@ -31,7 +29,8 @@ app.context.orm = orm;
 /**
  * Middlewares
  */
- // expose running mode in ctx.state
+
+// expose running mode in ctx.state
 app.use((ctx, next) => {
   ctx.state.env = ctx.app.env;
   return next();
@@ -82,7 +81,7 @@ render(app, {
   cache: !developmentMode,
 });
 
-// mailer(app);
+mailer(app);
 
 // Routing middleware
 app.use(routes.routes());
