@@ -1,4 +1,4 @@
-# App running in https://examenfundamentals.herokuapp.com/
+# App running in https://examenfund.herokuapp.com/
 
 # Template
 
