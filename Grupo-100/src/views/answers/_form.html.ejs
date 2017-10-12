@@ -9,21 +9,24 @@
     </div>
     <br>
     <div>
-      <label for="body">Cuerpo de la pregunta</label>
+      <label for="body">Cuerpo de la respuesta</label>
       <textarea type="text" name="body"></textarea>
     </div>
     <br>
     <% if (!answer.isNewRecord) { %>
       <div>
-        <input type="submit" name="update" value="Modify Answer" />
+        <input type="submit" name="update" value="Modificar Respuesta" />
       </div>
     <% } else {%>
       <div>
-        <input type="submit" name="create" value="Create Answer" />
+        <input type="submit" name="create" value="Crear Respuesta" />
       </div>
+      <p><%=submitAnswerPath%></p>
     <% } %>
-    <br>
+    
+  </form>
+
+  <br>
        <%- include('__back') %>
     <br>
-  </form>
 </div>

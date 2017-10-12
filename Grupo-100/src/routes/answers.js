@@ -3,17 +3,14 @@ const KoaRouter = require('koa-router');
 const router = new KoaRouter();
 
 router.get('answers', '/', async (ctx) => {
-  const {user} =ctx.state;
+  
   const answers = await ctx.orm.answer.findAll();
   await ctx.render('answers/index', {
-    user,
+    
     answers,
     answerPathBuilder:answer=>
       ctx.router.url('answer',{
-        userId:answer.userId,
         id:answer.id}),
-      userPath:ctx.router.url({id:user.id}),
-      newAnswerPath: ctx.router.url('newAnswer',{userId:user.id}),
       order:"Nombre"
 
 
@@ -22,7 +19,10 @@ router.get('answers', '/', async (ctx) => {
 
 
 
+
+
 router.get('newAnswer', '/new', async (ctx) => {
+  console.log("NEW ANSWER");
   const {user}=ctx.state;
   const answer = await ctx.orm.answer.build();
   await ctx.render('answers/new', {

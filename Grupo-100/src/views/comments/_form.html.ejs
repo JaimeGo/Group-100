@@ -1,5 +1,6 @@
 <div>
   <form action="<%= submitCommentPath %>" method="post">
+  <p>LINK<%= submitCommentPath %></p>
     <% if (!comment.isNewRecord) { %>
       <input type="hidden" name="_method" value="patch" />
     <% } %>
@@ -11,11 +12,11 @@
     <br>
     <% if (!comment.isNewRecord) { %>
       <div>
-        <input type="submit" name="update" value="Modify Comment" />
+        <input type="submit" name="update" value="Modificar Comentario" />
       </div>
     <% } else {%>
       <div>
-        <input type="submit" name="create" value="Create Comment" />
+        <input type="submit" name="create" value="Crear Comentario" />
       </div>
     <% } %>
     <br>

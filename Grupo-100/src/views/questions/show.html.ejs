@@ -1,6 +1,42 @@
 <h1><%= question.title %></h1>
 <%- include('_info') %>
-<p><%= question.body %><p>
+<h2><%= question.body %><h2>
+
+<ul>
+  <% answers.forEach((answer) => { %>
+    <li>Title: <%= answer.title %> - Body: <%= answer.body %> </li>
+    
+
+    <ul>
+
+      <% comments.forEach((commentInfo) => {
+       if (answer.id===commentInfo.answerId){%>
+        <h4>Comentarios:</h4>
+
+        <ul>
+
+          <% commentInfo.content.forEach((comment) => { %>
+          
+          <li><%= comment.body %> </li>
+
+          <% }) %>
+        </ul>
+
+
+
+      <% }}) %>
+    </ul>
+    
+    <form action="<%= toCommentPath+answer.id %>/comments/new" method="get">
+      <div>
+
+        <input type="submit" name="new" value="Comentar" />
+      </div>
+    </form>
+
+  <% }) %>
+</ul>
+
 <% if (true) { %>
   <% if (currentUserAuthor || currentUserAdmin){ %>
     <form action="<%= deleteQuestionPath %>" method="post">
@@ -15,5 +51,17 @@
         <input type="submit" name="edit" value="Edit Question" />
       </div>
     </form>
+
+    
+
   <% } %>
+  <br>
+  <form action="<%= newAnswerPath %>" method="get">
+      <div>
+
+        <input type="submit" name="new" value="New Answer" />
+      </div>
+    </form>
+
+
 <% } %>

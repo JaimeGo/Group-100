@@ -1,5 +1,5 @@
 module.exports = function definequestion(sequelize, DataTypes) {
-  const question = sequelize.define('question', {
+  const Question = sequelize.define('question', {
     title: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -16,9 +16,10 @@ module.exports = function definequestion(sequelize, DataTypes) {
     }, // changed
     userId: DataTypes.INTEGER,
   });
-  question.associate = function associate(models) {
+  Question.associate = function associate(models) {
     // associations can be defined here
-    question.belongsTo(models.user);
+    Question.belongsTo(models.user);
+    Question.hasMany(models.answer);
   };
-  return question;
+  return Question;
 };
