@@ -13,6 +13,9 @@ const orm = require('./models');
 const koaStatic = require('koa-static');
 // const mailer = require('./mailers');
 
+// ADDED E4
+require('dotenv').config()
+
 // App constructor
 const app = new Koa();
 
