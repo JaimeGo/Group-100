@@ -1,0 +1,32 @@
+<div>
+  <form action="<%= submitAnswerPath %>" method="post">
+    <% if (!answer.isNewRecord) { %>
+      <input type="hidden" name="_method" value="patch" />
+    <% } %>
+    <div>
+      <label for="name">Asunto</label>
+      <input type="text" name="title"></input>
+    </div>
+    <br>
+    <div>
+      <label for="body">Cuerpo de la respuesta</label>
+      <textarea type="text" name="body"></textarea>
+    </div>
+    <br>
+    <% if (!answer.isNewRecord) { %>
+      <div>
+        <input type="submit" name="update" value="Modificar Respuesta" />
+      </div>
+    <% } else {%>
+      <div>
+        <input type="submit" name="create" value="Crear Respuesta" />
+      </div>
+      <p><%=submitAnswerPath%></p>
+    <% } %>
+    
+  </form>
+
+  <br>
+       <%- include('__back') %>
+    <br>
+</div>
