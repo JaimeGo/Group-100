@@ -11,6 +11,9 @@ const mailer = require('./mailers');
 const routes = require('./routes');
 const orm = require('./models');
 
+// E4
+require('dotenv').config()
+
 // App constructor
 const app = new Koa();
 
