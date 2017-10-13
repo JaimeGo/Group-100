@@ -20,6 +20,7 @@ module.exports = function definequestion(sequelize, DataTypes) {
     // associations can be defined here
     Question.belongsTo(models.user);
     Question.hasMany(models.answer);
+    Question.hasMany(models.tag);
   };
   return Question;
 };
