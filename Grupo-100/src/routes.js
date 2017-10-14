@@ -12,6 +12,7 @@ const answers = require('./routes/answers')
 const comments = require('./routes/comments')
 
 const tags = require('./routes/tags')
+// const question_tags = require('./routes/')
 
 const router = new KoaRouter();
 
@@ -40,6 +41,8 @@ router.use('/answers', answers.routes());
 router.use('/comments', comments.routes());
 
 router.use('/tags', tags.routes());
+
+// router.use('/questionTag')
 
 
 module.exports = router;

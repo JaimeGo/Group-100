@@ -115,6 +115,11 @@ router.get('question', '/:id', async (ctx) => {
 	const answers = await ctx.orm.answer.findAll({where:{questionId:ctx.params.id}});
 	const allComments = await ctx.orm.comment.findAll();
 
+  const questionTags = await question.getTagquestions();
+  // const questions = await user.getQuestionstag();
+
+  console.log('largo de las preguntas', questionTags.length);
+
 
 	let comments=[];
 
