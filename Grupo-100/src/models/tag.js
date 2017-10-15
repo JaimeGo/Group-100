@@ -1,6 +1,12 @@
 module.exports = function definetag(sequelize, DataTypes) {
   const tag = sequelize.define('tag', {
-    name: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    }, // changed
   });
   tag.associate = function associate(models) {
   	tag.hasMany(models.tagquestion)

@@ -1,0 +1,29 @@
+<h1>Etiquetas</h1>
+
+<!-- <form action="" method="post">
+<ul>
+  <% tags.forEach((tag) => { %>
+    <li>
+    <form action="">
+      <input type="checkbox" name=<%=tag.name%> value="Bike"><%= tag.name %> cuyo id es <%= tag.id %>
+    </form>
+    </li> 
+  <% }) %>
+</ul>
+<input type="submit" name="Send marks">
+</form> -->
+
+<ul>
+  <% tags.forEach((tag) => { %>
+    <li>
+    <form action="<%= associateTagsBuilder(tag, questionId) %>", method="post">
+      <input type="submit" name="create" value="Associate Tag">
+    </form>
+	<%= tag.name %> cuyo id es <%= tag.id %>
+    </li> 
+  <% }) %>
+</ul>
+
+<% if (tags.length == 0) { %>
+  <h3>Aún no se han creado etiquetas</h3>
+<% } %>

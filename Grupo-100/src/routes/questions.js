@@ -159,12 +159,12 @@ router.get('question', '/:id', async (ctx) => {
 			{id: question.id}),
 		newAnswerPath: ctx.router.url('newAnswer',
 			{id: question.id}),
-		toCommentPath: '/questions/'+question.id+'/answers/'
-
+		toCommentPath: '/questions/'+question.id+'/answers/',
+    //
+    selectTagPath: ctx.router.url('selectTag', ctx.params.id)
+    //
 	})
 })
-
-
 
 
 router.get('newAnswer', '/:id/answers/new', async (ctx) => {

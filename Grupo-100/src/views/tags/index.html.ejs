@@ -3,6 +3,9 @@
 <ul>
   <% tags.forEach((tag) => { %>
     <li>Nombre de la etiqueta: <%= tag.name %></li> 
+    <ul>
+      
+    </ul>
   <% }) %>
   <% if (tags.length == 0) { %>
     <h3>Aún no se han creado etiquetas</h3>

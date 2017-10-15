@@ -24,7 +24,10 @@ router.use(async (ctx, next) => {
 		usersPath: ctx.router.url('users'),
 		allQuestionsPath: ctx.router.url('allQuestions'),
 		newQuestionPath: ctx.router.url('newQuestion'),
-    	userPathHelper: user_id => ctx.router.url('user', user_id)
+    	userPathHelper: user_id => ctx.router.url('user', user_id),
+    	//
+    	selectTagsPathBuilder: (questionId) => ctx.router.url('selectTags', questionId)
+    	//
 	});
 	return next();
 })

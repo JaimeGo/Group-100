@@ -71,8 +71,6 @@ router.patch('updateUser', '/:id', async (ctx) => {
 router.get('user', '/:id', async (ctx) => {
   try{
     const user = await ctx.orm.user.findById(ctx.params.id);
-    const questions = await user.getQuestions();
-    console.log('las preguntas')
     await ctx.render('users/show', {
       user,
       deleteUserPath: ctx.router.url('deleteUser', user.id),

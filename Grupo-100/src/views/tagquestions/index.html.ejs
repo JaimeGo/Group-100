@@ -1,0 +1,15 @@
+<h1>Relaciones etiquetas-preguntas</h1>
+
+<ul>
+  <% tagquestions.forEach((tagquestion) => { %>
+    <li>Relacion de identificador: <%= tagquestion.id %> con identificador de pregunta <%= tagquestion.questionId %> y de tag <%= tagquestion.tagId %>
+    <form action="<%= deleteTagquestionPathBuilder(tagquestion)%>", method="post">
+      <input type="hidden" name="_method" value="delete" />
+      <input type="submit" name="delete" value="Remove relation">
+    </form>
+    </li> 
+  <% }) %>
+  <% if (tagquestions.length == 0) { %>
+    <h3>Aún no se han creado relaciones ep</h3>
+  <% } %>
+</ul>
