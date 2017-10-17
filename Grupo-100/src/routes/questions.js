@@ -112,6 +112,11 @@ router.get('question', '/:id', async (ctx) => {
 	
 	const question = await ctx.orm.question.findById(ctx.params.id);
 
+  // if question doesn't exist, an error must be thrown
+  ctx.assert(question, 404, 'No existe la pregunta pedida', {
+    id: ctx.params.id
+  })
+
 	const answers = await ctx.orm.answer.findAll({where:{questionId:ctx.params.id}});
 	const allComments = await ctx.orm.comment.findAll();
 

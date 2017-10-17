@@ -86,7 +86,42 @@ render(app, {
 
 mailer(app);
 
+// Handling errors
+app.use(async (ctx, next) => {
+  try {
+    await next()
+  } catch (error) {
+    if (error.name === 'NotFoundError'){
+      await ctx.render('error', {
+        title: error.message,
+        details: `El recurso cuya id es ${error.id} no fue encontrado`
+      })     
+    }
+    // login
+    else if (error.status == 401){
+      await ctx.render('error', {
+        title: error.message,
+        details: 'No se puede certificar que las credenciales aportadas sean válidas'
+      }) 
+    // ctx.app.emit('error', error, ctx)
+    } else {
+      throw error
+    }
+  }
+})
+// 
+
+
 // Routing middleware
 app.use(routes.routes());
+
+
+app.on('error', (error, ctx) => {
+  const logEnabled = false;
+  if (logEnabled) {
+    console.error(error, ctx);
+  }
+});
+
 
 module.exports = app;

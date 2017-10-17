@@ -69,8 +69,28 @@ router.patch('updateUser', '/:id', async (ctx) => {
 
 
 router.get('user', '/:id', async (ctx) => {
-  try{
+  // try{
+  //   const user = await ctx.orm.user.findById(ctx.params.id);
+  //   await ctx.render('users/show', {
+  //     user,
+  //     deleteUserPath: ctx.router.url('deleteUser', user.id),
+  //     editUserPath: ctx.router.url('editUser', user.id),
+  //     usersPath: ctx.router.url('users'),
+  //     questionsPath: ctx.router.url('questions', 
+  //     {userId: user.id, sort: 'default'})
+  //   })
+  // }catch (TypeError){
+  //   const users = await ctx.orm.user.findAll();
+  //   await ctx.render('users/index', {
+  //     users,
+  //     userPathBuilder: (user) => ctx.router.url('user', user.id), 
+  //     newUserPath: ctx.router.url('newUser'),
+  //     errors: [{message: "El usuario señalado no existe"}]
+  //      });
+  // }
+
     const user = await ctx.orm.user.findById(ctx.params.id);
+    ctx.assert(user, 404, 'El usuario señalado no existe', {id: ctx.params.id})
     await ctx.render('users/show', {
       user,
       deleteUserPath: ctx.router.url('deleteUser', user.id),
@@ -79,15 +99,7 @@ router.get('user', '/:id', async (ctx) => {
       questionsPath: ctx.router.url('questions', 
       {userId: user.id, sort: 'default'})
     })
-  }catch (TypeError){
-    const users = await ctx.orm.user.findAll();
-    await ctx.render('users/index', {
-      users,
-      userPathBuilder: (user) => ctx.router.url('user', user.id), 
-      newUserPath: ctx.router.url('newUser'),
-      errors: [{message: "El usuario señalado no existe"}]
-       });
-  }
+
   // const user = await ctx.orm.user.findById(ctx.params.id);
   // await ctx.render('users/show', {
   //   user,
