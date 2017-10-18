@@ -140,6 +140,8 @@ router.get('question', '/:id', async (ctx) => {
 	if (ctx.state.currentUser && ctx.state.currentUser.id == author.id){
 		currentUserAuthor = true;
 	}
+
+
 	await ctx.render('questions/show', {
 		author,
 		currentUserAdmin, 
@@ -155,7 +157,6 @@ router.get('question', '/:id', async (ctx) => {
 		newAnswerPath: ctx.router.url('newAnswer',
 			{id: question.id}),
 		toCommentPath: '/questions/'+question.id+'/answers/'
-
 	})
 })
 
@@ -163,8 +164,7 @@ router.get('question', '/:id', async (ctx) => {
 
 
 router.get('newAnswer', '/:id/answers/new', async (ctx) => {
-  console.log("NEW ANSWER");
-  console.log('questions/'+ctx.params.id);
+  
   const user=ctx.state.currentUser;
   const answer = await ctx.orm.answer.build();
   
@@ -206,7 +206,7 @@ router.get('answers', '/', async (ctx) => {
 
 
 router.post('createAnswer', '/:questionId/answers/create', async (ctx) => {
-	console.log("CREATE ANSWER");
+	
   const user=ctx.state.currentUser;
 
   const questionId=ctx.params.id;
@@ -387,16 +387,17 @@ router.post('createComment', '/:questionId/answers/:answerId/comments/create', a
   }
 })
 
-router.get('editcomment', '/:id/edit', async (ctx) => {
-  const comment = await ctx.orm.comment.findById(ctx.params.id);
+router.get('editComment', '/:questionId/answers/:answerId/comments/:commentId/edit', async (ctx) => {
+  const comment = await ctx.orm.comment.findById(ctx.params.commentId);
   await ctx.render('comments/edit', {
     comment, 
-    updatecommentPath: ctx.router.url('updatecomment', comment.id),
+    updateCommentPath: ctx.router.url('updateComment', ctx.params.questionId, ctx.params.answerId,ctx.params.commentId),
   })
+
 })
 
-router.patch('updatecomment', '/:id', async (ctx) => {
-  const comment = await ctx.orm.comment.findById(ctx.params.id);
+router.patch('updateComment', '/:questionId/answers/:answerId/comments/:commentId/update', async (ctx) => {
+  const comment = await ctx.orm.comment.findById(ctx.params.commentId);
   await comment.update(ctx.request.body);
   ctx.redirect(ctx.router.url('comments'));
 })
@@ -410,9 +411,9 @@ router.get('comment', '/:id', async (ctx) => {
   });
 })
 
-router.delete('deletecomment', '/:id', async (ctx) => {
+router.delete('deleteComment', '/:questionId/answers/:answerId/comments/:commentId/delete', async (ctx) => {
   await ctx.orm.comment.destroy({
-    where: { id: ctx.params.id },
+    where: { id: ctx.params.commentId },
     limit: 1,
   });
   ctx.redirect(ctx.router.url('comments'));  

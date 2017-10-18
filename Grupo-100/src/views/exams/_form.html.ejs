@@ -1,0 +1,26 @@
+<div>
+  <form id="submit_question" action="<%= submitQuestionPath %>" method="post">
+    <% if (!question.isNewRecord) { %>
+      <input type="hidden" name="_method" value="patch" />
+    <% } %>
+    <div>
+      <label for="name">Asunto</label>
+      <input type="text" name="title" value="<%= question.title %>" /></input>
+    </div>
+    <br>
+    <div>
+      <label for="body">Cuerpo de la pregunta</label>
+      <textarea type="text" name="body"><%= question.body %></textarea>
+    </div>
+    <br>
+    <% if (!question.isNewRecord) { %>
+      <div>
+        <input type="submit" name="update" value="Modify Question" />
+      </div>
+    <% } else {%>
+      <div>
+        <input type="submit" name="create" value="Create Question" />
+      </div>
+    <% } %>
+  </form>
+</div>

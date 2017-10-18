@@ -11,6 +11,8 @@ const questions = require('./routes/questions')
 const answers = require('./routes/answers')
 const comments = require('./routes/comments')
 
+const exams = require('./routes/exams')
+
 const router = new KoaRouter();
 
 router.use(async (ctx, next) => {
@@ -36,6 +38,8 @@ router.use('/questions', questions.routes());
 
 router.use('/answers', answers.routes());
 router.use('/comments', comments.routes());
+
+router.use('/exams', comments.routes());
 
 
 module.exports = router;
