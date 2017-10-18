@@ -142,6 +142,7 @@ router.get('question', '/:id', async (ctx) => {
 	}
 
 
+
 	await ctx.render('questions/show', {
 		author,
 		currentUserAdmin, 
