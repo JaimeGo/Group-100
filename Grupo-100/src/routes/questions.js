@@ -103,11 +103,6 @@ router.delete('deleteQuestion', '/:id', async (ctx) => {
 })
 
 
-
-
-
-
-
 router.get('question', '/:id', async (ctx) => {
 	
 	const question = await ctx.orm.question.findById(ctx.params.id);
@@ -116,15 +111,19 @@ router.get('question', '/:id', async (ctx) => {
   ctx.assert(question, 404, 'No existe la pregunta pedida', {
     id: ctx.params.id
   })
+  const tagquestions = await question.getTagquestions();
+  const tags = []
+  const add = async (tq) => {
+    const t = await ctx.orm.tag.findById(tq.tagId)
+    tags.push(t)
+  }
+  for (let j = 0; j < tagquestions.length; j++){
+    await add(tagquestions[j])
+  }
 
 	const answers = await ctx.orm.answer.findAll({where:{questionId:ctx.params.id}});
-	const allComments = await ctx.orm.comment.findAll();
 
-  const questionTags = await question.getTagquestions();
-  // const questions = await user.getQuestionstag();
-
-  console.log('largo de las preguntas', questionTags.length);
-
+  const allComments = await ctx.orm.comment.findAll();
 
 	let comments=[];
 
@@ -166,7 +165,8 @@ router.get('question', '/:id', async (ctx) => {
 			{id: question.id}),
 		toCommentPath: '/questions/'+question.id+'/answers/',
     //
-    selectTagPath: ctx.router.url('selectTag', ctx.params.id)
+    selectTagsPath: ctx.router.url('selectTags', ctx.params.id),
+    tags,
     //
 	})
 })
@@ -187,9 +187,32 @@ router.get('newAnswer', '/:id/answers/new', async (ctx) => {
   });
 })
 
+// copied
 
+router.get('selectTags', '/:id/selectTags', async (ctx) => {
+  const question = await ctx.orm.question.findById(ctx.params.id)
+  const tags = await ctx.orm.tag.findAll();
+  await ctx.render('tags/select', {
+    tags,
+    question,
+    createTagquestionPathBuilder: tag => 
+      ctx.router.url('createTagquestion', {
+        id: ctx.params.id,
+        tagId: tag.id
+      })
+  });
+})  
 
-
+router.post('createTagquestion', '/:id/tagquestions/:tagId', async (ctx) => {
+  const question = await ctx.orm.question.findById(ctx.params.id)
+  const tag = await ctx.orm.tag.findById(ctx.params.tagId)
+  ctx.assert(question, 404, 'No hay pregunta', {id: ctx.params.questionId})
+  ctx.assert(tag, 404, 'No hay tag', {id: ctx.params.id})
+  const tagquestion = await ctx.orm.tagquestion.create();
+  tagquestion.setQuestion(question)
+  tagquestion.setTag(tag)
+  ctx.redirect(ctx.router.url('question', {id: ctx.params.id}))
+})
 
 
 

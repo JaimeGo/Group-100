@@ -1,7 +1,15 @@
 <h1><%= tag.name %></h1>
 
+<h2>Estos son los títulos de las preguntas asociadas a la tag</h2>
 <ul>
   <% questions.forEach((question) => { %>
     <li><%= question.title %></li>
+  <% }) %>
+</ul>
+
+<h2>Estos son los identificadores de las relaciones tagquestion de esta tag</h2>
+<ul>
+  <% tagquestions.forEach((tagquestion) => { %>
+    <li><%= tagquestion.id %></li>
   <% }) %>
 </ul>

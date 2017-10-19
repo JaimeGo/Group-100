@@ -91,6 +91,7 @@ app.use(async (ctx, next) => {
   try {
     await next()
   } catch (error) {
+    console.log("\n\n\n\nCATCHING ERROR WHOSE MESSAGE IS: ", error.message)
     if (error.name === 'NotFoundError'){
       await ctx.render('error', {
         title: error.message,

@@ -2,7 +2,7 @@
 
 <ul>
   <% tags.forEach((tag) => { %>
-    <li>Nombre de la etiqueta: <%= tag.name %></li> 
+    <a href="<%=tagPathBuilder(tag)%>"><%=tag.name%></a> cuyo id es <%= tag.id %>
     <ul>
       
     </ul>

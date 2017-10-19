@@ -22,17 +22,23 @@ router.get('newUser', '/new', async (ctx) => {
 })
 
 router.post('createUser', '/', async (ctx) => {
-  let body = ctx.request.body;
-  body.admin = false;
-  // const user = await ctx.orm.user.create(ctx.request.body);
+  ctx.request.body.admin = false;
+  const user = await ctx.orm.user.build(ctx.request.body);
   try {
-    const user = await ctx.orm.user.create(body);
-    // const user = await ctx.orm.user.create(ctx.request.body);
+    // const user = await ctx.orm.user.create(body);
+
+    //IT DOESN'T WORK
+    // await user.save({fields: {
+    //   'name': body.name, 
+    //   'password': body.password,
+    //   'admin': true}})
+
+    await user.save({fields: ['name', 'password', 'admin']})
     ctx.redirect(ctx.router.url('users'));
   } catch (validationError) {
     await ctx.render('users/new', {
-      user: await ctx.orm.user.build(body),
-      // user: await ctx.orm.user.build(ctx.request.body),
+      // user: await ctx.orm.user.build(body),
+      user,
       submitUserPath: ctx.router.url('createUser'), 
       errors: validationError.errors,
       usersPath: ctx.router.url('users')   

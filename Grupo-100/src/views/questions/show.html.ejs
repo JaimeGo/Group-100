@@ -1,6 +1,21 @@
 <h1><%= question.title %></h1>
 <%- include('_info') %>
 <h2><%= question.body %><h2>
+<br><br>
+<h2>La pregunta pertenece a las siguientes tags:<h2>
+<% if (tags.length == 0) { %>
+  <h3> No hay tags asociadas a esta pregunta, por el momento</h3>
+<% } %>
+
+<ul>
+  <% tags.forEach(tag => { %>
+    <li> <%= tag.name %> </li>
+  <% }) %>
+</ul>
+
+<form action="<%=selectTagsPath %>" method="get">
+  <input type="submit" name="relate" value="Relacionar con tag">
+</form>
 
 <ul>
   <% answers.forEach((answer) => { %>

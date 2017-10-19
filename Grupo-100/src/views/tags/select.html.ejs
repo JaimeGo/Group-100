@@ -16,7 +16,11 @@
 <ul>
   <% tags.forEach((tag) => { %>
     <li>
-    <a href="<%=newTagquestionPathBuilder(tag, question)%>"><%=tag.name%></a> cuyo id es <%= tag.id %>
+
+      <form action="<%= createTagquestionPathBuilder(tag) %>" method="post"> 
+        <%=tag.name%>
+        <input type='submit' value="relate" name="Relate with tag">
+      </form>
     </li> 
   <% }) %>
 </ul>
