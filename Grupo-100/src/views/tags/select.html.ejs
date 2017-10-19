@@ -14,7 +14,7 @@
 </form> -->
 
 <ul>
-  <% tags.forEach((tag) => { %>
+  <% tags_no_associated.forEach((tag) => { %>
     <li>
 
       <form action="<%= createTagquestionPathBuilder(tag) %>" method="post"> 
