@@ -167,6 +167,11 @@ router.get('question', '/:id', async (ctx) => {
     //
     selectTagsPath: ctx.router.url('selectTags', ctx.params.id),
     tags,
+    deleteTagquestionPathBuilder: tag => 
+      ctx.router.url("deleteTagquestion", {
+        id: ctx.params.id,
+        tagId: tag.id
+      })
     //
 	})
 })
@@ -239,7 +244,15 @@ router.post('createTagquestion', '/:id/tagquestions/:tagId', async (ctx) => {
   ctx.redirect(ctx.router.url('question', {id: ctx.params.id}))
 })
 
-
+router.delete('deleteTagquestion', '/:id/tagquestions/:tagId', async (ctx) => {
+  await ctx.orm.tagquestion.destroy({
+      where: { 
+        tagId: ctx.params.tagId,
+        questionId: ctx.params.id,
+       }
+      });
+  ctx.redirect(ctx.router.url('question', ctx.params.id)); 
+})
 
 
 router.get('answers', '/', async (ctx) => {

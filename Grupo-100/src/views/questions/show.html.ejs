@@ -10,6 +10,10 @@
 <ul>
   <% tags.forEach(tag => { %>
     <li> <%= tag.name %> </li>
+    <form action="<%=deleteTagquestionPathBuilder(tag) %>" method="post">
+      <input type="hidden" name="_method" value="delete" />
+      <input type="submit" name="unrelate" value="Quitar relación con tag">
+    </form>
   <% }) %>
 </ul>
 
