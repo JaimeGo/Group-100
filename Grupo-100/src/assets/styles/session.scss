@@ -1,8 +1,10 @@
+div {
+
   #new_session {
-    margin: 15px 10px;
+    margin: 10px 10px;
     border: 1px solid #bbb;
     border-radius: 10px;
-    max-width: 600px;
+    max-width: 1000px;
     flex: 1 1 100%;
     list-style: none;
     overflow: hidden;
@@ -10,6 +12,7 @@
 
     div {
       display: block;
+      margin: 0px;
       float: center;
       padding: 20px;
       color: $wican-blue;
@@ -18,15 +21,20 @@
       input {
         padding: 5px;
         display: block;
+        width: 300px;
         &:hover {
           background: lighten($wican-blue, 50);
+          
         }
       };
       label {
-        text-align: justify;
+        text-align: right;
       }
       #new_session-button{
         float: center;
       }
     }
   }
+
+}
+

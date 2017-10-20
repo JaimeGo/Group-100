@@ -22,10 +22,12 @@
     "nodemon": "^1.11.0"
   },
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.7",
     "dotenv": "^4.0.0",
     "extract-text-webpack-plugin": "^3.0.0",
+    "faker": "^4.1.0",
     "file-loader": "^0.11.2",
     "koa": "^2.3.0",
     "koa-body": "^2.3.0",

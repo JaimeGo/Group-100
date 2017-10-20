@@ -12,8 +12,10 @@ router.get('newSession', '/new', async ctx =>
 router.put('createSession', '/', async (ctx) => {
   const {name, password} = ctx.request.body;
   const user = await ctx.orm.user.find({where: {name}});
+  ctx.assert(user, 401, 'Credenciales inválidas')
   // const isPasswordCorrect = await user.checkPassword(password);
-  const isPasswordCorrect = (password == user.password);
+  const isPasswordCorrect = (password == user.password)
+  // ctx.assert(isPasswordCorrect, 401, 'Credenciales inválidas')
   if (isPasswordCorrect){
     ctx.session.userId = user.id;
     return ctx.redirect(ctx.router.url('allQuestions'));

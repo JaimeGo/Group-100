@@ -11,7 +11,12 @@ const questions = require('./routes/questions')
 const answers = require('./routes/answers')
 const comments = require('./routes/comments')
 
+// <<<<<<< HEAD
 const exams = require('./routes/exams')
+// =======
+const tags = require('./routes/tags')
+// const question_tags = require('./routes/')
+// >>>>>>> tags_new
 
 const router = new KoaRouter();
 
@@ -23,7 +28,11 @@ router.use(async (ctx, next) => {
 		usersPath: ctx.router.url('users'),
 		allQuestionsPath: ctx.router.url('allQuestions'),
 		newQuestionPath: ctx.router.url('newQuestion'),
-    	userPathHelper: user_id => ctx.router.url('user', user_id)
+		tagsPath: ctx.router.url('tags'),
+    	userPathHelper: user_id => ctx.router.url('user', user_id),
+    	//
+    	// selectTagsPathBuilder: (questionId) => ctx.router.url('selectTags', questionId)
+    	// //
 	});
 	return next();
 })
@@ -39,7 +48,13 @@ router.use('/questions', questions.routes());
 router.use('/answers', answers.routes());
 router.use('/comments', comments.routes());
 
+// <<<<<<< HEAD
 router.use('/exams', comments.routes());
+// =======
+router.use('/tags', tags.routes());
+
+// router.use('/questionTag')
+// >>>>>>> tags_new
 
 
 module.exports = router;

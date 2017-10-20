@@ -103,18 +103,27 @@ router.delete('deleteQuestion', '/:id', async (ctx) => {
 })
 
 
-
-
-
-
-
 router.get('question', '/:id', async (ctx) => {
 	
 	const question = await ctx.orm.question.findById(ctx.params.id);
 
-	const answers = await ctx.orm.answer.findAll({where:{questionId:ctx.params.id}});
-	const allComments = await ctx.orm.comment.findAll();
+  // if question doesn't exist, an error must be thrown
+  ctx.assert(question, 404, 'No existe la pregunta pedida', {
+    id: ctx.params.id
+  })
+  const tagquestions = await question.getTagquestions();
+  const tags = []
+  const add = async (tq) => {
+    const t = await ctx.orm.tag.findById(tq.tagId)
+    tags.push(t)
+  }
+  for (let j = 0; j < tagquestions.length; j++){
+    await add(tagquestions[j])
+  }
 
+	const answers = await ctx.orm.answer.findAll({where:{questionId:ctx.params.id}});
+
+  const allComments = await ctx.orm.comment.findAll();
 
 	let comments=[];
 
@@ -157,11 +166,22 @@ router.get('question', '/:id', async (ctx) => {
 			{id: question.id}),
 		newAnswerPath: ctx.router.url('newAnswer',
 			{id: question.id}),
-		toCommentPath: '/questions/'+question.id+'/answers/'
+// <<<<<<< HEAD
+// 		toCommentPath: '/questions/'+question.id+'/answers/'
+// =======
+		toCommentPath: '/questions/'+question.id+'/answers/',
+    //
+    selectTagsPath: ctx.router.url('selectTags', ctx.params.id),
+    tags,
+    deleteTagquestionPathBuilder: tag => 
+      ctx.router.url("deleteTagquestion", {
+        id: ctx.params.id,
+        tagId: tag.id
+      })
+    //
+// >>>>>>> tags_new
 	})
 })
-
-
 
 
 router.get('newAnswer', '/:id/answers/new', async (ctx) => {
@@ -178,11 +198,67 @@ router.get('newAnswer', '/:id/answers/new', async (ctx) => {
   });
 })
 
+// copied
 
+router.get('selectTags', '/:id/selectTags', async (ctx) => {
+  const question = await ctx.orm.question.findById(ctx.params.id)
+  const tags = await ctx.orm.tag.findAll();
+  const tags_ids = tags.map((i) => i.id)
+//
+  const tagquestions = await question.getTagquestions();
+  const tags_associated = []
+  const tags_no_associated = []
+  const add = async (tq) => {
+    const t = await ctx.orm.tag.findById(tq.tagId)
+    tags_associated.push(t)
+  }
+  for (let j = 0; j < tagquestions.length; j++){
+    await add(tagquestions[j])
+  }
 
+  const tags_associated_ids = tags_associated.map((i) => i.id)
 
+  for (let k = 0; k < tags_ids.length; k++){
+    console.log("index: ", tags_ids)
+    if (tags_associated_ids.indexOf(tags_ids[k]) < 0){
+      tags_no_associated.push(tags[k])
+    }
+  }
 
+//
 
+  await ctx.render('tags/select', {
+    tags,
+    tags_no_associated,
+    question,
+    createTagquestionPathBuilder: tag => 
+      ctx.router.url('createTagquestion', {
+        id: ctx.params.id,
+        tagId: tag.id
+      })
+  });
+})  
+
+router.post('createTagquestion', '/:id/tagquestions/:tagId', async (ctx) => {
+  const question = await ctx.orm.question.findById(ctx.params.id)
+  const tag = await ctx.orm.tag.findById(ctx.params.tagId)
+  ctx.assert(question, 404, 'No hay pregunta', {id: ctx.params.questionId})
+  ctx.assert(tag, 404, 'No hay tag', {id: ctx.params.id})
+  const tagquestion = await ctx.orm.tagquestion.create();
+  tagquestion.setQuestion(question)
+  tagquestion.setTag(tag)
+  ctx.redirect(ctx.router.url('question', {id: ctx.params.id}))
+})
+
+router.delete('deleteTagquestion', '/:id/tagquestions/:tagId', async (ctx) => {
+  await ctx.orm.tagquestion.destroy({
+      where: { 
+        tagId: ctx.params.tagId,
+        questionId: ctx.params.id,
+       }
+      });
+  ctx.redirect(ctx.router.url('question', ctx.params.id)); 
+})
 
 
 router.get('answers', '/', async (ctx) => {
