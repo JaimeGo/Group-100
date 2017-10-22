@@ -18,6 +18,7 @@ const getTagsOfTagquestions = async (tags, tagquestions) => {
 
 router.get('allQuestions', '/', async (ctx) => {
 	const questions = await ctx.orm.question.findAll();
+  console.log('\n\n\n\nctx.session.searchInfo in allQuestions: ', ctx.session.searchInfo)
 	await ctx.render('questions/indexAll', {
 	  	questions,
 	  	questionPathBuilder: question => 
@@ -26,7 +27,7 @@ router.get('allQuestions', '/', async (ctx) => {
       //
       tagsInfo: ctx.state.tagsInfo,
       questionsInfo: ctx.state.questionsInfo,
-      searchInfo: ctx.state.searchInfo,
+      searchInfo: ctx.session.searchInfo,
       updateActiveTagsPath: ctx.router.url('updateActiveTags'),
       updateSearchPath: ctx.router.url('updateSearch')
       //
@@ -61,9 +62,8 @@ router.post('updateActiveTags', '/active_tags', (ctx) => {
 
 // added for searching
 router.post('updateSearch', '/search', (ctx) => {
-  ctx.state.searchInfo = ctx.request.body,
+  ctx.session.searchInfo = ctx.request.body.item,
   ctx.redirect(ctx.router.url('allQuestions'))
-
 })
 
 

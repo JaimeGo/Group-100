@@ -65,9 +65,8 @@ router.use(async (ctx, next) => {
 	const questions = await ctx.orm.question.findAll()
 	const questionsInfo = await getInfoFromQuestions(questions)
 	getToShowFromQuestions(questionsInfo, tagsInfo)
-	const searchInfo = null
 	Object.assign(ctx.state, {
-		searchInfo,
+		searchInfo: ctx.state.searchInfo,
 		tagsInfo,
 		questionsInfo,
 		currentUser: ctx.session.userId && await ctx.orm.user.findById(ctx.session.userId),
