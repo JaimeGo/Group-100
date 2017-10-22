@@ -26,7 +26,9 @@ router.get('allQuestions', '/', async (ctx) => {
       //
       tagsInfo: ctx.state.tagsInfo,
       questionsInfo: ctx.state.questionsInfo,
+      searchInfo: ctx.state.searchInfo,
       updateActiveTagsPath: ctx.router.url('updateActiveTags'),
+      updateSearchPath: ctx.router.url('updateSearch')
       //
 	});	
 })
@@ -55,6 +57,15 @@ router.post('updateActiveTags', '/active_tags', (ctx) => {
 })
 
 //
+
+
+// added for searching
+router.post('updateSearch', '/search', (ctx) => {
+  ctx.state.searchInfo = ctx.request.body,
+  ctx.redirect(ctx.router.url('allQuestions'))
+
+})
+
 
 router.get('modifiedAllQuestions', '/modified/:modifiedBy', async (ctx) => {
 	const questions = await ctx.orm.question.findAll();

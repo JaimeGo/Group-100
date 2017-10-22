@@ -10,6 +10,7 @@ router.get('newSession', '/new', async ctx =>
 );
 
 router.put('createSession', '/', async (ctx) => {
+  console.log('ctx.request.body: ', ctx.request.body)
   const {name, password} = ctx.request.body;
   const user = await ctx.orm.user.find({where: {name}});
   ctx.assert(user, 401, 'Credenciales inválidas')
@@ -28,6 +29,7 @@ router.put('createSession', '/', async (ctx) => {
 });
 
 router.delete('destroySession', '/', (ctx) => {
+  console.log('ctx.request.body: ', ctx.request.body)
   // ctx.session = null;
   ctx.session.userId = null;
   ctx.redirect(ctx.router.url('allQuestions'));

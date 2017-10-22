@@ -51,7 +51,6 @@ const getInfoFromQuestions = async (questions) => {
 //
 const getToShowFromQuestions = (questionsInfo, tagsInfo) => {
 	const activeTags = Object.keys(tagsInfo).filter(id => tagsInfo[id].active)
-	console.log('activeTags: ', activeTags)
 	Object.keys(questionsInfo).forEach(key => {
 		questionsInfo[key].toShow = 
 			activeTags.every(value => 
@@ -66,8 +65,9 @@ router.use(async (ctx, next) => {
 	const questions = await ctx.orm.question.findAll()
 	const questionsInfo = await getInfoFromQuestions(questions)
 	getToShowFromQuestions(questionsInfo, tagsInfo)
-	console.log('questionsInfo', questionsInfo)
+	const searchInfo = null
 	Object.assign(ctx.state, {
+		searchInfo,
 		tagsInfo,
 		questionsInfo,
 		currentUser: ctx.session.userId && await ctx.orm.user.findById(ctx.session.userId),
@@ -77,6 +77,7 @@ router.use(async (ctx, next) => {
 		allQuestionsPath: ctx.router.url('allQuestions'),
 		newQuestionPath: ctx.router.url('newQuestion'),
 		tagsPath: ctx.router.url('tags'),
+		updateSearchPath: ctx.router.url('updateSearch'),
     	userPathHelper: user_id => ctx.router.url('user', user_id),
 	});
 	return next();

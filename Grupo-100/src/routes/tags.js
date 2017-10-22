@@ -3,6 +3,7 @@ const KoaRouter = require('koa-router');
 const router = new KoaRouter();
 
 router.get('tags', '/', async (ctx) => {
+  console.log(ctx.request.body)
   let admin = false;
   if (ctx.state.currentUser && ctx.state.currentUser.admin){
   	admin = true

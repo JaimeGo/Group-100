@@ -21,6 +21,21 @@
         <a href="<%= allQuestionsPath %>">Preguntas</a>
         <a href="<%= tagsPath %>">Tags</a>
       </nav>
+
+      <form action="<%= updateSearchPath %>" method="post">
+        La búsqueda introducida es <%= searchInfo %>
+        <input type="text" name="item" placeholder="What are you looking for?" value="<%= locals.other %>">
+       <input type="submit" name="search" value="Buscar por nombre">
+      </form>
+
+<!--       <form action="<%= tagsPath %>" method='post'>
+        <input type="text" placeholder="What are you looking for?" value="<%= locals.search %>">
+            <button type="submit" class="searchButton">
+          <i class="fa fa-search"></i>
+       </button>
+       <input type="submit" name="search" value="something">
+      </form> -->
+
       <div id="user-bar">
         <% if (currentUser) {%>
           <span class="name">Hola <%= currentUser.name %></span>

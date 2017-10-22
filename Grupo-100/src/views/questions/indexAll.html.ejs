@@ -29,12 +29,6 @@
 <h2>Selector de tags: </h2>
 <h3>Se mostrarán aquellas preguntas que tengan todas las tags seleccionadas </h3>
 <form action="<%= updateActiveTagsPath %>" method="post">
-<!--   <% for (let index in tagsInfo) { %>
-    <div>
-      <label for="active"><%= tagsInfo[index].name %></label>
-      <input type="checkbox" name="active" value="<%= index%>" <%= tagsInfo[index].active ? 'checked' : '' %> />
-    </div>
-  <% } %> -->
   <% Object.keys(tagsInfo).forEach((id) => { %>
     <div>
       <label for="active"><%= tagsInfo[id].name %></label>
@@ -42,7 +36,7 @@
     </div>
   <% } ) %>
   <input type="submit" name="update" value="Buscar por tags" />
-
 </form>
+
 
 
