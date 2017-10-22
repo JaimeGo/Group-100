@@ -11,16 +11,38 @@
   	  <% return -((b.updatedAt) - (a.updatedAt))})} %>
 
   <% questions.forEach((question) => { %>
-    <li><h3><a href="<%=questionPathBuilder(question)%>"><%=question.title%></a></h3></li>
-    <% const qua = question.updatedAt %>
-    <% var minutes = qua.getMinutes().toString() %>
-    <% if (minutes.length == 1) {minutes = "0" + minutes} %>
-    <h4>Escrito a las <%= qua.getHours() %>:<%= minutes %> horas el día <%= qua.getDate() %>/<%= qua.getMonth() + 1 %>/<%= qua.getYear() + 1900%> %> </h4>
-
-	<br>
+    <% if (questionsInfo[question.id].toShow) { %>
+      <li><h3><a href="<%=questionPathBuilder(question)%>"><%=question.title%></a></h3></li>
+      <% const qua = question.updatedAt %>
+      <% var minutes = qua.getMinutes().toString() %>
+      <% if (minutes.length == 1) {minutes = "0" + minutes} %>
+      <h4>Escrito a las <%= qua.getHours() %>:<%= minutes %> horas el día <%= qua.getDate() %>/<%= qua.getMonth() + 1 %>/<%= qua.getYear() + 1900%> %> </h4>
+      <h4></h4>
+      <br>
+    <% } %>
   <% }) %>
   <% if (questions.length == 0) { %>
   	<h3>No tienes ninguna pregunta abierta.</h3>
   <% } %>
 </ul>
+
+<h2>Selector de tags: </h2>
+<h3>Se mostrarán aquellas preguntas que tengan todas las tags seleccionadas </h3>
+<form action="<%= updateActiveTagsPath %>" method="post">
+<!--   <% for (let index in tagsInfo) { %>
+    <div>
+      <label for="active"><%= tagsInfo[index].name %></label>
+      <input type="checkbox" name="active" value="<%= index%>" <%= tagsInfo[index].active ? 'checked' : '' %> />
+    </div>
+  <% } %> -->
+  <% Object.keys(tagsInfo).forEach((id) => { %>
+    <div>
+      <label for="active"><%= tagsInfo[id].name %></label>
+      <input type="checkbox" name="active" value="<%= id %>" <%= tagsInfo[id].active ? 'checked' : '' %> />
+    </div>
+  <% } ) %>
+  <input type="submit" name="update" value="Buscar por tags" />
+
+</form>
+
 

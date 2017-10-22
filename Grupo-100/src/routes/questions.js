@@ -2,27 +2,73 @@ const KoaRouter = require('koa-router');
 
 const router = new KoaRouter();
 
+// adding tags of a tagquestion
+const getTagOfTagquestion = async (tags, tq) => {
+  const t = await ctx.orm.tag.findById(tq.tagId)
+  tags.push(t)
+}
+
+const getTagsOfTagquestions = async (tags, tagquestions) => {
+    for (let j = 0; j < tagquestions.length; j++){
+    await getTagOfTagquestion(tags, tagquestions[j])
+  }
+}
+
+//
+
 router.get('allQuestions', '/', async (ctx) => {
 	const questions = await ctx.orm.question.findAll();
 	await ctx.render('questions/indexAll', {
 	  	questions,
 	  	questionPathBuilder: question => 
 	  		ctx.router.url('question', {id: question.id}),
-	  	order: "Nombre"
+	  	order: "Nombre",
+      //
+      tagsInfo: ctx.state.tagsInfo,
+      questionsInfo: ctx.state.questionsInfo,
+      updateActiveTagsPath: ctx.router.url('updateActiveTags'),
+      //
 	});	
 })
 
-router.get('sortedAllQuestions', '/sort/:sortBy', async (ctx) => {
+//added from tags (it could be added to tags router)
+router.post('updateActiveTags', '/active_tags', (ctx) => {
+  const tagsIds = []
+  const newActiveTags = {}
+  console.log("Antes de foreach")
+  if (!ctx.request.body.active) {
+    ctx.request.body.active = [] 
+  }
+  Object.keys(ctx.state.tagsInfo).forEach(activeTagId => {
+    console.log(activeTagId, (ctx.request.body.active.indexOf(activeTagId) >= 0))
+    newActiveTags[activeTagId] = 
+      (ctx.request.body.active.indexOf(activeTagId) >= 0)
+  })
+  console.log("newActiveTags", newActiveTags)
+  Object.keys(newActiveTags).forEach(async id => {
+    let tag = await ctx.orm.tag.findById(id)
+    console.log('active', newActiveTags[id])
+    await tag.update({active: newActiveTags[id],
+      _method: 'patch', update: 'modify Tag'})
+  })
+  ctx.redirect(ctx.router.url('allQuestions'))
+})
+
+//
+
+router.get('modifiedAllQuestions', '/modified/:modifiedBy', async (ctx) => {
 	const questions = await ctx.orm.question.findAll();
-	await ctx.render('questions/indexAll', {
+  await ctx.render('questions/indexAll', {
 	  	questions,
 	  	questionPathBuilder: question => 
 	  		ctx.router.url('question', {id: question.id}),
-	  	order: ctx.params.sortBy
+	  	order: ctx.params.modifiedBy
 	});	
 })
 
 router.get('newQuestion', '/new', async (ctx) => {
+  console.log('ctx.state.tagsInfo en newQuestion', 
+    ctx.state.tagsInfo)
 	if (!ctx.state.currentUser) {
 		ctx.redirect(ctx.router.url('allQuestions'));		
 	} else {
@@ -72,6 +118,7 @@ router.get('editQuestion', '/:id/edit', async (ctx) => {
 router.patch('updateQuestion', '/:id', async (ctx) => {
 	const question = await ctx.orm.question.findById(ctx.params.id);
 	try {
+    console.log('body de request en update de question', ctx.request.body)
 	    await question.update(ctx.request.body);
 		ctx.redirect(ctx.router.url('question', {id: question.id}));
 	} catch (validationError) {

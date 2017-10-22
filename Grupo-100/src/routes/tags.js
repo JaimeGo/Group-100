@@ -34,9 +34,11 @@ router.get('newTag', '/new', async (ctx) => {
 
 router.post('createTag', '/', async (ctx) => {
 	try {
+		ctx.request.body.active = false
 		const tag = await ctx.orm.tag.create(ctx.request.body);
 		ctx.redirect(ctx.router.url('tags'))
 	} catch (validationError) {
+		console.log(validationError.errors)
 		const tag = await ctx.orm.tag.build()
 		await ctx.render('tags/new', {
 			errors: validationError.errors,

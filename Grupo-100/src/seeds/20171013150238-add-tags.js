@@ -27,6 +27,7 @@ module.exports = {
     for (let i = 0; i < 2; i += 1) {
       tagsData.push({
         name: tags_[i],
+        active: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       });

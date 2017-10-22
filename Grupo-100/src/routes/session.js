@@ -28,7 +28,8 @@ router.put('createSession', '/', async (ctx) => {
 });
 
 router.delete('destroySession', '/', (ctx) => {
-  ctx.session = null;
+  // ctx.session = null;
+  ctx.session.userId = null;
   ctx.redirect(ctx.router.url('allQuestions'));
 })
 

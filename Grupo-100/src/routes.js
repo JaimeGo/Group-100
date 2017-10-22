@@ -20,8 +20,56 @@ const tags = require('./routes/tags')
 
 const router = new KoaRouter();
 
+// get the tags ids with active status
+const getInfoFromTags = (tags) => {
+	const infoFromTags = {}
+	tags.forEach(tag => {
+		const tagId = tag.id
+		infoFromTags[tagId] = {name: tag.name, active: tag.active}
+	})
+	return infoFromTags
+}
+//
+
+const getInfoFromQuestions = async (questions) => {
+	const infoFromQuestions = {}
+	const addQuestion = async(question) => {
+	   const questionId = question.id
+	   const tagquestions = await question.getTagquestions()
+       infoFromQuestions[questionId] = 
+       {
+       	tagsId: tagquestions.map(tq => tq.tagId.toString()),
+       }
+	}
+	for (let j = 0; j < questions.length; j++){
+	   await addQuestion(questions[j])
+	}
+	return infoFromQuestions
+}
+//
+
+//
+const getToShowFromQuestions = (questionsInfo, tagsInfo) => {
+	const activeTags = Object.keys(tagsInfo).filter(id => tagsInfo[id].active)
+	console.log('activeTags: ', activeTags)
+	Object.keys(questionsInfo).forEach(key => {
+		questionsInfo[key].toShow = 
+			activeTags.every(value => 
+				(questionsInfo[key].tagsId.indexOf(value) >= 0))
+	})
+}
+//
+
 router.use(async (ctx, next) => {
+	const tags = await ctx.orm.tag.findAll()
+	const tagsInfo = getInfoFromTags(tags)
+	const questions = await ctx.orm.question.findAll()
+	const questionsInfo = await getInfoFromQuestions(questions)
+	getToShowFromQuestions(questionsInfo, tagsInfo)
+	console.log('questionsInfo', questionsInfo)
 	Object.assign(ctx.state, {
+		tagsInfo,
+		questionsInfo,
 		currentUser: ctx.session.userId && await ctx.orm.user.findById(ctx.session.userId),
 		newSessionPath: ctx.router.url('newSession'),
 		destroySessionPath: ctx.router.url('destroySession'),
@@ -30,9 +78,6 @@ router.use(async (ctx, next) => {
 		newQuestionPath: ctx.router.url('newQuestion'),
 		tagsPath: ctx.router.url('tags'),
     	userPathHelper: user_id => ctx.router.url('user', user_id),
-    	//
-    	// selectTagsPathBuilder: (questionId) => ctx.router.url('selectTags', questionId)
-    	// //
 	});
 	return next();
 })

@@ -7,6 +7,11 @@ module.exports = function definetag(sequelize, DataTypes) {
         notEmpty: true,
       },
     }, // changed
+
+    active: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    }
   });
   tag.associate = function associate(models) {
   	tag.hasMany(models.tagquestion)
