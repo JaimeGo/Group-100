@@ -97,13 +97,15 @@ router.get('user', '/:id', async (ctx) => {
 
     const user = await ctx.orm.user.findById(ctx.params.id);
     ctx.assert(user, 404, 'El usuario señalado no existe', {id: ctx.params.id})
+    const questions = await user.getQuestions()
     await ctx.render('users/show', {
       user,
       deleteUserPath: ctx.router.url('deleteUser', user.id),
       editUserPath: ctx.router.url('editUser', user.id),
       usersPath: ctx.router.url('users'),
       questionsPath: ctx.router.url('questions', 
-      {userId: user.id, sort: 'default'})
+      {userId: user.id, sort: 'default'}),
+      questions
     })
 
   // const user = await ctx.orm.user.findById(ctx.params.id);

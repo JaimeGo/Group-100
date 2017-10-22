@@ -5,6 +5,18 @@
     <img src="/assets/user.png" alt="Logo" />
   </div>
 
+  <div id="recent_activity">
+  <h2>Actividad reciente</h2>
+
+  <h3>Preguntas modificadas hace menos de 5 días</h3>
+    <% questions.forEach(question => { %>
+      <% if ((Math.floor(-(question.updatedAt - new Date())/(3600*24*1000))) < 5){ %>
+        <h4>- <%=question.title%></h4>
+        <p>Modificada: <%= Math.floor(-(question.updatedAt - new Date())/(3600*24*1000)) %> días atrás</p>
+      <% } %>
+    <% }) %>
+  </div>
+
   <form action="<%= deleteUserPath %>" method="post">
     <input type="hidden" name="_method" value="delete" />
     <div>

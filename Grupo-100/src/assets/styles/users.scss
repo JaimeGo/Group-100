@@ -3,6 +3,7 @@
 }
 
 #user_perfil {
+    padding-bottom: 50px;
     margin: 15px 10px;
     border: 1px solid #bbb;
     border-radius: 10px;
@@ -11,7 +12,6 @@
     flex: 1 1 100%;
     list-style: none;
     overflow: hidden;
-    position: fixed;
 
     div {
       display: block;
@@ -21,8 +21,8 @@
 
       input {
         padding: 5px;
-        display: block;
-        width: 100%;
+        display: inline-block;
+        width: 20%;
         &:hover {
           background: lighten($wican-blue, 50);
         }
