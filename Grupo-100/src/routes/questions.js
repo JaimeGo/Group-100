@@ -300,9 +300,11 @@ router.get('selectTags', '/:id/selectTags', async (ctx) => {
 router.post('createTagquestion', '/:id/tagquestions/:tagId', async (ctx) => {
   const question = await ctx.orm.question.findById(ctx.params.id)
   const tag = await ctx.orm.tag.findById(ctx.params.tagId)
+  const user = await ctx.state.currentUser
   ctx.assert(question, 404, 'No hay pregunta', {id: ctx.params.questionId})
   ctx.assert(tag, 404, 'No hay tag', {id: ctx.params.id})
-  const tagquestion = await ctx.orm.tagquestion.create();
+  ctx.assert(user, 401, 'No hay sesión iniciada')
+  const tagquestion = await ctx.orm.tagquestion.create({userId: user.id});
   tagquestion.setQuestion(question)
   tagquestion.setTag(tag)
   ctx.redirect(ctx.router.url('question', {id: ctx.params.id}))

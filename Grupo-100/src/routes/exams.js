@@ -152,4 +152,4 @@ router.get('question', '/:id', async (ctx) => {
 	})
 })
 
-
+module.exports = router;

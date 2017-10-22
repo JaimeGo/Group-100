@@ -48,6 +48,7 @@ module.exports = function defineUser(sequelize, DataTypes) {
   	User.hasMany(models.question);
     User.hasMany(models.answer);
     User.hasMany(models.comment);
+    User.hasMany(models.tagquestion);
   };
   return User;
 };

@@ -39,6 +39,7 @@ const getInfoFromQuestions = async (questions) => {
        infoFromQuestions[questionId] = 
        {
        	tagsId: tagquestions.map(tq => tq.tagId.toString()),
+       	title: question.title
        }
 	}
 	for (let j = 0; j < questions.length; j++){

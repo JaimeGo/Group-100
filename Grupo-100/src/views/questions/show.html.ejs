@@ -17,9 +17,11 @@
   <% }) %>
 </ul>
 
-<form action="<%=selectTagsPath %>" method="get">
+<% if (currentUser){ %>
+  <form action="<%=selectTagsPath %>" method="get">
   <input type="submit" name="relate" value="Relacionar con tag">
 </form>
+<% } %>
 
 <ul>
   <% answers.forEach((answer) => { %>
