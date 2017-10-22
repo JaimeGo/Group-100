@@ -1,0 +1,16 @@
+<h1>Reportes</h1>
+
+<ul>
+<% reports.forEach(report => { %>
+	<li><a href="<%= questionPathHelper(report.questionId) %>"> <%= questionsInfo[report.questionId].title %> </a></li>
+	<p>Reportada porque <%= report.reason %></p>
+
+	<% if (currentUserAdmin) { %>
+	<form action="<%= deleteQuestionPathHelper(report.questionId) %>" method="post">
+	  <input type="hidden" name="_method" value="delete" />
+	  <input type="submit" name="delete" value="Borrar" />
+	</form>
+	<br>
+	<% } %>
+<% }) %>
+</ul>

@@ -1,0 +1,20 @@
+<h2> ¿Por qué reporta el contenido? </h2>
+<form action="<%=createReportPath %>" method="post">
+   <div>
+   	 <div> 
+       <input type="radio" name="report" value="Contenido es falso" %> />
+   	   <label for="report">Contenido es falso</label>
+     </div>
+
+   	 <div> 
+	     <input type="radio" name="report" value="Contenido es ofensivo" %> />
+	     <label for="report">Contenido es ofensivo</label>
+     </div>
+
+   	 <div> 
+	     <input type="radio" name="report" value="Contenido no aporta información" %> />
+	     <label for="report">Contenido no aporta información</label>
+	 </div>
+   </div>
+  <input type="submit" name="update" value="Reportar" />
+</form>

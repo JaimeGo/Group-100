@@ -15,6 +15,8 @@ const comments = require('./routes/comments')
 const exams = require('./routes/exams')
 // =======
 const tags = require('./routes/tags')
+
+const reports = require('./routes/reports')
 // const question_tags = require('./routes/')
 // >>>>>>> tags_new
 
@@ -79,6 +81,9 @@ router.use(async (ctx, next) => {
 		tagsPath: ctx.router.url('tags'),
 		updateSearchPath: ctx.router.url('updateSearch'),
     	userPathHelper: user_id => ctx.router.url('user', user_id),
+    	questionPathHelper: questionId => ctx.router.url('question', questionId),
+    	deleteQuestionPathHelper: questionId => ctx.router.url('deleteQuestion',
+    		questionId)
 	});
 	return next();
 })
@@ -98,6 +103,8 @@ router.use('/comments', comments.routes());
 router.use('/exams', comments.routes());
 // =======
 router.use('/tags', tags.routes());
+
+router.use('/reports', reports.routes())
 
 // router.use('/questionTag')
 // >>>>>>> tags_new

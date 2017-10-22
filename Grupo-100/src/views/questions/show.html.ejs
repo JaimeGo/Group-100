@@ -23,6 +23,12 @@
 </form>
 <% } %>
 
+<% if (currentUser){ %>
+  <form action="<%= newReportPath %>" method="get">
+  <input type="submit" name="report" value="Reportar la pregunta">
+</form>
+<% } %>
+
 <ul>
   <% answers.forEach((answer) => { %>
     <li>Title: <%= answer.title %> - Body: <%= answer.body %> </li>
