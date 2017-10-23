@@ -69,7 +69,7 @@ router.get('newExam', '/new', async (ctx) => {
 router.post('createExam', '/createExam', async (ctx) => {
 	console.log(ctx.request.body);
 	try {
-		
+
 		const exam = await ctx.state.currentUser.createExam(ctx.request.body);
 		
 		ctx.redirect(ctx.router.url('exams'),
