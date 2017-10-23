@@ -50,6 +50,7 @@ module.exports = function defineUser(sequelize, DataTypes) {
     User.hasMany(models.comment);
     User.hasMany(models.tagquestion);
     User.hasMany(models.report);
+    User.hasMany(models.exam);
   };
   return User;
 };
