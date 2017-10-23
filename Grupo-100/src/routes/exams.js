@@ -44,14 +44,13 @@ router.patch('downvoteExam', '/downvoteExam/:id', async (ctx) => {
 })
 
 
-
-
 router.get('newExam', '/new', async (ctx) => {
 
-
+	const currentUser = ctx.state.currentUser;
+	const currentUserAdmin = currentUser && currentUser.admin
+	ctx.assert(currentUserAdmin, 401, 'No tiene permiso para crear un examen')
 	//if (!ctx.state.currentUser.admin) {
-	if (true) {
-
+	if (currentUserAdmin) {
 
 		const exam = await ctx.orm.exam.build();
 		await ctx.render('exams/new', {
@@ -66,6 +65,8 @@ router.get('newExam', '/new', async (ctx) => {
 	}
 })
 
+
+
 router.post('createExam', '/createExam', async (ctx) => {
 	console.log(ctx.request.body);
 	try {
@@ -75,9 +76,10 @@ router.post('createExam', '/createExam', async (ctx) => {
 		ctx.redirect(ctx.router.url('exams'),
 			{id: exam.id});
 	} catch (validationError) {
-
+			console.log(validationError);
 		await ctx.render('exams/new', {
 			// user: ctx.state.currentUser,
+
 			errors: validationError.errors,
 			exam: ctx.orm.exam.build(ctx.request.body),
 			submitExamPath: ctx.router.url('createExam')
