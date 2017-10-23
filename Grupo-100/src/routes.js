@@ -100,7 +100,7 @@ router.use('/answers', answers.routes());
 router.use('/comments', comments.routes());
 
 // <<<<<<< HEAD
-router.use('/exams', comments.routes());
+router.use('/exams', exams.routes());
 // =======
 router.use('/tags', tags.routes());
 

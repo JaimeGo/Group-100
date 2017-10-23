@@ -34,6 +34,66 @@ router.get('allQuestions', '/', async (ctx) => {
 	});	
 })
 
+
+router.patch('upvoteQuestion', '/upvoteQuestion/:id', async (ctx) => {
+  console.log("upvote!!!");
+  const question = await ctx.orm.question.findById(ctx.params.id);
+  let newVotes=question.votes_sum
+
+  console.log("AQUI!",exam);
+  if (!newVotes){newVotes=1} else {newVotes=newVotes+1}
+  
+  await question.update({votes:newVotes});
+  
+  ctx.redirect(ctx.router.url('allQuestions'));
+  
+  
+})
+
+router.patch('downvoteQuestion', '/downvoteQuestion/:id', async (ctx) => {
+  console.log("downvote!!!");
+  const question = await ctx.orm.question.findById(ctx.params.id);
+  let newVotes=question.votes_sum
+  if (!newVotes){newVotes=-1} else {newVotes=newVotes-1}
+  
+  await question.update({votes:newVotes});
+  
+  ctx.redirect(ctx.router.url('allQuestions'));
+  
+  
+})
+
+
+router.patch('upvoteAnswer', '/:questionId/upvoteAnswer/:id', async (ctx) => {
+  console.log("upvote!!!");
+  const answer= await ctx.orm.answer.findById(ctx.params.id);
+  let newVotes=answer.votes_sum
+
+  console.log("AQUI!",exam);
+  if (!newVotes){newVotes=1} else {newVotes=newVotes+1}
+  
+  await answer.update({votes:newVotes});
+  
+  ctx.redirect(ctx.router.url('allQuestions'));
+  
+  
+})
+
+router.patch('downvoteAnswer', '/:questionId/downvoteAnswer/:id', async (ctx) => {
+  console.log("downvote!!!");
+  const answer = await ctx.orm.exam.findById(ctx.params.id);
+  let newVotes=answer.votes_sum
+  if (!newVotes){newVotes=-1} else {newVotes=newVotes-1}
+  
+  await answer.update({votes:newVotes});
+  
+  ctx.redirect(ctx.router.url('allQuestions'));
+  
+  
+})
+
+
+
 //added from tags (it could be added to tags router)
 router.post('updateActiveTags', '/active_tags', (ctx) => {
   const tagsIds = []

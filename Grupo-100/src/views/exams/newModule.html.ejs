@@ -1,10 +1,13 @@
+<h1>New module</h1>
+<p><%= submitModulePath %></p>
+
 <div>
-  <form id="submit_question" action="<%= submitExamPath %>" method="post">
+  <form action="<%= submitModulePath %>" method="post">
     <% if (!exam.isNewRecord) { %>
       <input type="hidden" name="_method" value="post" />
     <% } %>
     <div>
-      <label for="name">Nombre del examen</label>
+      <label for="name">Nombre del módulo</label>
       <input type="text" name="name" value="<%= exam.name %>" /></input>
     </div>
     
