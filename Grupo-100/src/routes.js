@@ -67,12 +67,18 @@ router.use(async (ctx, next) => {
 	const tagsInfo = getInfoFromTags(tags)
 	const questions = await ctx.orm.question.findAll()
 	const questionsInfo = await getInfoFromQuestions(questions)
+	const currentUser = ctx.session.userId && await ctx.orm.user.findById(ctx.session.userId)
+	const currentUserExists = (ctx.session.userId != null)
+	const currentUserAdmin = currentUserExists && currentUser.admin
 	getToShowFromQuestions(questionsInfo, tagsInfo)
 	Object.assign(ctx.state, {
 		searchInfo: ctx.state.searchInfo,
 		tagsInfo,
 		questionsInfo,
-		currentUser: ctx.session.userId && await ctx.orm.user.findById(ctx.session.userId),
+		currentUser,
+		currentUserExists,
+		currentUserAdmin,
+		// currentUser: ctx.session.userId && await ctx.orm.user.findById(ctx.session.userId),
 		newSessionPath: ctx.router.url('newSession'),
 		destroySessionPath: ctx.router.url('destroySession'),
 		usersPath: ctx.router.url('users'),
