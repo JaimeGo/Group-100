@@ -83,7 +83,8 @@ router.use(async (ctx, next) => {
     	userPathHelper: user_id => ctx.router.url('user', user_id),
     	questionPathHelper: questionId => ctx.router.url('question', questionId),
     	deleteQuestionPathHelper: questionId => ctx.router.url('deleteQuestion',
-    		questionId)
+    		questionId),
+    	examsPath: ctx.router.url('exams'),
 	});
 	return next();
 })
