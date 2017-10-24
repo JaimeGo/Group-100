@@ -15,6 +15,7 @@ module.exports = function definetag(sequelize, DataTypes) {
   });
   tag.associate = function associate(models) {
   	tag.hasMany(models.tagquestion)
+    tag.hasMany(models.tagexam)
 
   	// tag.belongsToMany(models.question, {
   	//   as: 'qtTagId',

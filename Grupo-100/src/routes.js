@@ -62,6 +62,24 @@ const getToShowFromQuestions = (questionsInfo, tagsInfo) => {
 }
 //
 
+// const getInfoFromExams = async (questions) => {
+// 	const infoFromQuestions = {}
+// 	const addQuestion = async(question) => {
+// 	   const questionId = question.id
+// 	   const tagquestions = await question.getTagquestions()
+//        infoFromQuestions[questionId] = 
+//        {
+//        	tagsId: tagquestions.map(tq => tq.tagId.toString()),
+//        	title: question.title
+//        }
+// 	}
+// 	for (let j = 0; j < questions.length; j++){
+// 	   await addQuestion(questions[j])
+// 	}
+// 	return infoFromQuestions
+// }
+
+
 router.use(async (ctx, next) => {
 	const tags = await ctx.orm.tag.findAll()
 	const tagsInfo = getInfoFromTags(tags)
