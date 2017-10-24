@@ -6,7 +6,12 @@ module.exports = function defineExam(sequelize, DataTypes) {
 	      validate: {
 	        notEmpty: true,
 	    },
-	},
+	  },
+
+    votes_sum: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    }
 
   });
   Exam.associate = function associate(models) {

@@ -3,7 +3,6 @@ const KoaRouter = require('koa-router');
 const router = new KoaRouter();
 
 router.get('exams', '/', async (ctx) => {
-	console.log("1");
 	const exams = await ctx.orm.exam.findAll();
 	
 	await ctx.render('exams/index', {
@@ -11,36 +10,25 @@ router.get('exams', '/', async (ctx) => {
 	  	examPathBuilder: exam => 
 	  		ctx.router.url('exam', {id: exam.id}),
 	  	order: "Nombre",
-	  	newExamPath:ctx.router.url('newExam')
+	  	newExamPath: ctx.router.url('newExam'),
+	  	currentUserAdmin: ctx.state.currentUserAdmin,
+	  	upvoteExamPathBuilder: exam => ctx.router.url('upvoteExam', exam.id),
+	  	downvoteExamPathBuilder: exam => ctx.router.url('downvoteExam', exam.id),
 	});	
 })
 
 router.patch('upvoteExam', '/upvoteExam/:id', async (ctx) => {
-	console.log("upvote!!!");
 	const exam = await ctx.orm.exam.findById(ctx.params.id);
-	let newVotes=exam.votes_sum
-
-	console.log("AQUI!",exam);
-	if (!newVotes){newVotes=1} else {newVotes=newVotes+1}
-	
-	await exam.update({votes:newVotes});
-	
+	const votes_sumIncreased = exam.votes_sum + 1;
+	await exam.update({votes_sum: votes_sumIncreased})
 	ctx.redirect(ctx.router.url('exams'));
-	
-	
 })
 
 router.patch('downvoteExam', '/downvoteExam/:id', async (ctx) => {
-	console.log("downvote!!!");
 	const exam = await ctx.orm.exam.findById(ctx.params.id);
-	let newVotes=exam.votes_sum
-	if (!newVotes){newVotes=-1} else {newVotes=newVotes-1}
-	
-	await exam.update({votes:newVotes});
-	
+	const votes_sumDecreased = exam.votes_sum - 1;
+	await exam.update({votes_sum: votes_sumDecreased})
 	ctx.redirect(ctx.router.url('exams'));
-	
-	
 })
 
 
@@ -70,7 +58,8 @@ router.get('newExam', '/new', async (ctx) => {
 router.post('createExam', '/createExam', async (ctx) => {
 	console.log(ctx.request.body);
 	try {
-
+		ctx.request.body.votes_sum = 0
+		console.log("\n\n\n ctx.request.body in createExam: ", ctx.request.body)
 		const exam = await ctx.state.currentUser.createExam(ctx.request.body);
 		
 		ctx.redirect(ctx.router.url('exams'),
@@ -442,19 +431,5 @@ router.post('createExamAnswer', '/:examId/modules/:moduleId/examquestions/:examQ
 		
 	}
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 module.exports = router;

@@ -2,7 +2,7 @@
 
 <ul>
 <% exams.forEach((exam) => { %>
-    <li><h3><a href="/exams/<%=exam.id%>"><%=exam.name%></a></h3></li>
+    <li><h3><a href="<%= examPathBuilder(exam) %>"><%=exam.name%></a></h3>
     <% const qua = exam.updatedAt %>
     <% var minutes = qua.getMinutes().toString() %>
     <% if (minutes.length == 1) {minutes = "0" + minutes} %>
@@ -10,7 +10,7 @@
 
     <h4>Votes: <%=exam.votes_sum%></h4>
 
-    <form action="/exams/upvoteExam/<%= exam.id %>"  method="post">
+    <form action="<%= upvoteExamPathBuilder(exam) %>"  method="post">
       <input type="hidden" name="_method" value="patch" />
     
       <div>
@@ -19,19 +19,19 @@
     
     </form>
 
-    <form action="/exams/downvoteExam/<%= exam.id %>" method="post">
+    <form action="<%= downvoteExamPathBuilder(exam) %>"  method="post">
     <input type="hidden" name="_method" value="patch" />
     
       <div>
         <input type="submit"  value="Downvote Exam" />
       </div>
     
-  </form>
+    </form>
     
 <% }) %>
 </ul>
 
-
+<% if (currentUserAdmin) { %>
   <form action="<%= newExamPath %>" method="get">
     
       <div>
@@ -39,3 +39,4 @@
       </div>
     
   </form>
+<% } %>
