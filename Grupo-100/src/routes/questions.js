@@ -2,6 +2,13 @@ const KoaRouter = require('koa-router');
 
 const router = new KoaRouter();
 
+const tagsRouter = require('./tags')
+
+// router.use(
+//   '/tags',
+//   tagsRouter.routes(),
+// );
+
 // adding tags of a tagquestion
 const getTagOfTagquestion = async (tags, tq) => {
   const t = await ctx.orm.tag.findById(tq.tagId)

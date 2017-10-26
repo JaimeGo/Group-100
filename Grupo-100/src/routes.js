@@ -62,6 +62,10 @@ const getToShowFromQuestions = (questionsInfo, tagsInfo) => {
 }
 //
 
+
+const getInfoFrom = async (instances) => {
+	const infoFrom = {}
+}
 // const getInfoFromExams = async (questions) => {
 // 	const infoFromQuestions = {}
 // 	const addQuestion = async(question) => {

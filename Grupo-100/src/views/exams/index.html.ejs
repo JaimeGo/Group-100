@@ -1,5 +1,8 @@
 <h1>Exams</h1>
 
+<% exams.sort(function(a,b){ %>
+    <% return -(b.name).localeCompare(a.name)}) %>
+
 <ul>
 <% exams.forEach((exam) => { %>
     <li><h3><a href="<%= examPathBuilder(exam) %>"><%=exam.name%></a></h3>
@@ -10,17 +13,11 @@
 
     <h4>Votes: <%=exam.votes_sum%></h4>
 
+
     <form action="<%= upvoteExamPathBuilder(exam) %>"  method="post">
       <input type="hidden" name="_method" value="patch" />
       <div>
         <input type="submit" value="Upvote Exam" />
-      </div>
-    </form>
-
-    <form action="<%= downvoteExamPathBuilder(exam) %>"  method="post">
-      <input type="hidden" name="_method" value="patch" />
-      <div>
-        <input type="submit"  value="Downvote Exam" />
       </div>
     </form>
 

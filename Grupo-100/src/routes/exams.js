@@ -2,6 +2,8 @@ const KoaRouter = require('koa-router');
 
 const router = new KoaRouter();
 
+const tagsRouter = require('./tags')
+
 router.get('exams', '/', async (ctx) => {
 	const exams = await ctx.orm.exam.findAll();
 	
@@ -16,6 +18,16 @@ router.get('exams', '/', async (ctx) => {
 	  	downvoteExamPathBuilder: exam => ctx.router.url('downvoteExam', exam.id),
 	});	
 })
+
+
+// router.use(
+//   '/tags',
+//   // async (ctx, next) => {
+//   //   await next();
+//   // },
+//   tagsRouter.routes(),
+// );
+
 
 router.patch('upvoteExam', '/upvoteExam/:id', async (ctx) => {
 	const exam = await ctx.orm.exam.findById(ctx.params.id);
@@ -496,6 +508,8 @@ router.delete('deleteTagquestion', '/:id/tagquestions/:tagId', async (ctx) => {
       });
   ctx.redirect(ctx.router.url('question', ctx.params.id)); 
 })
+
+
 
 module.exports = router;
 
