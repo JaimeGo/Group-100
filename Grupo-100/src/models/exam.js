@@ -20,6 +20,7 @@ module.exports = function defineExam(sequelize, DataTypes) {
     Exam.hasMany(models.exammodule);
     Exam.belongsTo(models.user);
     Exam.hasMany(models.tagexam);
+    Exam.hasMany(models.vote);
   };
   return Exam;
 };

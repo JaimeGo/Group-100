@@ -34,6 +34,7 @@ module.exports = function definequestion(sequelize, DataTypes) {
     Question.hasMany(models.answer);
     Question.hasMany(models.tagquestion);
     Question.hasMany(models.report);
+    Question.hasMany(models.vote);
 
     // Question.belongsToMany(models.tag, {
     //   as: 'qtQuestionId',

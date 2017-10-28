@@ -17,6 +17,8 @@ const exams = require('./routes/exams')
 const tags = require('./routes/tags')
 
 const reports = require('./routes/reports')
+
+const votes = require('./routes/votes')
 // const question_tags = require('./routes/')
 // >>>>>>> tags_new
 
@@ -134,6 +136,8 @@ router.use('/exams', exams.routes());
 router.use('/tags', tags.routes());
 
 router.use('/reports', reports.routes())
+
+router.use('/votes', votes.routes())
 
 // router.use('/questionTag')
 // >>>>>>> tags_new
