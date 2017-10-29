@@ -4,6 +4,10 @@ const router = new KoaRouter();
 
 const tagsRouter = require('./tags')
 
+const tagquestions = require('./tagquestions')
+
+router.use('', tagquestions.routes())
+
 // router.use(
 //   '/tags',
 //   tagsRouter.routes(),

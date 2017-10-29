@@ -2,26 +2,15 @@ const KoaRouter = require('koa-router');
 
 const hello = require('./routes/hello');
 const index = require('./routes/index');
-
 const users = require('./routes/users');
 const session = require('./routes/session')
-
 const questions = require('./routes/questions')
-
 const answers = require('./routes/answers')
 const comments = require('./routes/comments')
-
-// <<<<<<< HEAD
 const exams = require('./routes/exams')
-// =======
 const tags = require('./routes/tags')
-
 const reports = require('./routes/reports')
-
-const votes = require('./routes/votes')
-// const question_tags = require('./routes/')
-// >>>>>>> tags_new
-
+// const votes = require('./routes/votes')
 const router = new KoaRouter();
 
 // get the tags ids with active status
@@ -102,7 +91,6 @@ router.use(async (ctx, next) => {
 		currentUser,
 		currentUserExists,
 		currentUserAdmin,
-		// currentUser: ctx.session.userId && await ctx.orm.user.findById(ctx.session.userId),
 		newSessionPath: ctx.router.url('newSession'),
 		destroySessionPath: ctx.router.url('destroySession'),
 		usersPath: ctx.router.url('users'),
@@ -121,26 +109,14 @@ router.use(async (ctx, next) => {
 
 router.use('/', index.routes());
 router.use('/hello', hello.routes());
-
 router.use('/users', users.routes());
 router.use('/session', session.routes());
-
 router.use('/questions', questions.routes());
-
 router.use('/answers', answers.routes());
 router.use('/comments', comments.routes());
-
-// <<<<<<< HEAD
 router.use('/exams', exams.routes());
-// =======
 router.use('/tags', tags.routes());
-
 router.use('/reports', reports.routes())
-
-router.use('/votes', votes.routes())
-
-// router.use('/questionTag')
-// >>>>>>> tags_new
-
+// router.use('/votes', votes.routes())
 
 module.exports = router;

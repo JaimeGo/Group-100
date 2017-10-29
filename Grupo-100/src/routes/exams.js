@@ -3,6 +3,13 @@ const KoaRouter = require('koa-router');
 const router = new KoaRouter();
 
 const tagsRouter = require('./tags')
+const votesRouter = require('./votes')
+const modulesRouter = require('./modules')
+const examquestionsRouter = require('./examquestions')
+
+router.use('', votesRouter.routes())
+router.use('', modulesRouter.routes())
+router.use('', examquestionsRouter.routes())
 
 router.get('exams', '/', async (ctx) => {
 	const exams = await ctx.orm.exam.findAll();
@@ -19,84 +26,20 @@ router.get('exams', '/', async (ctx) => {
 	});	
 })
 
-
-// router.use(
-//   '/tags',
-//   // async (ctx, next) => {
-//   //   await next();
-//   // },
-//   tagsRouter.routes(),
-// );
-
-
-router.patch('upvoteExam', '/upvoteExam/:id', async (ctx) => {
-	ctx.assert(ctx.state.currentUser, 401, "No ha iniciado sesión")
-	const exam = await ctx.orm.exam.findById(ctx.params.id);
-	let params = {
-		examId: ctx.params.id, 
-		userId: ctx.state.currentUser.id,
-		isUpvote: true,
-	}
-	const existingVote = await ctx.orm.vote.find({where: params})
-	console.log("existe voto?: ", !!existingVote)
-	ctx.assert(!existingVote, 401, "No puede votar dos veces")
-	params.isUpvote = false
-	const existingDownvote = await ctx.orm.vote.find({where: params})
-	if (existingDownvote){
-		await ctx.orm.vote.destroy({where: params})
-	} else {
-	    params.isUpvote = true
-	    const newVote = await ctx.orm.vote.create(params)
-	}
-	await exam.update({votes_sum: exam.votes_sum + 1})
-	ctx.redirect(ctx.router.url('exams'));
-})
-
-router.patch('downvoteExam', '/downvoteExam/:id', async (ctx) => {
-	ctx.assert(ctx.state.currentUser, 401, "No ha iniciado sesión")
-	const exam = await ctx.orm.exam.findById(ctx.params.id);
-	let params = {
-		examId: ctx.params.id, 
-		userId: ctx.state.currentUser.id,
-		isUpvote: false
-	}
-	const existingVote = await ctx.orm.vote.find({where: params})
-	ctx.assert(!existingVote, 401, "No puede votar dos veces")
-	params.isUpvote = true
-	const existingUpvote = await ctx.orm.vote.find({where: params})
-	if (existingUpvote){
-		await ctx.orm.vote.destroy({where: params})
-	} else {
-		params.isUpvote = false
-		const newVote = await ctx.orm.vote.create(params)
-	}
-	await exam.update({votes_sum: exam.votes_sum - 1})
-	ctx.redirect(ctx.router.url('exams'));
-})
-
-
 router.get('newExam', '/new', async (ctx) => {
-
 	const currentUser = ctx.state.currentUser;
 	const currentUserAdmin = currentUser && currentUser.admin
 	ctx.assert(currentUserAdmin, 401, 'No tiene permiso para crear un examen')
-	//if (!ctx.state.currentUser.admin) {
 	if (currentUserAdmin) {
-
 		const exam = await ctx.orm.exam.build();
 		await ctx.render('exams/new', {
-		// user: ctx.state.currentUser, 
 		exam,
 		submitExamPath: ctx.router.url('createExam')
 		})
-
 	} else {
-		ctx.redirect(ctx.router.url('exams'));	
-		
+		ctx.redirect(ctx.router.url('exams'));		
 	}
 })
-
-
 
 router.post('createExam', '/createExam', async (ctx) => {
 	console.log(ctx.request.body);
@@ -104,14 +47,11 @@ router.post('createExam', '/createExam', async (ctx) => {
 		ctx.request.body.votes_sum = 0
 		console.log("\n\n\n ctx.request.body in createExam: ", ctx.request.body)
 		const exam = await ctx.state.currentUser.createExam(ctx.request.body);
-		
 		ctx.redirect(ctx.router.url('exams'),
 			{id: exam.id});
 	} catch (validationError) {
 			console.log(validationError);
 		await ctx.render('exams/new', {
-			// user: ctx.state.currentUser,
-
 			errors: validationError.errors,
 			exam: ctx.orm.exam.build(ctx.request.body),
 			submitExamPath: ctx.router.url('createExam')
@@ -128,7 +68,6 @@ router.get('editExam', '/:id/edit', async (ctx) => {
 	} else {
 		if (ctx.state.currentUser.admin || ctx.state.currentUser.id == author.id) {
 			await ctx.render('exams/edit', {
-				// user: ctx.state.currentUser, 
 				exam,
 				submitExamPath: ctx.router.url('updateExam',
 					{id: exam.id})
@@ -172,126 +111,17 @@ router.delete('deleteExam', '/:id', async (ctx) => {
   }
 })
 
-
-
-
-
-
-
 router.get('exam', '/:id', async (ctx) => {
-	
 	const exam = await ctx.orm.exam.findById(ctx.params.id);
-
-
-	const modules = await ctx.orm.exammodule.findAll();
-	
-
-	
-	
-
-
+	const modules = await ctx.orm.exammodule.findAll({
+		where: examId
+	});
 	await ctx.render('exams/show', {
 		exam,
 		modules,
-	  	newModulePath:ctx.router.url('newModule', ctx.params.id)
+	  	newModulePath: ctx.router.url('newModule', ctx.params.id)
 	})
 })
-
-
-
-
-
-
-
-
-
-//modules
-
-
-
-
-router.get('newModule', '/:examId/modules/new', async (ctx) => {
-
-
-	//if (!ctx.state.currentUser.admin) {
-	if (true) {
-		const exam = await ctx.orm.exam.findById(ctx.params.examId);
-
-		const mod = await ctx.orm.exammodule.build();
-		console.log("carga_newModule");
-		await ctx.render('exams/newModule', {
-		// user: ctx.state.currentUser, 
-		mod,
-		exam,
-		submitModulePath: ctx.router.url('createModule',{examId:ctx.params.examId})
-		})
-
-	} else {
-		ctx.redirect(ctx.router.url('exams'));	
-		
-	}
-})
-
-
-
-router.post('createModule', '/:examId/modules/create', async (ctx) => {
-
-	console.log("funciona");
-	try {
-		console.log("Exito1");
-		const exam=await ctx.orm.exam.findById(ctx.params.examId);
-		console.log("Exito2", exam.createExammodule);
-		const mod = await exam.createExammodule(ctx.request.body);
-		
-		ctx.redirect(ctx.router.url('exams'),
-			{id: mod.id});
-		console.log("Exito3");
-	} catch (validationError) {
-		console.log("Error");
-
-		const exam = await ctx.orm.exam.findById(ctx.params.examId);
-
-		const mod = await ctx.orm.exammodule.build();
-
-		await ctx.render('exams/newModule', {
-		// user: ctx.state.currentUser, 
-		mod, 
-		exam,
-		submitModulePath: ctx.router.url('createModule',{examId:ctx.params.examId})
-		})
-	}
-})
-
-
-
-
-router.get('module', '/:examId/modules/:moduleId', async (ctx) => {
-	
-	const exam = await ctx.orm.exam.findById(ctx.params.examId);
-
-	console.log("AQUI",ctx.orm.exammodule)
-	
-
-	const module = await ctx.orm.exammodule.findById(ctx.params.examId);
-
-	const examquestions = await ctx.orm.examquestion.findAll({where: {exammoduleId:ctx.params.moduleId}});
-	
-
-	
-
-
-	await ctx.render('exams/showModule', {
-		exam,
-		module,
-		examquestions,
-	  	newExamQuestionPath:ctx.router.url('newExamQuestion', {examId:ctx.params.examId, moduleId:ctx.params.moduleId})
-	})
-})
-
-
-
-
-
 
 
 //examquestions
@@ -300,31 +130,31 @@ router.get('module', '/:examId/modules/:moduleId', async (ctx) => {
 
 
 
-router.get('newExamQuestion', '/:examId/modules/:moduleId/examquestions/new', async (ctx) => {
+// router.get('newExamQuestion', '/:examId/modules/:moduleId/examquestions/new', async (ctx) => {
 
 
-	//if (!ctx.state.currentUser.admin) {
-	if (true) {
-		const exam = await ctx.orm.exam.findById(ctx.params.examId);
+// 	//if (!ctx.state.currentUser.admin) {
+// 	if (true) {
+// 		const exam = await ctx.orm.exam.findById(ctx.params.examId);
 
-		const mod = await ctx.orm.exammodule.findById(ctx.params.moduleId);
+// 		const mod = await ctx.orm.exammodule.findById(ctx.params.moduleId);
 
-		const question = await ctx.orm.examquestion.build();
+// 		const question = await ctx.orm.examquestion.build();
 
-		console.log("carga_newModule");
-		await ctx.render('exams/newExamQuestion', {
-		// user: ctx.state.currentUser, 
-		mod,
-		exam,
-		question,
-		submitExamQuestionPath: ctx.router.url('createExamQuestion',{examId:ctx.params.examId, moduleId:ctx.params.moduleId})
-		})
+// 		console.log("carga_newModule");
+// 		await ctx.render('exams/newExamQuestion', {
+// 		// user: ctx.state.currentUser, 
+// 		mod,
+// 		exam,
+// 		question,
+// 		submitExamQuestionPath: ctx.router.url('createExamQuestion',{examId:ctx.params.examId, moduleId:ctx.params.moduleId})
+// 		})
 
-	} else {
-		ctx.redirect(ctx.router.url('exams'));	
+// 	} else {
+// 		ctx.redirect(ctx.router.url('exams'));	
 		
-	}
-})
+// 	}
+// })
 
 
 
@@ -332,43 +162,43 @@ router.get('newExamQuestion', '/:examId/modules/:moduleId/examquestions/new', as
 
 
 
-router.post('createExamQuestion', '/:examId/modules/:moduleId/examquestions/create', async (ctx) => {
+// router.post('createExamQuestion', '/:examId/modules/:moduleId/examquestions/create', async (ctx) => {
 
-	console.log("funciona");
-	try {
-		console.log("Exito1");
-		const mod=await ctx.orm.exammodule.findById(ctx.params.moduleId);
-		console.log("Exito2", mod);
-		const question = await mod.createExamquestion(ctx.request.body);
+// 	console.log("funciona");
+// 	try {
+// 		console.log("Exito1");
+// 		const mod=await ctx.orm.exammodule.findById(ctx.params.moduleId);
+// 		console.log("Exito2", mod);
+// 		const question = await mod.createExamquestion(ctx.request.body);
 		
-		ctx.redirect(ctx.router.url('exams'),
-			{id: mod.id});
-		console.log("Exito3");
-	} catch (validationError) {
+// 		ctx.redirect(ctx.router.url('exams'),
+// 			{id: mod.id});
+// 		console.log("Exito3");
+// 	} catch (validationError) {
 
 
 
 
-		const exam = await ctx.orm.exam.findById(ctx.params.examId);
+// 		const exam = await ctx.orm.exam.findById(ctx.params.examId);
 
 
-		const module = await ctx.orm.exammodule.findById(ctx.params.moduleId);
+// 		const module = await ctx.orm.exammodule.findById(ctx.params.moduleId);
 	
-
-		
-		const question = await ctx.orm.examquestion.build();
-
-
-		await ctx.render('exams/newExamQuestion', {
-			module,
-			exam,
-			question,
-		  	submitExamQuestionPath: ctx.router.url('createExamQuestion',{examId:ctx.params.examId, moduleId:ctx.params.moduleId})
-		})
 
 		
-	}
-})
+// 		const question = await ctx.orm.examquestion.build();
+
+
+// 		await ctx.render('exams/newExamQuestion', {
+// 			module,
+// 			exam,
+// 			question,
+// 		  	submitExamQuestionPath: ctx.router.url('createExamQuestion',{examId:ctx.params.examId, moduleId:ctx.params.moduleId})
+// 		})
+
+		
+// 	}
+// })
 
 
 
@@ -376,29 +206,29 @@ router.post('createExamQuestion', '/:examId/modules/:moduleId/examquestions/crea
 
 
 
-router.get('examquestion', '/:examId/modules/:moduleId/examquestions/:examQuestionId', async (ctx) => {
+// router.get('examquestion', '/:examId/modules/:moduleId/examquestions/:examQuestionId', async (ctx) => {
 	
-	const exam = await ctx.orm.exam.findById(ctx.params.examId);
+// 	const exam = await ctx.orm.exam.findById(ctx.params.examId);
 
-	const module = await ctx.orm.exammodule.findById(ctx.params.moduleId);
-
-	
-
-	const question = await ctx.orm.examquestion.findById(ctx.params.examQuestionId);
-
-
-	const answers = await ctx.orm.examanswer.findAll({where:{examquestionId:ctx.params.examQuestionId}});
-	
+// 	const module = await ctx.orm.exammodule.findById(ctx.params.moduleId);
 
 	
-	await ctx.render('exams/showExamQuestion', {
-		exam,
-		module,
-		question,
-		answers,
-	  	newExamAnswerPath:ctx.router.url('newExamAnswer', {examId:ctx.params.examId, moduleId:ctx.params.moduleId, examQuestionId:ctx.params.examQuestionId})
-	})
-})
+
+// 	const question = await ctx.orm.examquestion.findById(ctx.params.examQuestionId);
+
+
+// 	const answers = await ctx.orm.examanswer.findAll({where:{examquestionId:ctx.params.examQuestionId}});
+	
+
+	
+// 	await ctx.render('exams/showExamQuestion', {
+// 		exam,
+// 		module,
+// 		question,
+// 		answers,
+// 	  	newExamAnswerPath:ctx.router.url('newExamAnswer', {examId:ctx.params.examId, moduleId:ctx.params.moduleId, examQuestionId:ctx.params.examQuestionId})
+// 	})
+// })
 
 
 

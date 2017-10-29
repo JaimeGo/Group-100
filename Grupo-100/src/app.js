@@ -102,7 +102,7 @@ app.use(async (ctx, next) => {
     else if (error.status == 401){
       await ctx.render('error', {
         title: error.message,
-        details: 'No se puede certificar que las credenciales aportadas sean válidas'
+        details: ''
       }) 
     // ctx.app.emit('error', error, ctx)
     } else {

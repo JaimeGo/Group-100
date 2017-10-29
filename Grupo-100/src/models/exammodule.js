@@ -1,6 +1,7 @@
 module.exports = function defineExamModule(sequelize, DataTypes) {
   const ExamModule = sequelize.define('exammodule', {
     name: DataTypes.STRING,
+    examId: DataTypes.INTEGER,
   });
   ExamModule.associate = function associate(models) {
     // associations can be defined here
