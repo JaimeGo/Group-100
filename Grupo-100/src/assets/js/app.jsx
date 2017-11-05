@@ -3,15 +3,16 @@ import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import App from './components/App';
 
-const reactAppContainer = document.getElementById('react-app');
+const reactAppContainer = 
+  document.getElementById('answer-react');
 
 if (reactAppContainer) {
   const render = function render(Component) {
     ReactDOM.render(
       <AppContainer>
-        <Component />
+        <Component {...reactAppContainer.dataset}/>
       </AppContainer>,
-      document.getElementById('react-app'),
+      reactAppContainer,
     );
   };
 

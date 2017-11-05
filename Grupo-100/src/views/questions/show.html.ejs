@@ -29,6 +29,19 @@
 </form>
 <% } %>
 
+<h3>Respuestas: </h3>
+<% answers.forEach((answer) => { %>
+  <div>
+    <h4>Title: <%= answer.title %></h4>
+  </div>
+<% }) %>
+
+<div 
+  id="answer-react"
+  questionId=<%question.id%>
+  >
+</div>
+
 <ul>
   <% answers.forEach((answer) => { %>
     <li>Title: <%= answer.title %> - Body: <%= answer.body %> </li>

@@ -418,31 +418,19 @@ router.get('answers', '/', async (ctx) => {
 
 
 router.post('createAnswer', '/:questionId/answers/create', async (ctx) => {
-	
   const user=ctx.state.currentUser;
-
   const questionId=ctx.params.id;
-
-  try{
+  try {
   	const question = await ctx.orm.question.findById(ctx.params.questionId);
-    
     await question.createAnswer(ctx.request.body);
-    
-    
   	ctx.redirect(ctx.router.url('question', {id: question.id}));
-
   } catch(validationError){
-
-    await ctx.render('answers/new',{
-    
-      errors:validationError.errors,
-      
-      submitAnswerPath: ctx.router.url('createAnswer/'+questionId,{userId:user.id,questionId:questionId}),
-      
+    await ctx.render('answers/new',{  
+      errors:validationError.errors, 
+      submitAnswerPath: ctx.router.url('createAnswer/'+questionId,{userId:user.id,questionId:questionId}), 
       questionId:questionId
     })
-  }
-  
+  } 
 })
 
 
