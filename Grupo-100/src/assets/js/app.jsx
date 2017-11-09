@@ -4,7 +4,7 @@ import { AppContainer } from 'react-hot-loader';
 import App from './components/App';
 
 const reactAppContainer = 
-  document.getElementById('answer-react');
+  document.getElementById('question-react');
 
 if (reactAppContainer) {
   const render = function render(Component) {
