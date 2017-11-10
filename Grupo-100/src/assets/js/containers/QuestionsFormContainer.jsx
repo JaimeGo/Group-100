@@ -12,6 +12,7 @@ export default class QuestionsFormContainer extends Component {
       showThanks: false,
     };
     this.onSubmit = this.onSubmit.bind(this);
+    this.fetchAnswerForm = this.fetchAnswerForm.bind(this)
   }
 
   componentDidMount() {
@@ -38,17 +39,21 @@ export default class QuestionsFormContainer extends Component {
 
   render() {
     if (this.state.loading) {
-      return <p>Loading...</p>;
+      const cte = this.state.loading
+      return <p>Loading...{cte}</p>;
     }
     return (
-      <div>
-
-      </div>
+      <div> Cualquier tontera xD</div>
+      // <div>
+      //   <p>Not Loading:  </p>
+      //   <QuestionsForm
+      //     onSubmit={this.onSubmit}
+      //   />
+      // </div>
     );
   }
 }
 
 QuestionsFormContainer.propTypes = {
-  ongId: PropTypes.string.isRequired,
-  initiativeId: PropTypes.string.isRequired,
+  questionId: PropTypes.string.isRequired,
 };

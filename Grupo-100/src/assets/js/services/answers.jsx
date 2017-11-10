@@ -15,6 +15,7 @@ export default {
   //     `/questions/${questionId}`
   //   )
   async newAnswer(questionId){
+    console.log("\n\n\nANSWERING!!!!!!!\n\n\n\n")
     return jsonRequest(`/questions/${questionId}/answer/new`)
   },
   async createAnswer(questionId){

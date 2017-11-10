@@ -149,8 +149,14 @@ router.get('modifiedAllQuestions', '/modified/:modifiedBy', async (ctx) => {
 })
 
 router.get('newQuestion', '/new', async (ctx) => {
-  console.log('ctx.state.tagsInfo en newQuestion', 
-    ctx.state.tagsInfo)
+  switch (ctx.accepts('html', 'json')) {
+    case 'html':
+      // console.log("\n\n\n\nHTML\n\n")
+    case 'json':
+      // console.log("\n\n\n\nJSON\n\n")
+      ctx.body = {};
+    default:
+  }
 	if (!ctx.state.currentUser) {
 		ctx.redirect(ctx.router.url('allQuestions'));		
 	} else {

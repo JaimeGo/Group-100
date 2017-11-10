@@ -8,6 +8,7 @@ const reactAppContainer =
 
 if (reactAppContainer) {
   const render = function render(Component) {
+    // console.log("\n\n\nDATASET: ", ...reactAppContainer.dataset, "\n\n\n")
     ReactDOM.render(
       <AppContainer>
         <Component {...reactAppContainer.dataset}/>
