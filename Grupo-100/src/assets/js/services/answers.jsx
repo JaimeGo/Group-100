@@ -1,4 +1,5 @@
 async function jsonRequest(path, options = {}) {
+  console.log("\n\nJSON REQUEST\n\n");
   const result = await fetch(path, {
     ...options,
     headers: { ...options.headers, Accept: 'application/json' },
@@ -16,7 +17,7 @@ export default {
   //   )
   async newAnswer(questionId){
     console.log("\n\n\nANSWERING!!!!!!!\n\n\n\n")
-    return jsonRequest(`/questions/${questionId}/answer/new`)
+    return jsonRequest(`/questions/new`)
   },
   async createAnswer(questionId){
     return jsonRequest(`/questions/${questionId}/answer/new`), {

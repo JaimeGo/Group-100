@@ -16,6 +16,7 @@ export default class QuestionsFormContainer extends Component {
   }
 
   componentDidMount() {
+    console.log()
     this.fetchAnswerForm();
   }
 
@@ -31,16 +32,16 @@ export default class QuestionsFormContainer extends Component {
   }
 
   async fetchAnswerForm() {
+    console.log("FETCHING");
     this.setState({ loading: true });
     const answerForm = 
-      await answerService.newAnswer(this.props.questionId);
+      await answersService.newAnswer(this.props.questionId);
     this.setState({loading: false });
   }
 
   render() {
     if (this.state.loading) {
-      const cte = this.state.loading
-      return <p>Loading...{cte}</p>;
+      return <p>Loading...</p>;
     }
     return (
       <div> Cualquier tontera xD</div>

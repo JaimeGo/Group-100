@@ -151,10 +151,11 @@ router.get('modifiedAllQuestions', '/modified/:modifiedBy', async (ctx) => {
 router.get('newQuestion', '/new', async (ctx) => {
   switch (ctx.accepts('html', 'json')) {
     case 'html':
-      // console.log("\n\n\n\nHTML\n\n")
+      console.log("\n\n\n\nHTML\n\n")
+      break;
     case 'json':
-      // console.log("\n\n\n\nJSON\n\n")
-      ctx.body = {};
+      console.log("\n\n\n\nJSON\n\n")
+      break;
     default:
   }
 	if (!ctx.state.currentUser) {
@@ -324,16 +325,24 @@ router.get('question', '/:id', async (ctx) => {
 
 
 router.get('newAnswer', '/:id/answers/new', async (ctx) => {
-  
-  const user=ctx.state.currentUser;
+  const user = ctx.state.currentUser;
   const answer = await ctx.orm.answer.build();
-  
+  switch(ctx.accepts('html', 'json')){
+    case 'html':
+      console.log("\n\n\n\nHTML\n\n")
+      break;
+    case 'json':
+      console.log("\n\n\n\nJSON\n\n")
+      ctx.body = {answer};
+      break;
+    default:
+  }
   await ctx.render('answers/new', {
     user,
     answer,
     submitAnswerPath: ctx.router.url('createAnswer',{userId:user.id,questionId:ctx.params.id}),
-    questionPath:ctx.router.url('questions/:id',{userId:user.id}),
-    questionId:ctx.params.id
+    questionPath: ctx.router.url('questions/:id',{userId:user.id}),
+    questionId: ctx.params.id
   });
 })
 
