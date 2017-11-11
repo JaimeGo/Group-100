@@ -1,0 +1,15 @@
+<div>
+  <form id="submit_tagquestion" action="<%= submitTagquestionPathBuilder(tagId, questionId) %>" method="post">
+    <div>
+      Número de tag: <input type="text" name="tagId" value="<%= tagquestion.tagId %>" />
+    </div>
+
+    <div>
+      Número de pregunta: <input type="text" name="questionId" value="<%= tagquestion.questionId %>" />
+    </div>
+
+    <div>
+      <input type="submit" name="create" value="Create Tagquestion" />
+    </div>
+  </form>
+</div>

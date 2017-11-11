@@ -1,0 +1,26 @@
+<div>
+  <form action="<%= submitCommentPath %>" method="post">
+  <p>LINK<%= submitCommentPath %></p>
+    <% if (!comment.isNewRecord) { %>
+      <input type="hidden" name="_method" value="patch" />
+    <% } %>
+    
+    <div>
+      <label for="body">Texto del comentario</label>
+      <textarea type="text" name="body"></textarea>
+    </div>
+    <br>
+    <% if (!comment.isNewRecord) { %>
+      <div>
+        <input type="submit" name="update" value="Modificar Comentario" />
+      </div>
+    <% } else {%>
+      <div>
+        <input type="submit" name="create" value="Crear Comentario" />
+      </div>
+    <% } %>
+    <br>
+       <%- include('__back') %>
+    <br>
+  </form>
+</div>

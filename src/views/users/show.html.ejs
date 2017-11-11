@@ -1,0 +1,45 @@
+<h1><%= user.name %></h1>
+<div id="user_perfil">
+
+  <div id="user_image">
+    <img src="/assets/user.png" alt="Logo" />
+  </div>
+
+  <div id="recent_activity">
+  <h2>Actividad reciente</h2>
+
+    <div id='questions_5_days'>
+    <h3>Preguntas modificadas hace menos de 5 días</h3>
+      <% questions.forEach(question => { %>
+        <% if ((Math.floor(-(question.updatedAt - new Date())/(3600*24*1000))) < 5){ %>
+          <h4>- <%=question.title%></h4>
+          <p>Modificada: <%= Math.floor(-(question.updatedAt - new Date())/(3600*24*1000)) %> días atrás</p>
+        <% } %>
+      <% }) %>
+    </div>
+
+    <div id='tags'>
+    <h3>Tags añadidas</h3>
+      <% tagquestions.forEach(tagquestion => { %>
+          <h4>- Pregunta: <%=questionsInfo[tagquestion.questionId].title%></h4>
+          <p> Tag agregada: <%=tagsInfo[tagquestion.tagId].name%></p>
+      <% }) %>
+    </div>
+
+  </div>
+
+  <form action="<%= deleteUserPath %>" method="post">
+    <input type="hidden" name="_method" value="delete" />
+    <div>
+      <input type="submit" name="delete" value="Delete User" />
+    </div>
+  </form>
+
+  <form action="<%= editUserPath %>" method="get">
+    <div>
+      <input type="submit" name="edit" value="Edit User" />
+    </div>
+  </form>
+
+</div>
+

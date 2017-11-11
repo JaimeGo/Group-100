@@ -1,0 +1,36 @@
+  #submit_question {
+    margin: 15px 10px;
+    border: 1px solid #bbb;
+    border-radius: 10px;
+    max-width: 600px;
+    flex: 1 1 100%;
+    list-style: none;
+    overflow: hidden;
+    position: fixed;
+
+    div {
+      display: block;
+      float: center;
+      padding: 20px;
+      color: $wican-blue;
+      text-decoration: none;
+
+      textarea {
+        padding: 5px;
+        display: block;
+        &:hover {
+          background: lighten($wican-blue, 50);
+        }
+      };
+      label {
+        text-align: justify;
+        display: block;
+      }
+      input {
+        float: center;
+        &:hover {
+          background: lighten($wican-blue, 50);
+        }
+      }
+    }
+  }

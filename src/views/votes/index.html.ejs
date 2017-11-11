@@ -1,0 +1,8 @@
+<h1> Votos </h1>
+
+<ul>
+<% votes.forEach(vote => { %>
+	<li>Voto número <%= vote.id %></li>
+	<p>Este es el voto del examen <%= vote.examId %> y usuario de id <%= vote.userId %> </p>
+<% }) %> 
+</ul>

@@ -1,0 +1,24 @@
+<h1>New Answer</h1>
+<p><%= submitExamAnswerPath %></p>
+<div>
+  <form action="<%= submitExamAnswerPath %>" method="post">
+    <% if (!answer.isNewRecord) { %>
+      <input type="hidden" name="_method" value="post" />
+    <% } %>
+    <div>
+      <label for="body">Respuesta</label>
+      <input type="text" name="body" value="<%= answer.body %>" /></input>
+    </div>
+    
+    <br>
+    <% if (!answer.isNewRecord) { %>
+      <div>
+        <input type="submit" name="update" value="Modify Exam Answer" />
+      </div>
+    <% } else {%>
+      <div>
+        <input type="submit" name="create" value="Create Exam Answer" />
+      </div>
+    <% } %>
+  </form>
+</div>

@@ -1,0 +1,20 @@
+<h1>Etiquetas</h1>
+
+<ul>
+  <% tags.forEach((tag) => { %>
+    <a href="<%=tagPathBuilder(tag)%>"><%=tag.name%></a>
+    <ul>
+      
+    </ul>
+  <% }) %>
+</ul>
+
+<% if (tags.length == 0) { %>
+  <h3>Aún no se han creado etiquetas</h3>
+<% } %>
+
+<% if (admin) { %>
+   <form action="<%= newTagPath %>" method="get">
+      <input type="submit" name="create" value="Create Tag" />
+   </form>
+<% } %>

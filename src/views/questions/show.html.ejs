@@ -1,0 +1,142 @@
+<h1><%= question.title %></h1>
+<%- include('_info') %>
+<h2><%= question.body %><h2>
+<br><br>
+<h2>La pregunta pertenece a las siguientes tags:<h2>
+<% if (tags.length == 0) { %>
+  <h3> No hay tags asociadas a esta pregunta, por el momento</h3>
+<% } %>
+
+<ul>
+  <% tags.forEach(tag => { %>
+    <li> <%= tag.name %> </li>
+    <form action="<%=deleteTagquestionPathBuilder(tag) %>" method="post">
+      <input type="hidden" name="_method" value="delete" />
+      <input type="submit" name="unrelate" value="Quitar relación con tag">
+    </form>
+  <% }) %>
+</ul>
+
+<% if (currentUser){ %>
+  <form action="<%=selectTagsPath %>" method="get">
+  <input type="submit" name="relate" value="Relacionar con tag">
+</form>
+<% } %>
+
+<% if (currentUser){ %>
+  <form action="<%= newReportPath %>" method="get">
+  <input type="submit" name="report" value="Reportar la pregunta">
+</form>
+<% } %>
+
+<ul>
+  <% answers.forEach((answer) => { %>
+    <li>Title: <%= answer.title %> - Body: <%= answer.body %> </li>
+    
+
+    <h4>Votes: <%=answer.votes_sum%></h4>
+
+    <form action="/questions/<%=question.id%>/upvoteAnswer/<%= answer.id %>"  method="post">
+      <input type="hidden" name="_method" value="patch" />
+    
+      <div>
+        <input type="submit" value="Upvote Answer" />
+      </div>
+    
+    </form>
+
+    <form action="/questions/<%=question.id%>/downvoteAnswer/<%= answer.id %>" method="post">
+    <input type="hidden" name="_method" value="patch" />
+    
+      <div>
+        <input type="submit"  value="Downvote Answer" />
+      </div>
+    
+  </form>
+
+
+
+    <ul>
+
+      <% comments.forEach((commentInfo) => {
+       if (answer.id===commentInfo.answerId){%>
+        <h4>Comentarios:</h4>
+
+        <ul>
+
+          <% commentInfo.content.forEach((comment) => { %>
+          
+          <li><%= comment.body %> </li>
+
+          <% if (currentUserAuthor || currentUserAdmin){ %>
+              <form action="<%= toCommentPath+answer.id %>/comments/<%=comment.id%>/delete" method="post">
+                <input type="hidden" name="_method" value="delete" />
+                <div>
+                  <input type="submit" name="delete" value="Borrar comentario" />
+                </div>
+              </form>
+             
+              <form action="<%= toCommentPath+answer.id %>/comments/<%=comment.id%>/edit" method="get">
+                <div>
+              <input type="submit" name="edit" value="Editar Comentario" />
+                </div>
+              </form>
+
+    
+            <% } %>
+
+          <% }) %>
+
+
+
+  
+
+        </ul>
+
+
+
+      <% }}) %>
+    </ul>
+    
+    <form action="<%= toCommentPath+answer.id %>/comments/new" method="get">
+      <div>
+
+        <input type="submit" name="new" value="Comentar" />
+      </div>
+    </form>
+
+  <% }) %>
+</ul>
+
+<% if (true) { %>
+  <% if (currentUserAuthor || currentUserAdmin){ %>
+    <form action="<%= deleteQuestionPath %>" method="post">
+      <input type="hidden" name="_method" value="delete" />
+      <div>
+        <input type="submit" name="delete" value="Delete Question" />
+      </div>
+    </form>
+    <br>
+    <form action="<%= editQuestionPath %>" method="get">
+      <div>
+        <input type="submit" name="edit" value="Edit Question" />
+      </div>
+    </form>
+      <br>
+    <form action="<%= newAnswerPath %>" method="get">
+      <div>
+
+        <input type="submit" name="new" value="New Answer" />
+      </div>
+    </form>
+
+    
+
+  <% } %>
+
+
+
+  
+
+
+<% } %>

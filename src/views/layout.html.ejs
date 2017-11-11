@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <title>Fundamentals</title>
+    <% if (env !== 'development') { %>
+      <link rel="stylesheet" href="/assets/styles.css">
+    <% } %>
+  </head>
+
+  <body>
+    <header>
+      <div id="logo">
+        <img src="/assets/logo.png" alt="Logo" />
+      </div>
+      <nav>
+        <% if (currentUser) {%>
+          <a href="<%= userPathHelper(currentUser.id) %>">Mi perfil</a>
+        <% } %>
+        <a href="<%= allQuestionsPath %>">Preguntas</a>
+        <a href="<%= tagsPath %>">Tags</a>
+        <a href="<%= examsPath %>">Exámenes</a>
+      </nav>
+
+      <form action="<%= updateSearchPath %>" method="post">
+<!--         La búsqueda introducida es: <%= searchInfo %> -->
+        <input type="text" name="item" placeholder="What are you looking for?" value="<%= locals.other %>">
+       <input type="submit" name="search" value="Buscar por nombre">
+      </form>
+
+<!--       <form action="<%= tagsPath %>" method='post'>
+        <input type="text" placeholder="What are you looking for?" value="<%= locals.search %>">
+            <button type="submit" class="searchButton">
+          <i class="fa fa-search"></i>
+       </button>
+       <input type="submit" name="search" value="something">
+      </form> -->
+
+      <div id="user-bar">
+        <% if (currentUser) {%>
+          <span class="name">Hola <%= currentUser.name %></span>
+          <form action="<%= destroySessionPath %>" method="post">
+              <input type="hidden" name="_method" value="delete" />
+              <input type="submit" value="Salir" />
+          </form>
+<!--           <a href="<%= destroySessionPath %>">Salir</a> -->
+          <a href="<%= newQuestionPath %>">Crea una nueva pregunta</a>
+<!--          <nav>
+
+          </nav> -->
+        <% } else {%> 
+          <span class="name">Hola Invitado</span>
+          <a href="<%= newSessionPath %>">Inicia Sesión</a>       
+        <% } %>
+      </div>
+    </header>
+    <% if (locals.errors) { %>
+      <div class="errors">
+        Necesitas arreglar los siguiente errores:
+        <ul>
+          <% errors.forEach(error => { %>
+            <li><%= error.message %></li>
+          <% }); %>
+        </ul>
+      </div>
+    <% } %>
+    <%- body %>
+    <script src="/assets/app.js"></script>
+    <script src="/assets/appReact.js"></script>
+  </body>
+
+</html>

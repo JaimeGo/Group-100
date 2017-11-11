@@ -1,0 +1,25 @@
+<h1>Module: <%=module.name%></h1>
+
+
+
+<ul>
+<% examquestions.forEach((examquestion) => { %>
+    <li><h3><a href="/exams/<%=exam.id+"/modules/"+module.id+"/examQuestions/"+examquestion.id%>"><%=examquestion.body%></a></h3></li>
+    <% const qua = examquestion.updatedAt %>
+    <% var minutes = qua.getMinutes().toString() %>
+    <% if (minutes.length == 1) {minutes = "0" + minutes} %>
+    <h4>Escrito a las <%= qua.getHours() %>:<%= minutes %> horas el día <%= qua.getDate() %>/<%= qua.getMonth() + 1 %>/<%= qua.getYear() + 1900%> %> </h4>
+
+    
+<% }) %>
+</ul>
+
+
+<br>
+
+<form action="<%= newExamQuestionPath %>" method="get">
+      <div>
+
+        <input type="submit" name="new" value="New Question" />
+      </div>
+</form>

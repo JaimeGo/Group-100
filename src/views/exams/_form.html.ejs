@@ -1,0 +1,22 @@
+<div>
+  <form id="submit_question" action="<%= submitExamPath %>" method="post">
+    <% if (!exam.isNewRecord) { %>
+      <input type="hidden" name="_method" value="post" />
+    <% } %>
+    <div>
+      <label for="name">Nombre del examen</label>
+      <input type="text" name="name" value="<%= exam.name %>" /></input>
+    </div>
+    
+    <br>
+    <% if (!exam.isNewRecord) { %>
+      <div>
+        <input type="submit" name="update" value="Modify Exam" />
+      </div>
+    <% } else {%>
+      <div>
+        <input type="submit" name="create" value="Create Exam" />
+      </div>
+    <% } %>
+  </form>
+</div>

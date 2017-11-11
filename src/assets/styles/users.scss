@@ -1,0 +1,59 @@
+#users-list {
+  padding-bottom: 50px;
+}
+
+#user_perfil {
+    padding-bottom: 50px;
+    margin: 15px 10px;
+    border: 1px solid #bbb;
+    border-radius: 10px;
+    max-width: 600px;
+    flex: 1 1 100%;
+    list-style: none;
+    overflow: hidden;
+
+    div {
+      display: block;
+      float: center;
+      padding: 20px;
+      text-decoration: none;
+
+      input {
+        padding: 5px;
+        display: inline-block;
+        width: 20%;
+        &:hover {
+          background: lighten($wican-blue, 50);
+        }
+      };
+    }
+  }
+
+ #submit_user {
+    margin: 15px 10px;
+
+    border: 1px solid #bbb;
+    border-radius: 10px;
+    max-width: 600px;
+    max-height: 1000px;
+    flex: 1 1 100%;
+    list-style: none;
+    overflow: hidden;
+    position: fixed;
+
+    div {
+      display: block;
+      float: center;
+      padding: 20px;
+      text-decoration: none;
+
+      input {
+        padding: 5px;
+        display: block;
+        width: 100%;
+        &:hover {
+          background: lighten($wican-blue, 50);
+        }
+      };
+    }
+  }

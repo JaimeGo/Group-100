@@ -1,0 +1,67 @@
+$wican-blue: #47737d;
+$wican-orange: #e87134;
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  padding-top: 100px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+header {
+  padding: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-bottom: 1px solid #ccc;
+  box-shadow: 0 0 5px #999;
+  background: #fff;
+  z-index: 10;
+}
+
+#logo {
+  display: inline-block;
+  vertical-align: middle;
+  img {
+    height: 60px;
+  }
+}
+
+nav {
+  vertical-align: middle;
+  display: inline-block;
+  a {
+    display: block;
+    float: left;
+    border-right: 1px #e87134 solid;
+    padding: 20px;
+    color: $wican-blue;
+    text-decoration: none;
+    &:hover {
+      background: lighten($wican-blue, 50);
+    }
+    &:last-child {
+      border: none;
+    }
+  }
+}
+
+#user-bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 20px;
+  text-align: right;
+  span {
+    display: block;
+  }
+}
+
+
+

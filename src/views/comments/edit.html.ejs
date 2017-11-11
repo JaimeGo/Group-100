@@ -1,0 +1,13 @@
+<h1>Cambiar comentario</h1>
+  <form action="<%= updateCommentPath %>" method="post">
+    <input type="hidden" name="_method" value="patch" />
+   
+    <div>
+      <label for="body">Nuevo texto del comentario</label>
+      <input type="text" name="body"></input>
+    </div>
+    <div>
+      <input type="submit" name="update" value="Cambiar comentario" />
+    </div>
+  </form>
+</div>
