@@ -149,6 +149,7 @@ router.get('modifiedAllQuestions', '/modified/:modifiedBy', async (ctx) => {
 })
 
 router.get('newQuestion', '/new', async (ctx) => {
+  console.log("hello bitches");
   console.log('ctx.state.tagsInfo en newQuestion', 
     ctx.state.tagsInfo)
 	if (!ctx.state.currentUser) {

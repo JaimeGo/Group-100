@@ -1,5 +1,6 @@
 import React from 'react';
+import QuestionsFormContainer from '../containers/QuestionsFormContainer.jsx'
 
-export default function App() {
-  return <div>Hello React World!</div>;
+export default function App(props) {
+  return <QuestionsFormContainer {...props} />;
 }
