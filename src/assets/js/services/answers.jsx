@@ -4,7 +4,9 @@ async function jsonRequest(path, options = {}) {
     ...options,
     headers: { ...options.headers, Accept: 'application/json' },
   });
+  console.log("JSON1 ",result, typeof result);
   const json = await result.json();
+  console.log("JSON2 ",json);
   if (result.status !== 200) {
     throw Object.assign(new Error(), json);
   }
