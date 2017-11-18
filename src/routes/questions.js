@@ -29,20 +29,21 @@ const getTagsOfTagquestions = async (tags, tagquestions) => {
 
 router.get('allQuestions', '/', async (ctx) => {
 	const questions = await ctx.orm.question.findAll();
+  console.log(questions[0])
   console.log('\n\n\n\nctx.session.searchInfo in allQuestions: ', ctx.session.searchInfo)
 	await ctx.render('questions/indexAll', {
 	  	questions,
-	  	questionPathBuilder: question => 
+	  	questionPathBuilder: question =>
 	  		ctx.router.url('question', {id: question.id}),
 	  	order: "Nombre",
       //
       tagsInfo: ctx.state.tagsInfo,
       questionsInfo: ctx.state.questionsInfo,
-      searchInfo: ctx.session.searchInfo,
+      searchInfo: ctx.state.searchInfo || "",
       updateActiveTagsPath: ctx.router.url('updateActiveTags'),
       updateSearchPath: ctx.router.url('updateSearch')
       //
-	});	
+	});
 })
 
 
@@ -53,12 +54,12 @@ router.patch('upvoteQuestion', '/upvoteQuestion/:id', async (ctx) => {
 
   console.log("AQUI!",exam);
   if (!newVotes){newVotes=1} else {newVotes=newVotes+1}
-  
+
   await question.update({votes:newVotes});
-  
+
   ctx.redirect(ctx.router.url('allQuestions'));
-  
-  
+
+
 })
 
 router.patch('downvoteQuestion', '/downvoteQuestion/:id', async (ctx) => {
@@ -66,12 +67,12 @@ router.patch('downvoteQuestion', '/downvoteQuestion/:id', async (ctx) => {
   const question = await ctx.orm.question.findById(ctx.params.id);
   let newVotes=question.votes_sum
   if (!newVotes){newVotes=-1} else {newVotes=newVotes-1}
-  
+
   await question.update({votes:newVotes});
-  
+
   ctx.redirect(ctx.router.url('allQuestions'));
-  
-  
+
+
 })
 
 
@@ -82,12 +83,12 @@ router.patch('upvoteAnswer', '/:questionId/upvoteAnswer/:id', async (ctx) => {
 
   console.log("AQUI!",exam);
   if (!newVotes){newVotes=1} else {newVotes=newVotes+1}
-  
+
   await answer.update({votes:newVotes});
-  
+
   ctx.redirect(ctx.router.url('allQuestions'));
-  
-  
+
+
 })
 
 router.patch('downvoteAnswer', '/:questionId/downvoteAnswer/:id', async (ctx) => {
@@ -95,12 +96,12 @@ router.patch('downvoteAnswer', '/:questionId/downvoteAnswer/:id', async (ctx) =>
   const answer = await ctx.orm.exam.findById(ctx.params.id);
   let newVotes=answer.votes_sum
   if (!newVotes){newVotes=-1} else {newVotes=newVotes-1}
-  
-  await answer.update({votes:newVotes});
-  
+
+  await answer.update({ votes: newVotes});
+
   ctx.redirect(ctx.router.url('allQuestions'));
-  
-  
+
+
 })
 
 
@@ -111,11 +112,11 @@ router.post('updateActiveTags', '/active_tags', (ctx) => {
   const newActiveTags = {}
   console.log("Antes de foreach")
   if (!ctx.request.body.active) {
-    ctx.request.body.active = [] 
+    ctx.request.body.active = []
   }
   Object.keys(ctx.state.tagsInfo).forEach(activeTagId => {
     console.log(activeTagId, (ctx.request.body.active.indexOf(activeTagId) >= 0))
-    newActiveTags[activeTagId] = 
+    newActiveTags[activeTagId] =
       (ctx.request.body.active.indexOf(activeTagId) >= 0)
   })
   console.log("newActiveTags", newActiveTags)
@@ -142,22 +143,22 @@ router.get('modifiedAllQuestions', '/modified/:modifiedBy', async (ctx) => {
 	const questions = await ctx.orm.question.findAll();
   await ctx.render('questions/indexAll', {
 	  	questions,
-	  	questionPathBuilder: question => 
+	  	questionPathBuilder: question =>
 	  		ctx.router.url('question', {id: question.id}),
 	  	order: ctx.params.modifiedBy
-	});	
+	});
 })
 
 router.get('newQuestion', '/new', async (ctx) => {
   console.log("hello bitches");
-  console.log('ctx.state.tagsInfo en newQuestion', 
+  console.log('ctx.state.tagsInfo en newQuestion',
     ctx.state.tagsInfo)
 	if (!ctx.state.currentUser) {
-		ctx.redirect(ctx.router.url('allQuestions'));		
+		ctx.redirect(ctx.router.url('allQuestions'));
 	} else {
 		const question = await ctx.orm.user.build();
 		await ctx.render('questions/new', {
-		// user: ctx.state.currentUser, 
+		// user: ctx.state.currentUser,
 		question,
 		submitQuestionPath: ctx.router.url('createQuestion')
 		})
@@ -177,6 +178,12 @@ router.post('createQuestion', '/', async (ctx) => {
 			submitQuestionPath: ctx.router.url('createQuestion')
 		})
 	}
+  switch (ctx.accepts('html', 'json')) {
+    case 'json':
+          console.log("JSON")
+      break;
+    default:
+  }
 })
 
 router.get('editQuestion', '/:id/edit', async (ctx) => {
@@ -187,7 +194,7 @@ router.get('editQuestion', '/:id/edit', async (ctx) => {
 	} else {
 		if (ctx.state.currentUser.admin || ctx.state.currentUser.id == author.id) {
 			await ctx.render('questions/edit', {
-				// user: ctx.state.currentUser, 
+				// user: ctx.state.currentUser,
 				question,
 				submitQuestionPath: ctx.router.url('updateQuestion',
 					{id: question.id})
@@ -210,7 +217,7 @@ router.patch('updateQuestion', '/:id', async (ctx) => {
 			question,
 			submitQuestionPath: ctx.router.url('updateQuestion',
 				{id: question.id}),
-	  		errors: validationError.errors		
+	  		errors: validationError.errors
 		})
 	}
 })
@@ -219,7 +226,7 @@ router.delete('deleteQuestion', '/:id', async (ctx) => {
   const question = await ctx.orm.question.findById(ctx.params.id);
   const author = await ctx.orm.user.findById(question.userId);
   if (!ctx.state.currentUser) {
-  	ctx.redirect(ctx.router.url('allQuestions')); 
+  	ctx.redirect(ctx.router.url('allQuestions'));
   } else {
   	if (ctx.state.currentUser.admin || ctx.state.currentUser.id == author.id) {
 	  	await ctx.orm.question.destroy({
@@ -228,16 +235,16 @@ router.delete('deleteQuestion', '/:id', async (ctx) => {
       await ctx.orm.report.destroy({
         where: {questionId: ctx.params.id}
       })
-	    ctx.redirect(ctx.router.url('allQuestions')); 
+	    ctx.redirect(ctx.router.url('allQuestions'));
   	} else {
-  		ctx.redirect(ctx.router.url('allQuestions')); 
+  		ctx.redirect(ctx.router.url('allQuestions'));
   	}
   }
 })
 
 
 router.get('question', '/:id', async (ctx) => {
-	
+
 	const question = await ctx.orm.question.findById(ctx.params.id);
 
   // if question doesn't exist, an error must be thrown
@@ -260,10 +267,10 @@ router.get('question', '/:id', async (ctx) => {
 
 	let comments=[];
 
-	
+
 	answers.forEach((answer) => {
 		const rightComments=allComments.filter((comment)=>{return comment.answerId===answer.id;});
-		
+
 		const someComments= {answerId: answer.id,
 			content: rightComments};
 
@@ -287,13 +294,13 @@ router.get('question', '/:id', async (ctx) => {
 
 	await ctx.render('questions/show', {
 		author,
-		currentUserAdmin, 
+		currentUserAdmin,
 		currentUserAuthor,
 		// currentUser: ctx.state.currentUser,
 		question,
 		answers,
 		comments,
-		deleteQuestionPath: ctx.router.url('deleteQuestion', 
+		deleteQuestionPath: ctx.router.url('deleteQuestion',
 			{id: question.id}),
 		editQuestionPath: ctx.router.url('editQuestion',
 			{id: question.id}),
@@ -307,7 +314,7 @@ router.get('question', '/:id', async (ctx) => {
     selectTagsPath: ctx.router.url('selectTags', ctx.params.id),
     tags,
     newReportPath: ctx.router.url('newReport', ctx.params.id),
-    deleteTagquestionPathBuilder: tag => 
+    deleteTagquestionPathBuilder: tag =>
       ctx.router.url("deleteTagquestion", {
         id: ctx.params.id,
         tagId: tag.id
@@ -319,10 +326,10 @@ router.get('question', '/:id', async (ctx) => {
 
 
 router.get('newAnswer', '/:id/answers/new', async (ctx) => {
-  
+
   const user=ctx.state.currentUser;
   const answer = await ctx.orm.answer.build();
-  
+
   await ctx.render('answers/new', {
     user,
     answer,
@@ -365,13 +372,13 @@ router.get('selectTags', '/:id/selectTags', async (ctx) => {
     tags,
     tags_no_associated,
     question,
-    createTagquestionPathBuilder: tag => 
+    createTagquestionPathBuilder: tag =>
       ctx.router.url('createTagquestion', {
         id: ctx.params.id,
         tagId: tag.id
       })
   });
-})  
+})
 
 router.post('createTagquestion', '/:id/tagquestions/:tagId', async (ctx) => {
   const question = await ctx.orm.question.findById(ctx.params.id)
@@ -388,20 +395,20 @@ router.post('createTagquestion', '/:id/tagquestions/:tagId', async (ctx) => {
 
 router.delete('deleteTagquestion', '/:id/tagquestions/:tagId', async (ctx) => {
   await ctx.orm.tagquestion.destroy({
-      where: { 
+      where: {
         tagId: ctx.params.tagId,
         questionId: ctx.params.id,
        }
       });
-  ctx.redirect(ctx.router.url('question', ctx.params.id)); 
+  ctx.redirect(ctx.router.url('question', ctx.params.id));
 })
 
 
 router.get('answers', '/', async (ctx) => {
-  
+
   const answers = await ctx.orm.answer.findAll();
   await ctx.render('answers/index', {
-    
+
     answers,
     answerPathBuilder:answer=>
       ctx.router.url('answer',{
@@ -419,31 +426,31 @@ router.get('answers', '/', async (ctx) => {
 
 
 router.post('createAnswer', '/:questionId/answers/create', async (ctx) => {
-	
+
   const user=ctx.state.currentUser;
 
   const questionId=ctx.params.id;
 
   try{
   	const question = await ctx.orm.question.findById(ctx.params.questionId);
-    
+
     await question.createAnswer(ctx.request.body);
-    
-    
+
+
   	ctx.redirect(ctx.router.url('question', {id: question.id}));
 
   } catch(validationError){
 
     await ctx.render('answers/new',{
-    
+
       errors:validationError.errors,
-      
+
       submitAnswerPath: ctx.router.url('createAnswer/'+questionId,{userId:user.id,questionId:questionId}),
-      
+
       questionId:questionId
     })
   }
-  
+
 })
 
 
@@ -457,7 +464,7 @@ router.get('editAnswer', '/:id/edit', async (ctx) => {
   const answer = await ctx.orm.answer.findById(ctx.params.id);
   await ctx.render('answers/edit', {
     user,
-    answer, 
+    answer,
     submitAnswerPath: ctx.router.url('updateAnswer', {userId:answer.userId, id:answer.id}),
     answersPath:ctx.router.url('answers',{userId:user.id})
   })
@@ -487,8 +494,8 @@ router.patch('updateAnswer', '/:id', async (ctx) => {
       submitAnswerPath: ctx.router.url('updateAnswer',
         {userId: answer.userId, id: answer.id}),
         errors: validationError.errors,
-      answersPath: ctx.router.url('answers', 
-        {userId: user.id})      
+      answersPath: ctx.router.url('answers',
+        {userId: user.id})
     })
   }
 })
@@ -511,8 +518,8 @@ router.patch('updateQuestion', '/:id', async (ctx) => {
       submitQuestionPath: ctx.router.url('updateQuestion',
         {userId: question.userId, id: question.id}),
         errors: validationError.errors,
-      questionsPath: ctx.router.url('questions', 
-        {userId: user.id})      
+      questionsPath: ctx.router.url('questions',
+        {userId: user.id})
     })
   }
 })
@@ -542,7 +549,7 @@ router.delete('deleteAnswer', '/:id', async (ctx) => {
     where: { id: ctx.params.id },
     limit: 1,
   });
-  ctx.redirect(ctx.router.url('answers',{userId:user.id}));  
+  ctx.redirect(ctx.router.url('answers',{userId:user.id}));
 })
 
 
@@ -576,13 +583,13 @@ router.get('newComment', '/:questionId/answers/:answerId/comments/new', async (c
 
 
 router.post('createComment', '/:questionId/answers/:answerId/comments/create', async (ctx) => {
- 
+
 
   try{
   	const answer = await ctx.orm.answer.findById(ctx.params.answerId);
-    
+
     await answer.createComment(ctx.request.body);
-    
+
   	ctx.redirect(ctx.router.url('question', {id: ctx.params.questionId}));
 
 
@@ -590,11 +597,11 @@ router.post('createComment', '/:questionId/answers/:answerId/comments/create', a
   } catch(validationError){
 
     await ctx.render('comment/new',{
-    
+
       errors:validationError.errors,
-      
+
       submitCommentPath: ctx.router.url('createcomment',{questionId:ctx.params.questionId, answerId:ctx.params.answerId}),
-      
+
       questionId:ctx.params.questionId
     })
   }
@@ -603,7 +610,7 @@ router.post('createComment', '/:questionId/answers/:answerId/comments/create', a
 router.get('editComment', '/:questionId/answers/:answerId/comments/:commentId/edit', async (ctx) => {
   const comment = await ctx.orm.comment.findById(ctx.params.commentId);
   await ctx.render('comments/edit', {
-    comment, 
+    comment,
     updateCommentPath: ctx.router.url('updateComment', ctx.params.questionId, ctx.params.answerId,ctx.params.commentId),
   })
 
@@ -629,7 +636,7 @@ router.delete('deleteComment', '/:questionId/answers/:answerId/comments/:comment
     where: { id: ctx.params.commentId },
     limit: 1,
   });
-  ctx.redirect(ctx.router.url('comments'));  
+  ctx.redirect(ctx.router.url('comments'));
 })
 
 
@@ -638,7 +645,7 @@ router.get('newReport', '/:id/reports/new', async (ctx) => {
   const currentUser = ctx.state.currentUser;
   ctx.assert(currentUser, 401, 'No se ha iniciado sesión')
   const report = await ctx.orm.report.build();
-  const question = ctx.orm.question.findById(ctx.params.id) 
+  const question = ctx.orm.question.findById(ctx.params.id)
   await ctx.render('reports/new', {
     currentUser,
     createReportPath: ctx.router.url('createReport', ctx.params.id)

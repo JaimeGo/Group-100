@@ -1,4 +1,4 @@
-<h1>Preguntas ordenadas por <%= order %> y que empiezan en <%= searchInfo ? searchInfo : "cualquier caracter" %> </h1>
+<h1>Preguntass ordenadas por <%= order %> y que empiezan en <%= searchInfo ? searchInfo : "cualquier caracter" %> </h1>
 
 <ul>
 
@@ -11,6 +11,7 @@
   	  <% return -((b.updatedAt) - (a.updatedAt))})} %>
 
   <% questions.forEach((question) => { %>
+    <%= searchInfo %>
     <% if (questionsInfo[question.id].toShow && question.title.startsWith(searchInfo)) { %>
       <li><h3><a href="<%=questionPathBuilder(question)%>"><%=question.title%></a></h3></li>
       <% const qua = question.updatedAt %>

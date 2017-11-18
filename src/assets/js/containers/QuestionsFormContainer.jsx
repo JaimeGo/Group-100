@@ -5,7 +5,6 @@ import answersService from '../services/answers';
 
 export default class QuestionsFormContainer extends Component {
   constructor(props) {
-
     super(props);
     this.state = {
       loading: false,
@@ -16,43 +15,29 @@ export default class QuestionsFormContainer extends Component {
     this.fetchAnswerForm = this.fetchAnswerForm.bind(this)
   }
 
-  componentDidMount() {
-    console.log("DIDMOUNT")
-    this.fetchAnswerForm();
-  }
-
   async onSubmit(data) {
     this.setState({ loading: true, error: undefined, showThanks: false });
     try {
       const json =
-        await answerForm.createAnswer(this.props.questionId)
+        await answerService.createAnswer(this.props.questionId)
       this.setState({loading: false, showThanks: true });
     } catch (error) {
       this.setState({ error: error.message, loading: false });
     }
   }
 
-  async fetchAnswerForm() {
-    console.log("FETCHING");
-    this.setState({ loading: true });
-    const answerForm = 
-      await answersService.newAnswer(this.props.questionId);
-    this.setState({loading: false });
-  }
-
   render() {
-    console.log("RENDERING");
     if (this.state.loading) {
-      return <p>Loading...</p>;
+      return (
+      <div> Loading...</div>
+    )
     }
     return (
-      <div> Not loading...</div>
-      // <div>
-      //   <p>Not Loading:  </p>
-      //   <QuestionsForm
-      //     onSubmit={this.onSubmit}
-      //   />
-      // </div>
+      <div>
+        <QuestionsFormComponent
+          onSubmit={this.onSubmit}
+        />
+      </div>
     );
   }
 }

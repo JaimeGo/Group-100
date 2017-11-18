@@ -13,7 +13,8 @@ export default class QuestionsForm extends Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  onSubmit() {
+  onSubmit(event) {
+  	event.preventDefault();
     this.props.onSubmit(this.state);
   }
 

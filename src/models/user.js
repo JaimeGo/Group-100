@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+// const bcrypt = require('bcrypt')
 
 async function buildPasswordHash(instance){
   if (instance.changed('password')){
@@ -40,7 +40,7 @@ module.exports = function defineUser(sequelize, DataTypes) {
   //
   User.prototype.checkPassword = function checkPassword(password){
     return bcrypt.compare(password, this.password)
-  } 
+  }
   //
 
 
