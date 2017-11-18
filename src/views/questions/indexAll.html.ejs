@@ -11,6 +11,8 @@
   	  <% return -((b.updatedAt) - (a.updatedAt))})} %>
 
   <% questions.forEach((question) => { %>
+    <%= questionsInfo[question.id].toShow %>
+    <%= question.title.startsWith(searchInfo) %>
     <% if (questionsInfo[question.id].toShow && question.title.startsWith(searchInfo)) { %>
       <li><h3><a href="<%=questionPathBuilder(question)%>"><%=question.title%></a></h3></li>
       <% const qua = question.updatedAt %>

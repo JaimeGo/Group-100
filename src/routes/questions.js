@@ -38,7 +38,8 @@ router.get('allQuestions', '/', async (ctx) => {
       //
       tagsInfo: ctx.state.tagsInfo,
       questionsInfo: ctx.state.questionsInfo,
-      searchInfo: ctx.session.searchInfo,
+      searchInfo: "",
+      // searchInfo: ctx.session.searchInfo || "",
       updateActiveTagsPath: ctx.router.url('updateActiveTags'),
       updateSearchPath: ctx.router.url('updateSearch')
       //
