@@ -11,9 +11,6 @@ const mailer = require('./mailers');
 const routes = require('./routes');
 const orm = require('./models');
 
-// E4
-require('dotenv').config()
-
 // App constructor
 const app = new Koa();
 
@@ -86,43 +83,36 @@ render(app, {
 
 mailer(app);
 
-// Handling errors
+// general handling for errors tha reach to this point
 app.use(async (ctx, next) => {
   try {
-    await next()
+    // let middlewares handle the request, but catch possible errors thrown
+    await next();
   } catch (error) {
-    console.log("\n\n\n\nCATCHING ERROR WHOSE MESSAGE IS: ", error.message)
-    if (error.name === 'NotFoundError'){
+    // we'll only handle Not found HTTP errors in this case
+    if (error.name === 'NotFoundError') {
+      // and we'll use a custom template instead of default handling
       await ctx.render('error', {
         title: error.message,
-        details: `El recurso cuya id es ${error.id} no fue encontrado`
-      })     
+        details: `El recurso de id ${error.id} no fue encontrado`,
+      });
+      // if we'll handle the error we should emit the 'error' event so a handling of that
+      // (usually for logging purposes) can also know about this error
+      ctx.app.emit('error', error, ctx);
     }
-    // login
-    else if (error.status == 401){
-      await ctx.render('error', {
-        title: error.message,
-        details: ''
-      }) 
-    // ctx.app.emit('error', error, ctx)
-    } else {
-      throw error
-    }
+    // if it's an error we are not handling we need to throw it so next handlers
+    // (or the default one) have the opportunity to handle it
+    throw error;
   }
-})
-// 
-
+});
 
 // Routing middleware
 app.use(routes.routes());
 
-
-app.on('error', (error, ctx) => {
-  const logEnabled = false;
-  if (logEnabled) {
-    console.error(error, ctx);
-  }
-});
-
+// 'error' event will be emitted for every error. We cannot respond to the client from here since
+// this happens after the response has been generated
+// app.on('error', (error, ctx) => {
+//   console.error(error, ctx);
+// });
 
 module.exports = app;
