@@ -12,7 +12,7 @@ export default class QuestionsFormContainer extends Component {
       showThanks: false,
     };
     this.onSubmit = this.onSubmit.bind(this);
-    this.fetchAnswerForm = this.fetchAnswerForm.bind(this)
+    // this.fetchAnswerForm = this.fetchAnswerForm.bind(this)
   }
 
   async onSubmit(data) {
@@ -34,6 +34,7 @@ export default class QuestionsFormContainer extends Component {
     }
     return (
       <div>
+        <p> Loaded </p>
         <QuestionsFormComponent
           onSubmit={this.onSubmit}
         />
