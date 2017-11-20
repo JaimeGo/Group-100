@@ -1,15 +1,12 @@
 const KoaRouter = require('koa-router');
 const jwt = require('koa-jwt');
-console.log("Antes de require de questions")
 const questionsRoutes = require('./questions')
-console.log("Después de require de questions")
-// const ongsRoutes = require('./ongs');
-// const authRoutes = require('./auth');
+const authRoutes = require('./auth')
 
 const router = new KoaRouter();
 
 // unauthenticated endpoints
-// router.use('/auth', authRoutes.routes());
+router.use('/auth', authRoutes.routes());
 
 // JWT authentication without passthrough (error if not authenticated)
 // router.use(jwt({ secret: process.env.JWT_SECRET, key: 'authData' }));
