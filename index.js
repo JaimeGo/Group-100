@@ -14,8 +14,10 @@ db.sequelize
     const callbacks = _.mapValues(apps, app => app.callback());
     http.createServer((req, res) => {
       if (req.url.startsWith('/api')) {
+        console.log("Calling api!")
         callbacks.api(req, res);
       } else {
+        console.log("Calling UI")
         callbacks.ui(req, res);
       }
     }).listen(PORT, (err) => {
