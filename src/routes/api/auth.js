@@ -3,12 +3,15 @@ const jwtgenerator = require('jsonwebtoken');
 
 const router = new KoaRouter();
 
+process.env.JWT_SECRET = "string"
+
 router.post('auth', '/', async (ctx) => {
   console.log("Authentificating!! ")
   console.log("ctx.request.body: ", ctx.request.body)
-  const { email, password } = ctx.request.body;
-  const user = await ctx.orm.user.find({ where: { email } });
-  if (user && await user.checkPassword(password)) {
+  const { name, password } = ctx.request.body.fields;
+  const user = await ctx.orm.user.find({ where: { name } });
+  // if (user && await user.checkPassword(password)) {
+  if (user && user.password == password) {
     const token = await new Promise((resolve, reject) => {
       jwtgenerator.sign(
         { userId: user.id },
