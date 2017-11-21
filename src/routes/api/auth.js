@@ -3,11 +3,7 @@ const jwtgenerator = require('jsonwebtoken');
 
 const router = new KoaRouter();
 
-process.env.JWT_SECRET = "string"
-
 router.post('auth', '/', async (ctx) => {
-  console.log("Authentificating!! ")
-  console.log("ctx.request.body: ", ctx.request.body)
   const { name, password } = ctx.request.body.fields;
   const user = await ctx.orm.user.find({ where: { name } });
   // if (user && await user.checkPassword(password)) {
@@ -19,10 +15,9 @@ router.post('auth', '/', async (ctx) => {
         (err, tokenResult) => (err ? reject(err) : resolve(tokenResult)),
       );
     });
-    console.log("after promise of token")
     ctx.body = { token };
   } else {
-    ctx.throw(401, 'Wrong e-mail or password');
+    ctx.throw(401, 'Wrong name or password');
   }
 });
 
