@@ -5,12 +5,11 @@ const index = require('./routes/index');
 const users = require('./routes/users');
 const session = require('./routes/session')
 const questions = require('./routes/questions')
-const answers = require('./routes/answers')
+// const answers = require('./routes/answers')
 const comments = require('./routes/comments')
 const exams = require('./routes/exams')
 const tags = require('./routes/tags')
 const reports = require('./routes/reports')
-// const votes = require('./routes/votes')
 const router = new KoaRouter();
 
 // get the tags ids with active status
@@ -57,22 +56,6 @@ const getToShowFromQuestions = (questionsInfo, tagsInfo) => {
 const getInfoFrom = async (instances) => {
 	const infoFrom = {}
 }
-// const getInfoFromExams = async (questions) => {
-// 	const infoFromQuestions = {}
-// 	const addQuestion = async(question) => {
-// 	   const questionId = question.id
-// 	   const tagquestions = await question.getTagquestions()
-//        infoFromQuestions[questionId] = 
-//        {
-//        	tagsId: tagquestions.map(tq => tq.tagId.toString()),
-//        	title: question.title
-//        }
-// 	}
-// 	for (let j = 0; j < questions.length; j++){
-// 	   await addQuestion(questions[j])
-// 	}
-// 	return infoFromQuestions
-// }
 
 
 router.use(async (ctx, next) => {
@@ -83,6 +66,7 @@ router.use(async (ctx, next) => {
 	const currentUser = ctx.session.userId && await ctx.orm.user.findById(ctx.session.userId)
 	const currentUserExists = (ctx.session.userId != null)
 	const currentUserAdmin = currentUserExists && currentUser.admin
+	const currentUserId = ctx.session.userId || -1
 	getToShowFromQuestions(questionsInfo, tagsInfo)
 	Object.assign(ctx.state, {
 		searchInfo: ctx.state.searchInfo,
@@ -91,6 +75,7 @@ router.use(async (ctx, next) => {
 		currentUser,
 		currentUserExists,
 		currentUserAdmin,
+		currentUserId,
 		newSessionPath: ctx.router.url('newSession'),
 		destroySessionPath: ctx.router.url('destroySession'),
 		usersPath: ctx.router.url('users'),
@@ -112,11 +97,10 @@ router.use('/hello', hello.routes());
 router.use('/users', users.routes());
 router.use('/session', session.routes());
 router.use('/questions', questions.routes());
-router.use('/answers', answers.routes());
+// router.use('/answers', answers.routes());
 router.use('/comments', comments.routes());
 router.use('/exams', exams.routes());
 router.use('/tags', tags.routes());
 router.use('/reports', reports.routes())
-// router.use('/votes', votes.routes())
 
 module.exports = router;

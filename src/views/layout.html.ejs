@@ -24,18 +24,9 @@
       </nav>
 
       <form action="<%= updateSearchPath %>" method="post">
-<!--         La búsqueda introducida es: <%= searchInfo %> -->
         <input type="text" name="item" placeholder="What are you looking for?" value="<%= locals.other %>">
        <input type="submit" name="search" value="Buscar por nombre">
       </form>
-
-<!--       <form action="<%= tagsPath %>" method='post'>
-        <input type="text" placeholder="What are you looking for?" value="<%= locals.search %>">
-            <button type="submit" class="searchButton">
-          <i class="fa fa-search"></i>
-       </button>
-       <input type="submit" name="search" value="something">
-      </form> -->
 
       <div id="user-bar">
         <% if (currentUser) {%>
@@ -44,11 +35,7 @@
               <input type="hidden" name="_method" value="delete" />
               <input type="submit" value="Salir" />
           </form>
-<!--           <a href="<%= destroySessionPath %>">Salir</a> -->
           <a href="<%= newQuestionPath %>">Crea una nueva pregunta</a>
-<!--          <nav>
-
-          </nav> -->
         <% } else {%> 
           <span class="name">Hola Invitado</span>
           <a href="<%= newSessionPath %>">Inicia Sesión</a>       

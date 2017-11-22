@@ -2,65 +2,53 @@ const KoaRouter = require('koa-router');
 
 const router = new KoaRouter();
 
-router.get('answers', '/', async (ctx) => {
-  
+router.get('answers', '/', async (ctx) => {  
   const answers = await ctx.orm.answer.findAll();
-  await ctx.render('answers/index', {
-    
+  await ctx.render('answers/index', {    
     answers,
     answerPathBuilder:answer=>
       ctx.router.url('answer',{
         id:answer.id}),
-      order:"Nombre"
-
-
+      order: "Nombre"
   });
 })
-
-
-
-
 
 router.get('newAnswer', '/new', async (ctx) => {
-  console.log("NEW ANSWER");
-  const {user}=ctx.state;
+  ctx.assert(ctx.state.currentUser, 401, 'No se ha iniciado sesión')
   const answer = await ctx.orm.answer.build();
   await ctx.render('answers/new', {
-    user,
     answer,
-    submitAnswerPath: ctx.router.url('createAnswer',{userId:user.id}),
-    answersPath:ctx.router.url('answers',{userId:user.id})
-  });
+    submitAnswerPath: ctx.router.url('createAnswer', {
+      questionId: ctx.params.questionId
+    }),
+    answersPath: ctx.router.url('answers',{
+      questionId: ctx.params.questionId
+    }),
+    questionId: ctx.params.questionId
+  }
+  );
 })
-
-
-
 
 router.post('createAnswer', '/', async (ctx) => {
-  const{user}=ctx.state;
-  try{
+  try {
     const answer = await user.createQuestion(ctx.request.body);
-    ctx.redirect(ctx.router.url('answers',{userId:user.id}));
-
-  } catch(validationError){
+    ctx.redirect(ctx.router.url('answers', {
+      questionId: ctx.params.questionId
+    }));
+  } catch (validationError) {
     await ctx.render('answers/new',{
-      user,
-      errors:validationError.errors,
-      answer:ctx.orm.user.build(ctx.request.body),
-      submitAnswerPath:ctx.router.url('createAnswer',
-        {userId:user.id}),
-      answersPath:ctx.router.url('answers',
-        {userId:user.id})
+      errors: validationError.errors,
+      answer: ctx.orm.answer.build(ctx.request.body),
+      submitAnswerPath: ctx.router.url('createAnswer', {
+        questionId: ctx.params.questionId
+      }),
+      answersPath: ctx.router.url('answers',{
+        questionId: ctx.params.questionId
+      }),
+      questionId: ctx.params.questionId
     })
   }
-  
 })
-
-
-
-
-
-
 
 router.get('editAnswer', '/:id/edit', async (ctx) => {
   const {user} = ctx.state;
@@ -73,20 +61,11 @@ router.get('editAnswer', '/:id/edit', async (ctx) => {
   })
 })
 
-
-
-
-
-
 router.patch('updateAnswer', '/:id', async (ctx) => {
   const {user} = ctx.state;
   const answer = await ctx.orm.answer.findById(ctx.params.id);
   await answer.update(ctx.request.body);
   ctx.redirect(ctx.router.url('answers'));
-
-
-
-
   try {
       await answer.update(ctx.request.body);
     ctx.redirect(ctx.router.url('answers', {userId: user.id}));
@@ -102,11 +81,6 @@ router.patch('updateAnswer', '/:id', async (ctx) => {
     })
   }
 })
-
-
-
-
-
 
 router.patch('updateQuestion', '/:id', async (ctx) => {
   const {user} = ctx.state;
@@ -127,9 +101,6 @@ router.patch('updateQuestion', '/:id', async (ctx) => {
   }
 })
 
-
-
-
 router.get('answer', '/:id', async (ctx) => {
   const {user} = ctx.state;
   const answer = await ctx.orm.answer.findById(ctx.params.id);
@@ -142,9 +113,6 @@ router.get('answer', '/:id', async (ctx) => {
   })
 })
 
-
-
-
 router.delete('deleteAnswer', '/:id', async (ctx) => {
   const {user}=ctx.state;
   const question=await ctx.orm.answer.findById(ctx.params.id);
@@ -154,9 +122,5 @@ router.delete('deleteAnswer', '/:id', async (ctx) => {
   });
   ctx.redirect(ctx.router.url('answers',{userId:user.id}));  
 })
-
-
-
-
 
 module.exports = router;
