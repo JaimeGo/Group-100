@@ -9,6 +9,7 @@ const config = {
   development: {
     extend: 'default',
     database: 'grupo100_dev',
+    logging: false,
   },
   test: {
     extend: 'default',
