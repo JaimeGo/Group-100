@@ -1,0 +1,21 @@
+<h1>Mail</h1>
+
+<div>
+  <form id="submit_question" action="<%= submitMailPath %>" method="post">
+       <div>
+      <label for="name">Asunto</label>
+      <input type="text" name="title" value="<%=title%>"/></input>
+    </div>
+    <br>
+    <div>
+      <label for="body">Cuerpo</label>
+      <textarea type="text" name="body" value="<%=body%>"></textarea>
+    </div>
+    <br>
+    
+      <div>
+        <input type="submit" name="create" value="Send email" />
+      </div>
+    
+  </form>
+</div>

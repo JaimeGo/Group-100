@@ -10,6 +10,7 @@ const comments = require('./routes/comments')
 const exams = require('./routes/exams')
 const tags = require('./routes/tags')
 const reports = require('./routes/reports')
+const mailer=require('./routes/mailer')
 const router = new KoaRouter();
 
 // get the tags ids with active status
@@ -101,6 +102,7 @@ router.use('/questions', questions.routes());
 router.use('/comments', comments.routes());
 router.use('/exams', exams.routes());
 router.use('/tags', tags.routes());
-router.use('/reports', reports.routes())
+router.use('/reports', reports.routes());
+router.use('/mailer', mailer.routes());
 
 module.exports = router;
