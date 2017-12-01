@@ -1,34 +1,34 @@
 <h1>Pregunta: <%= question.title %></h1>
 <%- include('_info') %>
-<h2><%= question.body %><h2>
-<br><br>
-<h2>La pregunta pertenece a las siguientes tags:<h2>
-<% if (tags.length == 0) { %>
-  <h3> No hay tags asociadas a esta pregunta, por el momento</h3>
-<% } %>
+<div class="questionBody">
 
-<ul>
-  <% tags.forEach(tag => { %>
-    <li> <%= tag.name %> </li>
-    <form action="<%=deleteTagquestionPathBuilder(tag) %>" method="post">
-      <input type="hidden" name="_method" value="delete" />
-      <input type="submit" name="unrelate" value="Quitar relación con tag">
-    </form>
-  <% }) %>
-</ul>
+
+
+<p><%= question.body %></p>
+</div>
+
+<br>
+
+
 
 <% if (currentUser){ %>
-<form action="<%=selectTagsPath %>" method="get">
-  <input type="submit" name="relate" value="Relacionar con tag">
-</form>
-<br>
-<form action="<%= newReportPath %>" method="get">
-  <input type="submit" name="report" value="Reportar la pregunta">
-</form>
+<div id="userActions" class="action">
+  <form action="<%=selectTagsPath %>" method="get">
+    <div>
+      <input type="submit" name="relate" value="Relacionar con tag">
+    </div>
+  </form>
+  <br>  
+  <form action="<%= newReportPath %>" method="get">
+    <div>
+      <input type="submit" name="report" value="Reportar la pregunta">
+    </div>
+  </form>
+</div>
 <% } %>
 
-
 <% if (currentUserAuthor || currentUserAdmin){ %>
+<div id="adminActions" class="action">
   <br>
   <form action="<%= deleteQuestionPath %>" method="post">
     <input type="hidden" name="_method" value="delete" />
@@ -42,10 +42,31 @@
       <input type="submit" name="edit" value="Edit Question" />
     </div>
   </form>
-  <br>
+  <br>  
   <form action="<%= newAnswerPath %>" method="get">
     <div>
       <input type="submit" name="new" value="New Answer" />
     </div>
   </form>
+</div>
 <% } %>
+
+<h2>Tags:<h2>
+<h3> Presione para ver las preguntas asociadas a la tag </h3>
+<% if (tags.length == 0) { %>
+  <h3> No hay tags asociadas a esta pregunta, por el momento</h3>
+<% } %>
+
+<ul>
+  <% tags.forEach(tag => { %>
+
+    <div class="action" id="tags">
+<!--       <form action="<%=deleteTagquestionPathBuilder(tag) %>" method="post"> -->
+      <form action="<%= showTagBuilder(tag) %>" method="get">
+<!--         <input type="hidden" name="_method" value="delete" />
+        <input type="submit" name="unrelate" value="<%= tag.name %>"> -->
+        <input type="submit" name="show" value="<%= tag.name%>">
+      </form>
+    </div>
+  <% }) %>
+</ul>

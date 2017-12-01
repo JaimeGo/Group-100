@@ -11,7 +11,7 @@
     div {
       display: block;
       float: center;
-      padding: 20px;
+      padding: 20px 20px;
       color: $wican-blue;
       text-decoration: none;
 
@@ -32,5 +32,42 @@
           background: lighten($wican-blue, 50);
         }
       }
+
     }
   }
+
+
+  .action {
+    form {
+      margin: 0px 10px;
+      border: 1px solid #bbb;
+      max-width: 150px;
+      list-style: none;
+      overflow: hidden;
+      position: relative; 
+      display: inline-block;
+
+      input {
+        display: inline-block;
+        float: center;
+        padding: 10px;
+        border: 0px 0px;
+        color: $wican-blue;
+        text-decoration: none;
+        width: 150px;
+        &:hover {
+          background: lighten($wican-blue, 50);
+        }
+      }
+
+      div {
+        display: block;
+        float: center;
+        margin: 0 auto;
+        color: $wican-orange;
+        text-decoration: none;
+        width: 100%;
+      }
+    }
+  }
+

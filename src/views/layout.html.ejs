@@ -23,11 +23,6 @@
         <a href="<%= examsPath %>">Exámenes</a>
       </nav>
 
-      <form action="<%= updateSearchPath %>" method="post">
-        <input type="text" name="item" placeholder="What are you looking for?" value="<%= locals.other %>">
-       <input type="submit" name="search" value="Buscar por nombre">
-      </form>
-
       <div id="user-bar">
         <% if (currentUser) {%>
           <span class="name">Hola <%= currentUser.name %></span>

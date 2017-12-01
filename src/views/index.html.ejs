@@ -24,6 +24,7 @@
 
 
 
+
 <h3>Últimas preguntas añadidas:</h3>
 
 
@@ -36,7 +37,9 @@
 
 <ul>
 <% questions.forEach((question) => { %>
+
     <li><h3><a href="/questions/<%=question.id%>"><%=question.title%></a></h3></li>
+
     <% const qua = question.updatedAt %>
     <% var minutes = qua.getMinutes().toString() %>
     <% if (minutes.length == 1) {minutes = "0" + minutes} %>
@@ -47,5 +50,6 @@
 </ul>
 
 </div>
+
 
 

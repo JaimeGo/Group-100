@@ -1,10 +1,11 @@
-<h1><%= tag.name %> cuyo estado es <%= tag.active %></h1>
+<h1><%= tag.name %></h1>
 
 <h2>Estos son los títulos de las preguntas asociadas a la tag</h2>
 <ul>
   <% questions.forEach((question) => { %>
-    <li><%= question.title %></li>
+    <a href="<%=questionPathBuilder(question)%>"><%=question.title%></a><br>
   <% }) %>
+  
 </ul>
   <% if (questions.length == 0) { %>
   	<h3> No existe aún ninguna pregunta asociada </h3>

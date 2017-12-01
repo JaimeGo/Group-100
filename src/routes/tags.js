@@ -65,7 +65,11 @@ router.get('tag', '/:id', async (ctx) => {
 	await ctx.render('tags/show', {
 		questions,
 		tag,
-		tagquestions
+		tagquestions,
+		questionPathBuilder: question => ctx.router.url('question',
+        {
+        	id: question.id
+        })
 	})
 })
 
