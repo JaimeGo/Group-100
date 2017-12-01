@@ -1,4 +1,4 @@
-<h1>Exam: <%= exam.name %></h1>
+<h1>Examen: <%= exam.name %></h1>
 
 
 <ul>
@@ -19,6 +19,20 @@
 <form action="<%= newModulePath %>" method="get">
       <div>
 
-        <input type="submit" name="new" value="New Module" />
+        <input type="submit" name="new" value="Nuevo Módulo" />
+      </div>
+</form>
+
+<form action="<%= newModulePath %>" method="get">
+      <div>
+
+        <input type="submit" name="new" value="Editar Examen" />
+      </div>
+</form>
+
+<form action="<%= newModulePath %>" method="get">
+      <div>
+
+        <input type="submit" name="new" value="Eliminar Examen" />
       </div>
 </form>

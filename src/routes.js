@@ -78,6 +78,7 @@ router.use(async (ctx, next) => {
 		currentUserAdmin,
 		currentUserId,
 		newSessionPath: ctx.router.url('newSession'),
+		newUserPath: ctx.router.url('newUser'),
 		destroySessionPath: ctx.router.url('destroySession'),
 		usersPath: ctx.router.url('users'),
 		allQuestionsPath: ctx.router.url('allQuestions'),

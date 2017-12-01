@@ -114,7 +114,7 @@ router.delete('deleteExam', '/:id', async (ctx) => {
 router.get('exam', '/:id', async (ctx) => {
 	const exam = await ctx.orm.exam.findById(ctx.params.id);
 	const modules = await ctx.orm.exammodule.findAll({
-		where: examId
+		where: {examId:exam.id}
 	});
 	await ctx.render('exams/show', {
 		exam,

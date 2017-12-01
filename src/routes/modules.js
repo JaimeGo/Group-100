@@ -38,7 +38,7 @@ router.post('createModule', '/:examId/modules/create', async (ctx) => {
 
 router.get('module', '/:examId/modules/:moduleId', async (ctx) => {
 	const exam = await ctx.orm.exam.findById(ctx.params.examId);
-	const module = await ctx.orm.exammodule.findById(ctx.params.examId);
+	const module = await ctx.orm.exammodule.findById(ctx.params.moduleId);
 	const examquestions = await ctx.orm.examquestion.findAll({where: {exammoduleId:ctx.params.moduleId}});
 	await ctx.render('exams/showModule', {
 		exam,

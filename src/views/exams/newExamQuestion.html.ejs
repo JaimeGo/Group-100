@@ -2,7 +2,7 @@
 
 <div>
   <form action="<%= submitExamQuestionPath %>" method="post">
-    <% if (!exam.isNewRecord) { %>
+    <% if (!question.isNewRecord) { %>
       <input type="hidden" name="_method" value="post" />
     <% } %>
     <div>
@@ -11,7 +11,7 @@
     </div>
     
     <br>
-    <% if (!exam.isNewRecord) { %>
+    <% if (!question.isNewRecord) { %>
       <div>
         <input type="submit" name="update" value="Modify Exam Question" />
       </div>

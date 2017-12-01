@@ -12,7 +12,7 @@ router.get('newExamQuestion', '/:examId/modules/:moduleId/examquestions/new', as
 		exam,
 		question,
 		submitExamQuestionPath: ctx.router.url('createExamQuestion',{
-			examId:nctx.params.examId, 
+			examId:ctx.params.examId, 
 			moduleId: ctx.params.moduleId
 		})
 		})

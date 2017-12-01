@@ -1,24 +1,24 @@
-<h1>New module</h1>
-<p><%= submitModulePath %></p>
+<h1>Nuevo Módulo</h1>
+
 
 <div>
   <form action="<%= submitModulePath %>" method="post">
-    <% if (!exam.isNewRecord) { %>
+    <% if (!mod.isNewRecord) { %>
       <input type="hidden" name="_method" value="post" />
     <% } %>
     <div>
       <label for="name">Nombre del módulo</label>
-      <input type="text" name="name" value="<%= exam.name %>" /></input>
+      <input type="text" name="name" value="<%= mod.name %>" /></input>
     </div>
     
     <br>
-    <% if (!exam.isNewRecord) { %>
+    <% if (!mod.isNewRecord) { %>
       <div>
-        <input type="submit" name="update" value="Modify Exam" />
+        <input type="submit" name="update" value="Modificar Módulo" />
       </div>
     <% } else {%>
       <div>
-        <input type="submit" name="create" value="Create Exam" />
+        <input type="submit" name="create" value="Crear Módulo" />
       </div>
     <% } %>
   </form>

@@ -1,4 +1,4 @@
-<h1><%= question.body%></h1>
+<h1>Pregunta: <%= question.body%></h1>
 
 
 <ul>
@@ -21,6 +21,22 @@
 <form action="<%= newExamAnswerPath %>" method="get">
       <div>
 
-        <input type="submit" name="new" value="New Answer" />
+        <input type="submit" name="new" value="Nueva Respuesta" />
+      </div>
+</form>
+
+
+<form action="<%= newExamAnswerPath %>" method="get">
+      <div>
+
+        <input type="submit" name="new" value="Editar Pregunta" />
+      </div>
+</form>
+
+
+<form action="<%= newExamAnswerPath %>" method="get">
+      <div>
+
+        <input type="submit" name="new" value="Editar Respuesta" />
       </div>
 </form>
