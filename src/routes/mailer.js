@@ -21,8 +21,11 @@ router.post('createMail', '/create', async (ctx) => {
 
     const users = await ctx.orm.user.findAll();
     
+    const route=ctx.router.url('newMail');
 
-    myMailer.sendMails(ctx.request.body.title,ctx.request.body.body,users);
+  
+
+    myMailer(ctx.request.body.title,ctx.request.body.body,users,route, ctx);
 
 
     

@@ -12,7 +12,8 @@
   <body>
     <header>
       <div id="logo">
-        <img src="/assets/logo.png" alt="Logo" />
+        
+        <a href="<%= indexPath %>"><img src="/assets/logo.png" alt="Logo" /></a>
       </div>
       <nav>
         <% if (currentUser) {%>
@@ -21,6 +22,9 @@
         <a href="<%= allQuestionsPath %>">Preguntas</a>
         <a href="<%= tagsPath %>">Tags</a>
         <a href="<%= examsPath %>">Exámenes</a>
+        <% if (currentUserAdmin) {%>
+        <a href="<%= mailerPath %>">Mailer</a>
+        <% } %>
       </nav>
 
       <div id="user-bar">
@@ -30,7 +34,7 @@
               <input type="hidden" name="_method" value="delete" />
               <input type="submit" value="Salir" />
           </form>
-          <a href="<%= newQuestionPath %>">Crea una nueva pregunta</a>
+          
         <% } else {%> 
           <span class="name">Hola Invitado</span>
           <a href="<%= newSessionPath %>">Iniciar Sesión</a><br>

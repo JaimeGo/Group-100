@@ -1,0 +1,1 @@
+MJ_APIKEY_PUBLIC=d51787b2d6bf69fddb8ed57897d8fa4a MJ_APIKEY_PRIVATE=b8894f8f973117d6e055c3475f4e949b ./node_modules/.bin/nodemon

@@ -121,6 +121,7 @@ router.get('newQuestion', '/new', async (ctx) => {
 		const question = await ctx.orm.user.build();
 		await ctx.render('questions/new', {
   		question,
+      newQuestionPath: ctx.router.url('newQuestion'),
   		submitQuestionPath: ctx.router.url('createQuestion')
 		})
 	}

@@ -29,7 +29,7 @@ var mailjet = require ('node-mailjet').connect(process.env.MJ_APIKEY_PUBLIC, pro
 //
     //};
 
-function sendMails(title,body,users){
+function sendMails(title,body,users,route,ctx){
 
 
     var request = mailjet
@@ -57,7 +57,7 @@ function sendMails(title,body,users){
 
 
 
-    ctx.redirect(ctx.router.url('newMail'));
+    ctx.redirect(route);
 
 
 

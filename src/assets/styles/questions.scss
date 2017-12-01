@@ -7,6 +7,7 @@
     list-style: none;
     overflow: hidden;
     position: fixed;
+    padding: 20px;
 
     div {
       display: block;
@@ -16,7 +17,7 @@
       text-decoration: none;
 
       textarea {
-        padding: 5px;
+        padding: 10px;
         display: block;
         &:hover {
           background: lighten($wican-blue, 50);
