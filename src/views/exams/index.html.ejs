@@ -3,9 +3,9 @@
 <% exams.sort(function(a,b){ %>
     <% return -(b.name).localeCompare(a.name)}) %>
 
-<ul>
-<% exams.forEach((exam) => { %>
-    <li><h3><a href="<%= examPathBuilder(exam) %>"><%=exam.name%></a></h3>
+<ul id="examList">
+  <% exams.forEach((exam) => { %>
+    <h3><a href="<%= examPathBuilder(exam) %>"><%=exam.name%></a></h3>
     <% const qua = exam.updatedAt %>
     <% var minutes = qua.getMinutes().toString() %>
     <% if (minutes.length == 1) {minutes = "0" + minutes} %>

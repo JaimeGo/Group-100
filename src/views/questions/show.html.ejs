@@ -1,21 +1,31 @@
 <h1><%= question.title %></h1>
 <%- include('_info') %>
-<h2><%= question.body %><h2>
-<br><br>
-<h2>La pregunta pertenece a las siguientes tags:<h2>
+<div class="questionBody">
+
+<h2>Tags:<h2>
+<h3> (Presione para quitar la relación con la tag) </h3>
 <% if (tags.length == 0) { %>
   <h3> No hay tags asociadas a esta pregunta, por el momento</h3>
 <% } %>
 
 <ul>
   <% tags.forEach(tag => { %>
-    <li> <%= tag.name %> </li>
-    <form action="<%=deleteTagquestionPathBuilder(tag) %>" method="post">
-      <input type="hidden" name="_method" value="delete" />
-      <input type="submit" name="unrelate" value="Quitar relación con tag">
-    </form>
+
+    <div class="action" id="tags">
+      <form action="<%=deleteTagquestionPathBuilder(tag) %>" method="post">
+        <input type="hidden" name="_method" value="delete" />
+        <input type="submit" name="unrelate" value="<%= tag.name %>">
+      </form>
+    </div>
   <% }) %>
 </ul>
+
+<p><%= question.body %></p>
+</div>
+
+<br>
+
+
 
 <% if (currentUser){ %>
 <div id="userActions" class="action">
@@ -24,7 +34,7 @@
       <input type="submit" name="relate" value="Relacionar con tag">
     </div>
   </form>
-  <br>  <br>  <br>  
+  <br>  
   <form action="<%= newReportPath %>" method="get">
     <div>
       <input type="submit" name="report" value="Reportar la pregunta">
@@ -32,7 +42,6 @@
   </form>
 </div>
 <% } %>
-<br>  <br>  <br> 
 
 <% if (currentUserAuthor || currentUserAdmin){ %>
 <div id="adminActions" class="action">
@@ -43,13 +52,13 @@
       <input type="submit" name="delete" value="Delete Question" />
     </div>
   </form>
-  <br>  <br>  <br> 
+  <br>
   <form action="<%= editQuestionPath %>" method="get">
     <div>
       <input type="submit" name="edit" value="Edit Question" />
     </div>
   </form>
-  <br>  <br>  <br> 
+  <br>  
   <form action="<%= newAnswerPath %>" method="get">
     <div>
       <input type="submit" name="new" value="New Answer" />

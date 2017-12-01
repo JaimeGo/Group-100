@@ -1,0 +1,32 @@
+ #examList {
+    margin: 15px 10px;
+
+    border-radius: 10px;
+    max-width: 600px;
+    flex: 1 1 100%;
+    list-style: none;
+
+
+    form {
+      display: block;
+      float: center;
+      padding: 20px 20px;
+      color: $wican-blue;
+      text-decoration: none;
+
+      input {
+        display: inline-block;
+        float: center;
+        padding: 10px;
+        border: 100px 0px;
+        color: $wican-blue;
+        text-decoration: none;
+        width: 150px;
+        &:hover {
+          background: lighten($wican-blue, 50);
+        }
+      }
+
+    }
+  }
+
