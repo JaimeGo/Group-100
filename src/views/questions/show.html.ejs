@@ -2,23 +2,7 @@
 <%- include('_info') %>
 <div class="questionBody">
 
-<h2>Tags:<h2>
-<h3> (Presione para quitar la relación con la tag) </h3>
-<% if (tags.length == 0) { %>
-  <h3> No hay tags asociadas a esta pregunta, por el momento</h3>
-<% } %>
 
-<ul>
-  <% tags.forEach(tag => { %>
-
-    <div class="action" id="tags">
-      <form action="<%=deleteTagquestionPathBuilder(tag) %>" method="post">
-        <input type="hidden" name="_method" value="delete" />
-        <input type="submit" name="unrelate" value="<%= tag.name %>">
-      </form>
-    </div>
-  <% }) %>
-</ul>
 
 <p><%= question.body %></p>
 </div>
@@ -66,3 +50,23 @@
   </form>
 </div>
 <% } %>
+
+<h2>Tags:<h2>
+<h3> Presione para ver las preguntas asociadas a la tag </h3>
+<% if (tags.length == 0) { %>
+  <h3> No hay tags asociadas a esta pregunta, por el momento</h3>
+<% } %>
+
+<ul>
+  <% tags.forEach(tag => { %>
+
+    <div class="action" id="tags">
+<!--       <form action="<%=deleteTagquestionPathBuilder(tag) %>" method="post"> -->
+      <form action="<%= showTagBuilder(tag) %>" method="get">
+<!--         <input type="hidden" name="_method" value="delete" />
+        <input type="submit" name="unrelate" value="<%= tag.name %>"> -->
+        <input type="submit" name="show" value="<%= tag.name%>">
+      </form>
+    </div>
+  <% }) %>
+</ul>

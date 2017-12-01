@@ -230,7 +230,10 @@ router.get('question', '/:id', async (ctx) => {
       ctx.router.url("deleteTagquestion", {
         id: ctx.params.id,
         tagId: tag.id
-      })
+      }),
+    showTagBuilder: tag => ctx.router.url("tag", {
+        id: tag.id
+    })
 	})
 })
 
