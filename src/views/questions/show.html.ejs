@@ -18,17 +18,24 @@
 </ul>
 
 <% if (currentUser){ %>
-<form action="<%=selectTagsPath %>" method="get">
-  <input type="submit" name="relate" value="Relacionar con tag">
-</form>
-<br>
-<form action="<%= newReportPath %>" method="get">
-  <input type="submit" name="report" value="Reportar la pregunta">
-</form>
+<div id="userActions" class="action">
+  <form action="<%=selectTagsPath %>" method="get">
+    <div>
+      <input type="submit" name="relate" value="Relacionar con tag">
+    </div>
+  </form>
+  <br>  <br>  <br>  
+  <form action="<%= newReportPath %>" method="get">
+    <div>
+      <input type="submit" name="report" value="Reportar la pregunta">
+    </div>
+  </form>
+</div>
 <% } %>
-
+<br>  <br>  <br> 
 
 <% if (currentUserAuthor || currentUserAdmin){ %>
+<div id="adminActions" class="action">
   <br>
   <form action="<%= deleteQuestionPath %>" method="post">
     <input type="hidden" name="_method" value="delete" />
@@ -36,16 +43,17 @@
       <input type="submit" name="delete" value="Delete Question" />
     </div>
   </form>
-  <br>
+  <br>  <br>  <br> 
   <form action="<%= editQuestionPath %>" method="get">
     <div>
       <input type="submit" name="edit" value="Edit Question" />
     </div>
   </form>
-  <br>
+  <br>  <br>  <br> 
   <form action="<%= newAnswerPath %>" method="get">
     <div>
       <input type="submit" name="new" value="New Answer" />
     </div>
   </form>
+</div>
 <% } %>
