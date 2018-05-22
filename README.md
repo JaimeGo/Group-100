@@ -1,8 +1,10 @@
-# Template
+# Grupo-100
 
-App in: https://new-web-app.herokuapp.com/
+Web App built in Koa for a college course: IIC2513 - Tecnologías y Aplicaciones Web, Pontificia Universidad Católica de Chile. The functionality is centered around helping students with an exam called Fundamentals of Engineering. 
 
-Template built with [koa](http://koajs.com/) for IIC2513 - Tecnologías y Aplicaciones Web, Pontificia Universidad Católica de Chile.
+This app was made in collaboration with Alfonso Valdés Vasquez (github username: AlfonsoIgnacio).
+
+App deplyed in Heroku at: https://new-web-app.herokuapp.com/
 
 ## Prerequisites:
 * [PostgreSQL](https://github.com/IIC2513-2017-2/syllabus/wiki/Getting-Started#postgresql)
