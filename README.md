@@ -1,4 +1,4 @@
-# Grupo-100
+# Group-100
 
 Web App built in Koa for a college course: IIC2513 - Tecnologías y Aplicaciones Web, Pontificia Universidad Católica de Chile. The functionality is centered around helping students with an exam called Fundamentals of Engineering. 
 
